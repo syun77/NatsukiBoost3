@@ -16,8 +16,8 @@ class Reg {
     public static var LEVEL_MAX = 4;
 
     // BGM無効フラグ
-//    private static var _bBgmDisable = true;
-    private static var _bBgmDisable = false;
+    private static var _bBgmDisable = true;
+//    private static var _bBgmDisable = false;
 
     // レベル
 	public static var level:Int = 1;
