@@ -4,7 +4,7 @@
 
 	<app title="MyProject" file="MyProject" main="Main" version="1.0.0" company="2dgames.jp" />
 
-    <meta title="Natsuki3" package="jp.2dgames.natsukiboost3" version="1.0.0" company="2dgames.jp" />
+    <meta title="Natsuki3" package="jp.2dgames.test" version="1.0.0" company="2dgames.jp" />
     <ios deployment="5" binaries="armv7" devices="iphone" />
     <ios linker-flags="" prerendered-icon="false" />
     <window hardware="true" allow-shaders="true" require-shaders="true" if="cpp"/>
