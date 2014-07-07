@@ -20,7 +20,6 @@ class LogoState extends FlxState {
 	 */
     override public function create():Void {
         super.create();
-        /*
         _logo = new FlxSprite(0, 0);
         _logo.loadGraphic("assets/images/logo.png");
         FlxSpriteUtil.screenCenter(_logo);
@@ -33,9 +32,6 @@ class LogoState extends FlxState {
 
         FlxTween.tween(_glitch, {strength:0}, 1.5, {ease:FlxEase.bounceOut, complete:_cbEnd});
         FlxTween.tween(_glitch, {alpha:1}, 1, {ease:FlxEase.expoOut});
-        */
-        Reg.cacheMusic();
-        FlxG.switchState(new MenuState());
     }
     /**
 	 * 破棄
