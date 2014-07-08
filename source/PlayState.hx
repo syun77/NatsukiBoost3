@@ -1,5 +1,6 @@
 package;
 
+import effects.EffectStart;
 import token.StopSign;
 import token.Player;
 import token.Block;
@@ -14,7 +15,6 @@ import effects.EmitterBrake;
 import effects.EffectRing;
 import jp_2dgames.TmxLoader;
 import jp_2dgames.Layer2D;
-import jp_2dgames.TextUtil;
 import flixel.system.FlxSound;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
@@ -69,7 +69,6 @@ class PlayState extends FlxState {
     private static inline var TIMER_CHANGE_WAIT_DEC = 3; // リング獲得時の停止タイマーの減少量
     private static inline var TIMER_CHANGE_WAIT_MIN = 4; // リング獲得時の停止タイマーの最低値
     private static inline var TIMER_DAMAGE = 30;
-    private static inline var TIMER_START:Float = 0.75;
     private static inline var TIMER_FRICTION:Int = 30; // 摩擦タイマー
     private static inline var TIMER_STOP:Int = 30; // 停止タイマー
 
@@ -87,8 +86,7 @@ class PlayState extends FlxState {
     private var _emitterBlockRed:EmitterBlockRed;
     private var _emitterPlayer:EmitterPlayer;
     private var _emitterBrake:EmitterBrake;
-    private var _eftStart:FlxSprite;
-    private var _tStart:Int = 0;
+    private var _eftStart:EffectStart;
     private var _eftRings:FlxTypedGroup<EffectRing>;
 
     // メッセージ
@@ -194,14 +192,8 @@ class PlayState extends FlxState {
         this.add(_eftPlayer);
 
         // 開始エフェクト
-        _eftStart = new FlxSprite(FlxG.width/2-16, FlxG.height/2-16);
-        _eftStart.loadGraphic("assets/images/start/3.png");
-        _eftStart.scrollFactor.set(0, 0);
-        _eftStart.scale.set(2, 2);
-        FlxTween.tween(_eftStart.scale, {x:1, y:1}, TIMER_START, { ease: FlxEase.expoOut, complete:_cbStart});
+        _eftStart = new EffectStart(FlxG.width/2-16, FlxG.height/2-16);
         this.add(_eftStart);
-        FlxG.sound.play("3");
-        _tStart = 0;
 
         // リング消滅エフェクト
         _eftRings = new FlxTypedGroup<EffectRing>(32);
@@ -460,52 +452,18 @@ class PlayState extends FlxState {
         }
 
     }
-    /**
-     * 開始演出のコールバック
-     **/
-    private function _cbStart(tween:FlxTween):Void {
-        switch(_tStart) {
-            case 0:
-                FlxG.sound.play("2");
-                _eftStart.scale.set(2, 2);
-                _eftStart.loadGraphic("assets/images/start/2.png");
-                FlxTween.tween(_eftStart.scale, {x:1, y:1}, TIMER_START, { ease: FlxEase.expoOut, complete:_cbStart});
-                _tStart++;
-            case 1:
-                FlxG.sound.play("1");
-                _eftStart.scale.set(2, 2);
-                _eftStart.loadGraphic("assets/images/start/1.png");
-                FlxTween.tween(_eftStart.scale, {x:1, y:1}, TIMER_START, { ease: FlxEase.expoOut, complete:_cbStart});
-                _tStart++;
-            case 2:
-                FlxG.sound.play("go");
-                Reg.playMusic(TextUtil.fillZero(Reg.level, 3));
-                _eftStart.scale.set(2, 2);
-                _eftStart.loadGraphic("assets/images/start/go.png");
-                _eftStart.x -= 16;
-                FlxTween.tween(_eftStart.scale, {x:1, y:1}, TIMER_START, { ease: FlxEase.expoOut, complete:_cbStart});
-                _tStart++;
-                // ゲーム開始
-                _state = State.Main;
-                // 時間計測開始
-                _hud.setIncTime(true);
-            case 3:
-                FlxTween.tween(_eftStart.scale, {x:0.25, y:4}, 0.1, { ease: FlxEase.expoInOut, complete:_cbStart});
-                _tStart++;
-            case 4:
-                FlxTween.tween(_eftStart.scale, {x:16, y:0}, 0.75, { ease: FlxEase.expoOut, complete:_cbStart});
-                FlxTween.tween(_eftStart, {alpha:0}, 0.75, { ease: FlxEase.expoOut});
-                _tStart++;
-            case 5:
-                _eftStart.kill();
-        }
-    }
 
     /**
      * 更新・スタート
      **/
     private function _updateStart():Void {
         _setFolloPosition();
+        if(_eftStart.isEnd()) {
+            // ゲーム開始
+            _state = State.Main;
+            // 時間計測開始
+            _hud.setIncTime(true);
+        }
     }
 
     /**
