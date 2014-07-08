@@ -1,5 +1,6 @@
 package;
 
+import effects.Back;
 import effects.EffectPlayer;
 import effects.EffectStart;
 import token.StopSign;
@@ -103,8 +104,7 @@ class PlayState extends FlxState {
     private var _tmx:TmxLoader;
 
     // 背景
-    private var _back:FlxSprite;
-    private var _back2:FlxSprite;
+    private var _back:Back;
 
     // 変数
     private var _state:State; // 状態
@@ -135,14 +135,8 @@ class PlayState extends FlxState {
         super.create();
 
         // 背景
-        _back = new FlxSprite(0, 0);
-        _back.loadGraphic("assets/images/back.png");
-        _back.scrollFactor.set(0, 0);
+        _back = new Back();
         this.add(_back);
-        _back2 = new FlxSprite(FlxG.width, 0);
-        _back2.loadGraphic("assets/images/back.png");
-        _back2.scrollFactor.set(0, 0);
-        this.add(_back2);
 
         // マップ読み込み
         _tmx = new TmxLoader();
@@ -417,19 +411,8 @@ class PlayState extends FlxState {
             // 折り返す
             _scrollX += FlxG.width;
         }
-        _back.x = _scrollX;
-        _back2.x = _scrollX + FlxG.width;
-
-        // ピンチチェック
-        if(_back.color != FlxColor.WHITE) {
-            _back.color = FlxColor.WHITE;
-            _back2.color = FlxColor.WHITE;
-        }
-        if(_player.isDanger()) {
-            // 背景を赤くする
-            _back.color = FlxColor.RED;
-            _back2.color = FlxColor.RED;
-        }
+        _back.scroll(_scrollX);
+        _back.setDanger(_player.isDanger());
 
     }
 
