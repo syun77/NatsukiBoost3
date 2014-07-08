@@ -58,8 +58,10 @@ class SpeedController {
 
     private var _speed:Float = SPEED_START;
     private var _speedMax:Float = 0;
+    private var _speedTop:Float = SPEED_MAX; // 現在の最大速度
 
     public function getSpeed():Float { return _speed; }
+    public function getTop():Float { return _speedTop; }
     public function getSpeedMax():Float { return _speedMax; }
 
     /**
