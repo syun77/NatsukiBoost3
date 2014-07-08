@@ -1,4 +1,4 @@
-package ;
+package token;
 import flixel.util.FlxColor;
 import flixel.ui.FlxBar;
 import flixel.addons.effects.FlxTrail;

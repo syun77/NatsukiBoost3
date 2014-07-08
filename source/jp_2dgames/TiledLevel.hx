@@ -1,4 +1,4 @@
-package ;
+package jp_2dgames;
 
 import flixel.FlxG;
 import flixel.FlxObject;

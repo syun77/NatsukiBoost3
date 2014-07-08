@@ -1,4 +1,4 @@
-package ;
+package ui;
 import flixel.util.FlxColor;
 import flixel.FlxG;
 import flixel.FlxObject;

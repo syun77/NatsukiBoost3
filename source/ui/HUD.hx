@@ -1,4 +1,5 @@
-package ;
+package ui;
+import token.Player;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxStringUtil;
 import flixel.ui.FlxBar;

@@ -1,4 +1,4 @@
-package ;
+package token;
 import flixel.FlxSprite;
 
 /**

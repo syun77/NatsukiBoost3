@@ -1,4 +1,4 @@
-package ;
+package effects;
 import flixel.util.FlxColor;
 import flixel.effects.particles.FlxParticle;
 import flixel.effects.particles.FlxEmitter;

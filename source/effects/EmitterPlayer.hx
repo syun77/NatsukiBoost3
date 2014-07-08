@@ -1,41 +1,42 @@
-package ;
+package effects;
 import flixel.effects.particles.FlxEmitter;
+import flixel.util.FlxColor;
 import flixel.effects.particles.FlxParticle;
 
 /**
- * ブレーキエフェクト
+ * プレイヤー死亡エフェクト
  **/
-class EmitterBrake extends FlxEmitter {
+class EmitterPlayer extends FlxEmitter {
 
-    private static inline var SPEED:Int = 20;
+    private static inline var SPEED:Int = 200;
     private static inline var SIZE:Int = 32;
 
     public function new() {
         super(0, 0, SIZE);
 
-        this.setXSpeed(-SPEED, SPEED);
-        this.setYSpeed(-SPEED, SPEED);
-        this.gravity = 50;
+        setXSpeed(-SPEED, SPEED);
+        setYSpeed(-SPEED, SPEED);
+        gravity = 50;
 
         // パーティクル生成
         for(i in 0...SIZE) {
-            this.add(new ParticleBrake());
+            add(new ParticlePlayer());
         }
     }
 
     public function explode(px:Float, py:Float):Void {
-        this.x = px;
-        this.y = py;
-        this.start(true, 1, 0, 1, 1);
+        x = px;
+        y = py;
+        start(true, 1, 0, 32, 1);
         super.update();
     }
 }
 
-class ParticleBrake extends FlxParticle {
+class ParticlePlayer extends FlxParticle {
     private var _timer:Int = 0;
     public function new() {
         super();
-        loadGraphic("assets/images/brake.png");
+        makeGraphic(4, 4, FlxColor.WHITE);
     }
 
     override public function update():Void {

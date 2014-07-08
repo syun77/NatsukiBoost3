@@ -1,4 +1,5 @@
-package ;
+package ui;
+import jp_2dgames.CsvLoader;
 import flixel.util.FlxStringUtil;
 import flixel.util.FlxTimer;
 import flixel.tweens.FlxEase;

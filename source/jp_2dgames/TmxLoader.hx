@@ -1,8 +1,8 @@
-package ;
+package jp_2dgames;
 
 import flixel.FlxG;
 import openfl.Assets;
-import Layer2D;
+import jp_2dgames.Layer2D;
 
 class TmxLoader {
     private var _layers:Array<Layer2D>;

@@ -5,6 +5,7 @@ package;
  * references to objects and other things for quick-access. Feel
  * free to simply ignore it or change it in any way you like.
  */
+import jp_2dgames.TextUtil;
 import flixel.util.FlxSave;
 import flixel.FlxG;
 class Reg {

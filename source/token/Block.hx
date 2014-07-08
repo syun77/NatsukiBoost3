@@ -1,4 +1,4 @@
-package ;
+package token;
 import flixel.FlxG;
 import flixel.util.FlxRandom;
 import flixel.FlxSprite;
