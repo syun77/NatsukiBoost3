@@ -204,7 +204,7 @@ class PlayState extends FlxState {
         FlxG.worldBounds.set(0, 0, width, height);
 
         // HUD
-        _hud = new HUD(_player, width, SpeedController.SPEED_MAX);
+        _hud = new HUD(_player, width, SpeedController.MAX);
         this.add(_hud);
 
         // 各種オブジェクト生成
@@ -360,7 +360,7 @@ class PlayState extends FlxState {
     }
 
     private function _addSpeed(v:Float) {
-        _speedCtrl.addSpeed(v);
+        _speedCtrl.add(v);
     }
 
     /**
@@ -377,8 +377,8 @@ class PlayState extends FlxState {
         }
 
         // プレイヤーをスクロールする
-        _player.velocity.x = _speedCtrl.getSpeed();
-        _follow.velocity.x = _speedCtrl.getSpeed();
+        _player.velocity.x = _speedCtrl.getNow();
+        _follow.velocity.x = _speedCtrl.getNow();
 
         _setFolloPosition();
 
@@ -526,7 +526,7 @@ class PlayState extends FlxState {
      **/
     private function _startResult():Void {
         var pasttime:Int = _hud.getPastTime();
-        _result = new ResultHUD(_cntRing, _cntBlock, _comboMax, _speedCtrl.getSpeed(), pasttime, _speedCtrl.getSpeedMax());
+        _result = new ResultHUD(_cntRing, _cntBlock, _comboMax, _speedCtrl.getNow(), pasttime, _speedCtrl.getMax());
         this.add(_result);
         Reg.playMusic("gameover", false);
     }
@@ -706,11 +706,11 @@ class PlayState extends FlxState {
 
         if(FlxG.keys.pressed.RIGHT) {
             // 右キーでスピードアップ
-            _speedCtrl.addSpeed(10);
+            _speedCtrl.add(10);
         }
         if(FlxG.keys.pressed.LEFT) {
             // 左キーでスピードダウン
-            _speedCtrl.addSpeed(-10);
+            _speedCtrl.add(-10);
         }
         if(FlxG.keys.justPressed.D) {
             // 自爆
