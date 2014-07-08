@@ -43,14 +43,14 @@ class ResultHUD extends FlxGroup {
      * @param cntRing リング獲得数
      * @param cntBlock ブロック破壊数
      * @param comboMax コンボ最大数
-     * @parma hp 残りHP(0〜100)
+     * @parma speed 現在のスピード
      * @param pasttime 経過時間
      **/
     public function new(
         cntRing:Int,
         cntBlock:Int,
         comboMax:Int,
-        hp:Int,
+        speed:Float,
         pasttime:Int,
         speedMax:Float
     ) {
@@ -66,7 +66,7 @@ class ResultHUD extends FlxGroup {
         // 時間スコアを取得
         var getTimeScore = function() {
 
-            if(hp <= 0) { return false; }
+            if(speed <= 0) { return false; }
 
             // 時間スコアCSVロード
             var csvTime:CsvLoader = new CsvLoader();
@@ -85,8 +85,8 @@ class ResultHUD extends FlxGroup {
         // 有効なスコアかどうか
         var bScTime = getTimeScore();
 
-        var scHp    = Math.floor(hp * hp * 0.5 / 10) * 10;
-        if(hp == 100) {
+        var scHp    = Math.floor(speed * speed * 0.5 / 10) * 10;
+        if(speed == 100) {
             // HP最大ボーナス
             scHp = 10000;
         }
@@ -126,7 +126,7 @@ class ResultHUD extends FlxGroup {
         _objs = new Array<FlxObject>();
 
         // 菜月さん
-        if(hp > 0) {
+        if(speed > 100) {
             _natsuki = new FlxSprite(0, 0);
             _natsuki.loadGraphic("assets/images/natsuki02.png");
             _natsuki.x = -(_natsuki.width - FlxG.width)/2;
@@ -168,7 +168,7 @@ class ResultHUD extends FlxGroup {
 
             // HPスコア有効
             y += dy;
-            _txtHp = new FlxText(x, y, w,    "HP: " + hp + "%" + SCORE_STR + scHp);
+            _txtHp = new FlxText(x, y, w,    "HP: " + speed + "%" + SCORE_STR + scHp);
         }
         else {
             // 時間スコア無効

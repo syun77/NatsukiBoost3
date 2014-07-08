@@ -13,21 +13,18 @@ class Player extends FlxSprite {
     // 定数
     private static inline var MOVE_DECAY = 0.9;
     private static inline var MOVE_REVISE = 5;
-    private static inline var HP_MAX = 100;
-    private static inline var HP_RECOVER = 1; // デフォルトのHP回復量
     private static inline var TIMER_DAMAGE = 30;
     private static inline var DAMAGE_INIT = 2; // 初期ダメージ
     private static inline var DAMAGE_MAX = 40; // 最大ダメージ
     private static inline var DAMAGE_CNT = 28; // 最大ダメージに到達するまでの連続ヒット数
-    private static inline var DANGER_RATIO = 0.3; // 危険状態とするHPの残量
+    private static inline var DANGER_RATIO = 0.3; // 危険状態とするスピード
 
     // 変数
+    private var _speed:Float; // スピード
     private var _attr:Attribute; // 属性
     private var _trailBlue:FlxTrail; // ブラー(青)
     private var _trailRed:FlxTrail; // ブラー(赤)
-    private var _hp:Float; // 体力
     private var _tDamage:Int; // ダメージタイマー
-    private var _barHp:FlxBar; // 体力バー
     private var _cntHit:Int; // 蓄積ダメージ数
     private var _tAnime:Int; // アニメ用タイマー
     private var _eftAttribute:FlxSprite; // 属性エフェクト
@@ -55,6 +52,7 @@ class Player extends FlxSprite {
         _eftAttribute.alpha = 0.8;
         FlxG.state.add(_eftAttribute);
 
+        _speed = 100;
         _attr = Attribute.Blue;
         immovable = true;
 
@@ -68,22 +66,21 @@ class Player extends FlxSprite {
         _trailBlue = new FlxTrail(this);
         FlxG.state.add(_trailBlue);
 
-        _hp = HP_MAX;
         _tDamage = 0;
         _cntHit = 0;
         _tAnime = 0;
     }
 
+    // スピードの設定
+    public function setSpeed(v:Float):Void { _speed = v; }
     // 属性の取得
     public function getAttribute():Attribute { return _attr; }
-    // HPの割合の取得
-    public function getHpRatio():Float { return 1.0 * _hp / HP_MAX; }
+    // スピードの割合の取得
+    public function getSpeedRatio():Float { return 1.0; }
     // 死亡しているかどうか
-    public function isDead():Bool { return _hp <= 0; }
+    public function isDead():Bool { return _speed <= 0; }
     // 危険チェック
-    public function isDanger():Bool { return getHpRatio() < DANGER_RATIO; }
-    // HPバー
-    public function setHpBar(bar:FlxBar) { _barHp = bar; }
+    public function isDanger():Bool { return getSpeedRatio() < DANGER_RATIO; }
 
     /**
      * 更新
@@ -187,21 +184,10 @@ class Player extends FlxSprite {
         if(color != FlxColor.WHITE) {
             color = FlxColor.WHITE;
         }
-        if(getHpRatio() < DANGER_RATIO) {
+        if(getSpeedRatio() < DANGER_RATIO) {
             if(_tAnime%24 < 12) {
                 color = FlxColor.RED;
             }
-        }
-
-        // 体力バーの更新
-        if(_hp == HP_MAX) {
-            _barHp.visible = false;
-        }
-        else {
-            _barHp.visible = true;
-            _barHp.percent = getHpRatio() * 100;
-            _barHp.x = x;
-            _barHp.y = y + 30;
         }
     }
 
@@ -210,14 +196,6 @@ class Player extends FlxSprite {
         _eftAttribute.kill();
         _trailBlue.kill();
         _trailRed.kill();
-    }
-
-    /**
-     * HP回復
-     **/
-    public function addHp(v:Float=HP_RECOVER):Void {
-        _hp += v;
-        _hp = if(_hp > HP_MAX) HP_MAX else _hp;
     }
 
     /**
@@ -230,20 +208,20 @@ class Player extends FlxSprite {
             // 連続ダメージなのでペナルティ
             var diff:Float = (DAMAGE_MAX - DAMAGE_INIT) / DAMAGE_CNT;
             var val = v + diff * _cntHit;
-            _hp -= val;
+            _speed -= val;
             _cntHit++;
             // 連続ダメージでは死なない
-            if(_hp < 0) {
-                _hp = 1;
+            if(_speed < 0) {
+                _speed = 1;
             }
         }
         else {
             // 初期ダメージ
-            _hp -= v;
+            _speed -= v;
             _tDamage = TIMER_DAMAGE;
             _cntHit = 1;
         }
-        _hp = if(_hp < 0) 0 else _hp;
+        _speed = if(_speed < 0) 0 else _speed;
     }
 
 

@@ -17,8 +17,6 @@ import effects.EffectRing;
 import jp_2dgames.TmxLoader;
 import jp_2dgames.Layer2D;
 import flixel.system.FlxSound;
-import flixel.tweens.FlxEase;
-import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
 import flixel.ui.FlxBar;
 import flixel.util.FlxAngle;
@@ -75,7 +73,6 @@ class PlayState extends FlxState {
 
     // ゲームオブジェクト
     private var _player:Player;
-    private var _barHp:FlxBar;
     private var _follow:FlxSprite;
     private var _rings:FlxTypedGroup<Ring>;
     private var _blocks:FlxTypedGroup<Block>;
@@ -158,10 +155,6 @@ class PlayState extends FlxState {
         _follow = new FlxSprite(_player.x+FlxG.width/2, _player.y);
         _follow.visible = false;
         this.add(_follow);
-        _barHp = new FlxBar(0, 0, FlxBar.FILL_LEFT_TO_RIGHT, 32, 2);
-        _barHp.visible = false;
-        this.add(_barHp);
-        _player.setHpBar(_barHp);
 
         // リング
         _rings = new FlxTypedGroup<Ring>(32);
@@ -500,7 +493,6 @@ class PlayState extends FlxState {
         if(_player.isDead()) {
             // プレイヤー死亡
             _player.vanish();
-            _barHp.kill();
             _follow.kill();
             _state = State.GameoverInit;
             _timer = TIMER_GAMEOVER_INIT;
@@ -583,9 +575,8 @@ class PlayState extends FlxState {
      * リザルトの表示開始
      **/
     private function _startResult():Void {
-        var hp = Math.floor(100 * _player.getHpRatio());
         var pasttime:Int = _hud.getPastTime();
-        _result = new ResultHUD(_cntRing, _cntBlock, _comboMax, hp, pasttime, _speedMax);
+        _result = new ResultHUD(_cntRing, _cntBlock, _comboMax, _speed, pasttime, _speedMax);
         this.add(_result);
         Reg.playMusic("gameover", false);
     }
@@ -633,8 +624,6 @@ class PlayState extends FlxState {
         if(p.getAttribute() == b.getAttribute()) {
             // スピードアップ
             _addSpeed(SPEED_ADD);
-            // HP回復
-            _player.addHp();
             // コンボ数アップ
             _addCombo();
             // 摩擦タイマーをリセット
