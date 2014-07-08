@@ -1,5 +1,6 @@
 package;
 
+import effects.EffectPlayer;
 import effects.EffectStart;
 import token.StopSign;
 import token.Player;
@@ -81,7 +82,7 @@ class PlayState extends FlxState {
     private var _stopSigns:FlxTypedGroup<StopSign>;
 
     // エフェクト
-    private var _eftPlayer:FlxSprite;
+    private var _eftPlayer:EffectPlayer;
     private var _emitterBlockBlue:EmitterBlockBlue;
     private var _emitterBlockRed:EmitterBlockRed;
     private var _emitterPlayer:EmitterPlayer;
@@ -184,11 +185,7 @@ class PlayState extends FlxState {
         this.add(_stopSigns);
 
         // エフェクト
-        _eftPlayer = new FlxSprite();
-        _eftPlayer.loadGraphic("assets/images/player.png", true);
-        _eftPlayer.animation.add("blue", [0]);
-        _eftPlayer.animation.add("red", [1]);
-        _eftPlayer.kill();
+        _eftPlayer = new EffectPlayer();
         this.add(_eftPlayer);
 
         // 開始エフェクト
@@ -318,17 +315,7 @@ class PlayState extends FlxState {
             _tChangeWait = TIMER_CHANGE_WAIT_MIN;
         }
 
-        _eftPlayer.revive();
-        if(_player.getAttribute() == Attribute.Red) {
-            _eftPlayer.animation.play("red");
-        }
-        else {
-            _eftPlayer.animation.play("blue");
-        }
-        _eftPlayer.x = _player.x;
-        _eftPlayer.y = _player.y;
-        _eftPlayer.alpha = 1;
-        _eftPlayer.scale.set(1, 1);
+        _eftPlayer.start(_player.getAttribute(), _player.x, _player.y, _timer);
 
         _setActiveAll(false);
         // プレイヤーだけ止めずに速度だけ0にする
@@ -548,13 +535,8 @@ class PlayState extends FlxState {
     }
 
     private function _updateChangeWait():Void {
-        _timer = cast(_timer * 0.9);
-        _eftPlayer.alpha = 1.0 * _timer / TIMER_CHANGE_WAIT;
-        var sc:Float = 1.0 + 2.0 * (TIMER_CHANGE_WAIT - _timer) / TIMER_CHANGE_WAIT;
-        _eftPlayer.scale.set(sc, sc);
-        if(_timer < 1) {
+        if(_eftPlayer.isEnd()) {
             _setActiveAll(true);
-            _eftPlayer.kill();
             _state = State.Main;
         }
     }
