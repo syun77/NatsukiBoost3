@@ -18,8 +18,6 @@ import effects.EffectRing;
 import jp_2dgames.TmxLoader;
 import jp_2dgames.Layer2D;
 import flixel.system.FlxSound;
-import flixel.util.FlxColor;
-import flixel.ui.FlxBar;
 import flixel.util.FlxAngle;
 import flixel.text.FlxText;
 import flixel.util.FlxPoint;
@@ -45,6 +43,99 @@ private enum State {
     GameoverInit;   // ゲームオーバー・初期化
     GameoverMain;   // ゲームオーバー・メイン
 }
+/**
+ * スピード制御
+ **/
+class SpeedController {
+    public static inline var SPEED_START:Float = 50; // 開始時の速さ
+    public static inline var SPEED_MAX:Float = 384; // 最大速度
+    public static inline var SPEED_ADD:Float = 1; // ブロック衝突による速度の上昇
+    public static inline var SPEED_ADD_DEFAULT:Float = 0.3; // デフォルトでの速度上昇
+    public static inline var SPEED_DEFAULT_MAX:Float = 100; // デフォルトでの速度上昇制限
+    public static inline var SPEED_FRICTION_MIN:Float = 200; // 摩擦による最低速度
+    public static inline var SPEED_STOP:Float = 0.97; // 停止標識の速度の低下
+    public static inline var SPEED_MISS:Float = 0.9; // 異なるブロック衝突による速度の低下
+
+    private var _speed:Float = SPEED_START;
+    private var _speedMax:Float = 0;
+
+    public function getSpeed():Float { return _speed; }
+    public function getSpeedMax():Float { return _speedMax; }
+
+    /**
+     * フォローオブジェクトの描画オフセット座標(X)を取得する
+     **/
+    public function getFollowOffsetX():Float {
+        var diffSpeed = SPEED_MAX - _speed;
+        var dx:Float = 0;
+        if(diffSpeed > 0) {
+            diffSpeed = SPEED_MAX - diffSpeed;
+            dx = 64 * Math.cos(FlxAngle.TO_RAD * 90 * diffSpeed / SPEED_MAX);
+        }
+        return dx;
+    }
+
+    /**
+     * 加速する
+     **/
+    public function addSpeed(v:Float) {
+        _speed += v;
+
+        if(_speed > _speedMax) {
+            // 最大スピード更新
+            _speedMax = _speed;
+        }
+        if(_speed < SPEED_START) {
+            _speed = SPEED_START;
+        }
+    }
+
+    /**
+     * 同属性ブロック習得によるスピードアップ
+     **/
+    public function speedUp():Void {
+        addSpeed(SPEED_ADD);
+    }
+
+    /**
+     * 更新
+     **/
+    public function update():Void {
+        if(_speed < SPEED_DEFAULT_MAX) {
+            // デフォルトのスクロール速度上昇
+            addSpeed(SPEED_ADD_DEFAULT);
+        }
+    }
+
+    /**
+     * 摩擦による速度減少
+     **/
+    public function friction():Void {
+        if(_speed > SPEED_FRICTION_MIN) {
+            _speed -= 0.2;
+        }
+    }
+
+    /**
+     * プレーキをかける
+     **/
+    public function brake():Void {
+        _speed *= SPEED_STOP;
+        if(_speed < SPEED_START) {
+            _speed = SPEED_START;
+        }
+    }
+
+    /**
+     * ブロック衝突減速
+     **/
+    public function hitBlock():Void {
+        _speed *= SPEED_MISS ;
+        if(_speed < SPEED_START) {
+            _speed = SPEED_START;
+        }
+    }
+}
 
 /**
  * メインゲーム
@@ -52,16 +143,6 @@ private enum State {
 class PlayState extends FlxState {
 
     // 定数
-    private static inline var BACK_SCROLL_SPEED:Float = 0.1; // 背景スクロールの速さ
-    private static inline var SPEED_START:Float = 50; // 開始時の速さ
-    private static inline var SPEED_ADD:Float = 1; // ブロック衝突による速度の上昇
-    private static inline var SPEED_MISS:Float = 0.9; // 異なるブロック衝突による速度の低下
-    private static inline var SPEED_ADD_DEFAULT:Float = 0.3; // デフォルトでの速度上昇
-    private static inline var SPEED_DEFAULT_MAX:Float = 100; // デフォルトでの速度上昇制限
-    private static inline var SPEED_MAX:Float = 384; // 最大速度
-    private static inline var SPEED_FRICTION_MIN:Float = 200; // 摩擦による最低速度
-    private static inline var SPEED_STOP:Float = 0.97; // 停止標識の速度の低下
-
     // タイマー
     private static inline var TIMER_STAGE_CLEAR_INIT = 30;
     private static inline var TIMER_GAMEOVER_INIT = 30;
@@ -78,6 +159,9 @@ class PlayState extends FlxState {
     private var _rings:FlxTypedGroup<Ring>;
     private var _blocks:FlxTypedGroup<Block>;
     private var _stopSigns:FlxTypedGroup<StopSign>;
+
+    // スピード管理
+    private var _speedCtrl:SpeedController;
 
     // エフェクト
     private var _eftPlayer:EffectPlayer;
@@ -109,8 +193,6 @@ class PlayState extends FlxState {
     // 変数
     private var _state:State; // 状態
     private var _timer:Int;   // 汎用タイマー
-    private var _speed:Float; // 速度
-    private var _scrollX:Float = 0; // スクロール
     private var _tDamage:Int   = 0; // ダメージによるペナルティ時間
     private var _combo:Int     = 0; // コンボ数
     private var _tFriction:Int = 0; // 摩擦タイマー
@@ -122,7 +204,6 @@ class PlayState extends FlxState {
     private var _cntRing:Int    = 0; // リング獲得数
     private var _pasttime:Int   = 0; // 経過時間
     private var _comboMax:Int   = 0; // 最大コンボ数
-    private var _speedMax:Float = 0; // 最大スピード
 
     // サウンド
     private var _seBlock:FlxSound = null;
@@ -207,7 +288,9 @@ class PlayState extends FlxState {
         // 変数初期化
         _state = State.Start;
         _timer = 0;
-        _speed = SPEED_START;
+
+        // スピード管理
+        _speedCtrl = new SpeedController();
 
         var width = _tmx.width * _tmx.tileWidth;
         var height = _tmx.height * _tmx.tileHeight;
@@ -216,9 +299,10 @@ class PlayState extends FlxState {
         FlxG.worldBounds.set(0, 0, width, height);
 
         // HUD
-        _hud = new HUD(_player, width, SPEED_MAX);
+        _hud = new HUD(_player, width, SpeedController.SPEED_MAX);
         this.add(_hud);
 
+        // 各種オブジェクト生成
         _putObjects();
 
         // デバッグ用
@@ -366,22 +450,12 @@ class PlayState extends FlxState {
     private function _setFolloPosition():Void {
 
         // カメラがフォローするオブジェクトの位置を調整
-        var diffSpeed = SPEED_MAX - _speed;
-        var dx:Float = 0;
-        if(diffSpeed > 0) {
-            diffSpeed = SPEED_MAX - diffSpeed;
-            dx = 64 * Math.cos(FlxAngle.TO_RAD * 90 * diffSpeed / SPEED_MAX);
-        }
+        var dx:Float = _speedCtrl.getFollowOffsetX();
         _follow.x = _player.x + FlxG.width/2 - dx;
     }
 
     private function _addSpeed(v:Float) {
-        _speed += v;
-
-        if(_speed > _speedMax) {
-            // 最大スピード更新
-            _speedMax = _speed;
-        }
+        _speedCtrl.addSpeed(v);
     }
 
     /**
@@ -393,25 +467,18 @@ class PlayState extends FlxState {
             _tDamage--;
         }
         else {
-            if(_speed < SPEED_DEFAULT_MAX) {
-                // デフォルトのスクロール速度上昇
-                _addSpeed(SPEED_ADD_DEFAULT);
-            }
+            // デフォルトのスクロール速度上昇
+            _speedCtrl.update();
         }
 
         // プレイヤーをスクロールする
-        _player.velocity.x = _speed;
-        _follow.velocity.x = _speed;
+        _player.velocity.x = _speedCtrl.getSpeed();
+        _follow.velocity.x = _speedCtrl.getSpeed();
 
         _setFolloPosition();
 
         // 背景をスクロールする
-        _scrollX -= BACK_SCROLL_SPEED;
-        if(_scrollX < -FlxG.width) {
-            // 折り返す
-            _scrollX += FlxG.width;
-        }
-        _back.scroll(_scrollX);
+        _back.scroll();
         _back.setDanger(_player.isDanger());
 
     }
@@ -440,17 +507,12 @@ class PlayState extends FlxState {
         }
         else {
             // 速度減少
-            if(_speed > SPEED_FRICTION_MIN) {
-                _speed -= 0.2;
-            }
+            _speedCtrl.friction();
         }
 
         if(_tStop > 0) {
             // 停止タイマー有効
-            _speed *= SPEED_STOP;
-            if(_speed < SPEED_START) {
-                _speed = SPEED_START;
-            }
+            _speedCtrl.brake();
             _tStop--;
 
             // 足もとからブレーキエフェクト生成
@@ -559,7 +621,7 @@ class PlayState extends FlxState {
      **/
     private function _startResult():Void {
         var pasttime:Int = _hud.getPastTime();
-        _result = new ResultHUD(_cntRing, _cntBlock, _comboMax, _speed, pasttime, _speedMax);
+        _result = new ResultHUD(_cntRing, _cntBlock, _comboMax, _speedCtrl.getSpeed(), pasttime, _speedCtrl.getSpeedMax());
         this.add(_result);
         Reg.playMusic("gameover", false);
     }
@@ -606,7 +668,7 @@ class PlayState extends FlxState {
 
         if(p.getAttribute() == b.getAttribute()) {
             // スピードアップ
-            _addSpeed(SPEED_ADD);
+            _speedCtrl.speedUp();
             // コンボ数アップ
             _addCombo();
             // 摩擦タイマーをリセット
@@ -614,10 +676,7 @@ class PlayState extends FlxState {
         }
         else {
             // ペナルティ
-            _speed *= SPEED_MISS ;
-            if(_speed < SPEED_START) {
-                _speed = SPEED_START;
-            }
+            _speedCtrl.hitBlock();
             _tDamage = TIMER_DAMAGE;
 
             // ダメージ処理
@@ -742,14 +801,11 @@ class PlayState extends FlxState {
 
         if(FlxG.keys.pressed.RIGHT) {
             // 右キーでスピードアップ
-            _speed += 10;
+            _speedCtrl.addSpeed(10);
         }
         if(FlxG.keys.pressed.LEFT) {
             // 左キーでスピードダウン
-            _speed -= 10;
-            if(_speed < SPEED_START) {
-                _speed = SPEED_START;
-            }
+            _speedCtrl.addSpeed(-10);
         }
         if(FlxG.keys.justPressed.D) {
             // 自爆

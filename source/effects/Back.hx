@@ -8,8 +8,13 @@ import flixel.group.FlxGroup;
  * 背景管理
  **/
 class Back extends FlxGroup {
-    var _back:FlxSprite;
-    var _back2:FlxSprite;
+
+    private static inline var BACK_SCROLL_SPEED:Float = 0.1; // 背景スクロールの速さ
+
+    private var _back:FlxSprite;
+    private var _back2:FlxSprite;
+    private var _scrollX:Float = 0;
+
     public function new() {
         super();
 
@@ -27,10 +32,16 @@ class Back extends FlxGroup {
     /**
      * 更新
      **/
-    public function scroll(scrollX:Float):Void {
+    public function scroll():Void {
         // 背景をスクロールする
-        _back.x = scrollX;
-        _back2.x = scrollX + FlxG.width;
+        _scrollX -= BACK_SCROLL_SPEED;
+        if(_scrollX < -FlxG.width) {
+            // 折り返す
+            _scrollX += FlxG.width;
+        }
+
+        _back.x = _scrollX;
+        _back2.x = _scrollX + FlxG.width;
 
     }
 
