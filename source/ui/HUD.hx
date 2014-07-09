@@ -1,6 +1,6 @@
 package ui;
+import SpeedController;
 import token.Player;
-import flixel.tweens.FlxTween;
 import flixel.util.FlxStringUtil;
 import flixel.ui.FlxBar;
 import Math;
@@ -14,11 +14,24 @@ import flixel.group.FlxGroup;
  **/
 class HUD extends FlxGroup {
 
+    // 定数
+    // スピードゲージ
+    private static inline var SPEEDBAR_POS_X = 32;
+    private static inline var SPEEDBAR_POS_Y1 = 16;
+    private var SPEEDBAR_POS_Y2 = FlxG.height-16;
+    private var SPEEDBAR_WIDTH = FlxG.height*0.75;
+    private var SPEEDBAR_HEIGHT = 8;
+    private var SPEEDTXT_POS_X:Float;
+    // スピードテキスト
+
+    // 参照用ゲームオブジェクト
+    private var _player:Player;
+    private var _speedCtrl:SpeedController;
+
     // 表示オブジェクト
     private var _txtSpeed:FlxText;
     private var _txtDistance:FlxText;
     private var _txtLevel:FlxText;
-    private var _player:Player;
     private var _txtCombo:FlxText;
     private var _txtCombo2:FlxText;
     private var _txtTime:FlxText;
@@ -35,18 +48,18 @@ class HUD extends FlxGroup {
 
     // ゴールまでの距離
     private var _goal:Int;
-    private var _speedMax:Float;
 
     private var _tLevel:Int = 60;
 
     /**
      * コンストラクタ
      **/
-    public function new(p:Player, goal:Int, speedMax:Float) {
+    public function new(p:Player, speedCtrl:SpeedController, goal:Int) {
+        SPEEDTXT_POS_X = SPEEDBAR_POS_X + SPEEDBAR_WIDTH;
+
         super();
         _player = p;
         _goal = goal;
-        _speedMax = speedMax;
 
         _objs = new Array<FlxObject>();
 
@@ -56,9 +69,9 @@ class HUD extends FlxGroup {
         var y2 = 4;
         var y1 = FlxG.height-16;
         var dy = 12;
-        _txtSpeed = new FlxText(x, y1, width);
         y1 += dy;
-        _barSpeed = new FlxBar(x, y1-2, FlxBar.FILL_LEFT_TO_RIGHT, cast FlxG.width/3, 2);
+        _barSpeed = new FlxBar(SPEEDBAR_POS_X, SPEEDBAR_POS_Y2, FlxBar.FILL_LEFT_TO_RIGHT, cast SPEEDBAR_WIDTH, SPEEDBAR_HEIGHT);
+        _txtSpeed = new FlxText(SPEEDTXT_POS_X, _barSpeed.y, width);
         _txtDistance = new FlxText(x, y2, width);
         _txtLevel = new FlxText(-8, y1-24, width);
         _txtLevel.text = Reg.getLevelName();
@@ -86,7 +99,7 @@ class HUD extends FlxGroup {
         for(o in _objs) {
             // スクロール無効
             o.scrollFactor.set(0, 0);
-            add(o);
+            this.add(o);
         }
     }
 
@@ -141,7 +154,7 @@ class HUD extends FlxGroup {
         _txtSpeed.text = "Speed: " + Math.floor(_player.velocity.x);
         _txtDistance.text = "Distance: " + Math.floor(_player.x/10) + "/" + Math.floor(_goal/10);
 
-        _barSpeed.percent = 100*_player.velocity.x / _speedMax;
+        _barSpeed.percent = 100*_player.velocity.x / SpeedController.MAX;
         _barDistance.percent = 100*_player.x / _goal;
 
         if(_txtCombo.size > 16) {

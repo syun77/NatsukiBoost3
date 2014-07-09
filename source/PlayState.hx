@@ -204,7 +204,7 @@ class PlayState extends FlxState {
         FlxG.worldBounds.set(0, 0, width, height);
 
         // HUD
-        _hud = new HUD(_player, width, SpeedController.MAX);
+        _hud = new HUD(_player, _speedCtrl, width);
         this.add(_hud);
 
         // 各種オブジェクト生成
