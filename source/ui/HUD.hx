@@ -139,7 +139,7 @@ class HUD extends FlxGroup {
         }
 
         // スピードゲージの更新
-        _barSpeed.updateAll(_speedCtrl);
+        _barSpeed.updateAll(_player, _speedCtrl);
     }
 
     /**
@@ -165,7 +165,6 @@ class HUD extends FlxGroup {
         _txtSpeed.text = "Speed: " + Math.floor(_player.velocity.x);
         _txtDistance.text = "Distance: " + Math.floor(_player.x/10) + "/" + Math.floor(_goal/10);
 
-        _barSpeed.setRatio(_player.velocity.x / SpeedController.MAX);
         _barDistance.percent = 100*_player.x / _goal;
 
         if(_txtCombo.size > 16) {

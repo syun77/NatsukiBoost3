@@ -1,5 +1,6 @@
 package ui;
 
+import token.Player;
 import flixel.util.FlxColor;
 import flixel.FlxObject;
 import flixel.FlxSprite;
@@ -67,10 +68,13 @@ class SpeedBar extends FlxGroup {
         _meter.x = _x - (1 - per) * _width/2;
     }
 
-    public function updateAll(_ctrl:SpeedController):Void {
+    public function updateAll(player:Player, ctrl:SpeedController):Void {
+
+        // スピードを設定
+        setRatio(player.velocity.x / SpeedController.MAX);
 
         // トップスピードの位置更新
-        var top = _ctrl.getTop();
+        var top = ctrl.getTop();
         var rTop = top / SpeedController.MAX;
         _top.x = _x + _width * rTop;
     }
