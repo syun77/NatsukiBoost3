@@ -47,7 +47,7 @@ class SpeedBar extends FlxGroup {
         _frame3.makeGraphic(size, _height, FlxColor.WHITE);
 
         _meter = new FlxSprite(_x-1, _y);
-        _meter.makeGraphic(_width+1, _height, FlxColor.GREEN);
+        _meter.makeGraphic(_width+1, _height, FlxColor.YELLOW);
 
         _top = new FlxSprite(_x, _y);
         _top.makeGraphic(1, _height, FlxColor.RED);
