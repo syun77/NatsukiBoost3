@@ -43,7 +43,7 @@ class SpeedBar extends FlxGroup {
         _meter = new FlxSprite(_x-1, _y);
         _meter.makeGraphic(_width+1, _height, FlxColor.YELLOW);
 
-        _top = new FlxSprite(_x, _y);
+        _top = new FlxSprite(_x-1, _y);
         _top.makeGraphic(1, _height, FlxColor.RED);
 
         _objs.push(_frame);
@@ -76,7 +76,7 @@ class SpeedBar extends FlxGroup {
         // トップスピードの位置更新
         var top = ctrl.getTop();
         var rTop = top / SpeedController.MAX;
-        _top.x = _x + _width * rTop;
+        _top.x = _x - 1 + _width * rTop;
     }
 
 

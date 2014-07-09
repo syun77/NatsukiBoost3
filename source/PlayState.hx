@@ -48,6 +48,8 @@ private enum State {
 class PlayState extends FlxState {
 
     // 定数
+    private static inline var TOPSPEED_UP_BLOCK_COUNT = 10; // 同属性10ごとにスピードが上昇
+    private static inline var TOPSPEED_UP_VELOCITY    = 1; // トップスピードの上昇値
     // タイマー
     private static inline var TIMER_STAGE_CLEAR_INIT = 30;
     private static inline var TIMER_GAMEOVER_INIT = 30;
@@ -103,6 +105,7 @@ class PlayState extends FlxState {
     private var _tFriction:Int = 0; // 摩擦タイマー
     private var _tChangeWait:Int = TIMER_CHANGE_WAIT; // リング獲得時の停止タイマー
     private var _tStop:Int     = 0; // 停止タイマー
+    private var _cntSameBlock  = 0; // 同属性のブロックを破壊した数
 
     // リザルト用変数
     private var _cntBlock:Int   = 0; // ブロック破壊数
@@ -440,7 +443,7 @@ class PlayState extends FlxState {
             _hud.setIncTime(false);
             return;
         }
-        if(_player.isDead()) {
+        if(_speedCtrl.getTop() <= 0) {
             // プレイヤー死亡
             _player.vanish();
             _follow.kill();
@@ -574,6 +577,12 @@ class PlayState extends FlxState {
         if(p.getAttribute() == b.getAttribute()) {
             // スピードアップ
             _speedCtrl.speedUp();
+
+            _cntSameBlock++;
+            if(_cntBlock%TOPSPEED_UP_BLOCK_COUNT == 0) {
+                // トップスピードアップ
+                _speedCtrl.addTop(TOPSPEED_UP_VELOCITY);
+            }
             // コンボ数アップ
             _addCombo();
             // 摩擦タイマーをリセット

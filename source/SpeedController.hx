@@ -6,7 +6,7 @@ import flixel.util.FlxAngle;
  * スピード制御
  **/
 class SpeedController {
-    public static inline var START:Float = 50; // 開始時の速さ
+    public static inline var START:Float = 0; // 開始時の速さ
     public static inline var TOP:Float = 250; // トップスピード
     public static inline var MAX:Float = 384; // 最大速度
     public static inline var ADD:Float = 1; // ブロック衝突による速度の上昇
@@ -15,6 +15,7 @@ class SpeedController {
     public static inline var FRICTION_MIN:Float = 200; // 摩擦による最低速度
     public static inline var STOP_DECAY:Float = 0.97; // 停止標識の速度の低下
     public static inline var MISS_DECAY:Float = 0.9; // 異なるブロック衝突による速度の低下
+    public static inline var MISS_TOP:Float = 5; // ミスにより減少するトップスピードの値
 
     private var _now:Float = START; // 現在の速度
     private var _max:Float = 0;     // 最大速度
@@ -65,6 +66,17 @@ class SpeedController {
     }
 
     /**
+     * トップスピード上昇
+     **/
+    public function addTop(v:Float):Void {
+        _top += v;
+
+        if(_top > MAX) {
+            _top = MAX;
+        }
+    }
+
+    /**
      * 更新
      **/
     public function update():Void {
@@ -97,9 +109,14 @@ class SpeedController {
      * ブロック衝突減速
      **/
     public function hitBlock():Void {
-        _now *= MISS_DECAY ;
+        _now *= MISS_DECAY;
         if(_now < START) {
             _now = START;
+        }
+
+        _top -= MISS_TOP;
+        if(_top < 0) {
+            _top = 0;
         }
     }
 }
