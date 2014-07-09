@@ -7,6 +7,7 @@ import flixel.util.FlxAngle;
  **/
 class SpeedController {
     public static inline var START:Float = 50; // 開始時の速さ
+    public static inline var TOP:Float = 250; // トップスピード
     public static inline var MAX:Float = 384; // 最大速度
     public static inline var ADD:Float = 1; // ブロック衝突による速度の上昇
     public static inline var ADD_DEFAULT:Float = 0.3; // デフォルトでの速度上昇
@@ -17,7 +18,7 @@ class SpeedController {
 
     private var _now:Float = START; // 現在の速度
     private var _max:Float = 0;     // 最大速度
-    private var _top:Float = MAX;   // 現在の最大速度
+    private var _top:Float = TOP;   // 現在の最大速度
 
     public function getNow():Float { return _now; }
     public function getTop():Float { return _top; }
@@ -41,6 +42,11 @@ class SpeedController {
      **/
     public function add(v:Float) {
         _now += v;
+
+        if(_now > _top) {
+            // トップスピードよりは上がらない
+            _now = _top;
+        }
 
         if(_now > _max) {
             // 最大スピード更新

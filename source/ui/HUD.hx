@@ -16,14 +16,18 @@ import flixel.group.FlxGroup;
  **/
 class SpeedBar extends FlxGroup {
 
-    private var _frame:FlxSprite; // 外枠
-    private var _frame2:FlxSprite;
-    private var _meter:FlxSprite; // メーター
+    private var _frame:FlxSprite;  // 外枠
+    private var _frame2:FlxSprite; // 内枠
+    private var _frame3:FlxSprite; // メーターのブレ隠し
+    private var _meter:FlxSprite;  // メーター
+    private var _top:FlxSprite;    // トップの位置表示
 
     private var _x:Float; // X座標
     private var _y:Float; // Y座標
     private var _width:Int; // 幅
     private var _height:Int; // 高さ
+
+    private var _objs:Array<FlxObject>;
 
     public function new(px:Float, py:Float, w:Int, h:Int) {
         super();
@@ -32,20 +36,32 @@ class SpeedBar extends FlxGroup {
         _width = w;
         _height = h;
 
-        _frame = new FlxSprite(_x-2, _y-2);
-        _frame.makeGraphic(_width+4, _height+4, FlxColor.WHITE);
-        _frame.scrollFactor.set(0, 0);
+        _objs = new Array<FlxObject>();
+
+        var size = 1;
+        _frame = new FlxSprite(_x-size, _y-size);
+        _frame.makeGraphic(_width+size*2, _height+size*2, FlxColor.WHITE);
         _frame2 = new FlxSprite(_x, _y);
         _frame2.makeGraphic(_width, _height, FlxColor.BLACK);
-        _frame2.scrollFactor.set(0, 0);
+        _frame3 = new FlxSprite(_x-size, _y);
+        _frame3.makeGraphic(size, _height, FlxColor.WHITE);
 
-        _meter = new FlxSprite(_x, _y);
-        _meter.makeGraphic(_width, _height, FlxColor.GREEN);
-        _meter.scrollFactor.set(0, 0);
+        _meter = new FlxSprite(_x-1, _y);
+        _meter.makeGraphic(_width+1, _height, FlxColor.GREEN);
 
-        this.add(_frame);
-        this.add(_frame2);
-        this.add(_meter);
+        _top = new FlxSprite(_x, _y);
+        _top.makeGraphic(1, _height, FlxColor.RED);
+
+        _objs.push(_frame);
+        _objs.push(_frame2);
+        _objs.push(_meter);
+        _objs.push(_frame3);
+        _objs.push(_top);
+
+        for(o in _objs) {
+            o.scrollFactor.set(0, 0);
+            this.add(o);
+        }
     }
 
     public function getY():Float { return _y; }
@@ -56,6 +72,14 @@ class SpeedBar extends FlxGroup {
 
         _meter.scale.x = per;
         _meter.x = _x - (1 - per) * _width/2;
+    }
+
+    public function updateAll(_ctrl:SpeedController):Void {
+
+        // トップスピードの位置更新
+        var top = _ctrl.getTop();
+        var rTop = top / SpeedController.MAX;
+        _top.x = _x + _width * rTop;
     }
 
 
@@ -111,6 +135,7 @@ class HUD extends FlxGroup {
 
         super();
         _player = p;
+        _speedCtrl = speedCtrl;
         _goal = goal;
 
         _objs = new Array<FlxObject>();
@@ -188,6 +213,9 @@ class HUD extends FlxGroup {
             _pastTime += FlxG.elapsed * 1000;
             _txtTime.text = "Time: " + FlxStringUtil.formatTime(_pastTime/1000.0, true);
         }
+
+        // スピードゲージの更新
+        _barSpeed.updateAll(_speedCtrl);
     }
 
     /**
