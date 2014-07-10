@@ -8,11 +8,11 @@ import flixel.FlxState;
 
 class Main extends Sprite 
 {
-	var gameWidth:Int = 320; // Width of the game in pixels (might be less / more in actual pixels depending on your zoom).
-	var gameHeight:Int = 240; // Height of the game in pixels (might be less / more in actual pixels depending on your zoom).
-//	var initialState:Class<FlxState> = LogoState; // The FlxState the game starts with.
-//  var initialState:Class<FlxState> = MenuState; // The FlxState the game starts with.
-    var initialState:Class<FlxState> = PlayState; // The FlxState the game starts with.
+	var gameWidth:Int = 320; // 画面の幅
+	var gameHeight:Int = 240; // 画面の高さ
+//	var initialState:Class<FlxState> = LogoState; // ロゴから起動する
+//  var initialState:Class<FlxState> = MenuState; // タイトル画面から起動する
+    var initialState:Class<FlxState> = PlayState; // メインゲームから起動する
 	var zoom:Float = -1; // If -1, zoom is automatically calculated to fit the window dimensions.
 	var framerate:Int = 60; // How many frames per second the game should run at.
 	var skipSplash:Bool = true; // Whether to skip the flixel splash screen that appears in release mode.

@@ -1,5 +1,6 @@
 package;
 
+import jp_2dgames.CsvLoader;
 import effects.Back;
 import effects.EffectPlayer;
 import effects.EffectStart;
@@ -48,8 +49,6 @@ private enum State {
 class PlayState extends FlxState {
 
     // 定数
-    private static inline var TOPSPEED_UP_BLOCK_COUNT = 10; // 同属性10ごとにスピードが上昇
-    private static inline var TOPSPEED_UP_VELOCITY    = 1; // トップスピードの上昇値
     // タイマー
     private static inline var TIMER_STAGE_CLEAR_INIT = 30;
     private static inline var TIMER_GAMEOVER_INIT = 30;
@@ -116,6 +115,9 @@ class PlayState extends FlxState {
     // サウンド
     private var _seBlock:FlxSound = null;
     private var _seBlockPrev:Float = 0;
+
+    // 各種パラメータ
+    private var _csvTopSpeed:CsvLoader;
 
     /**
 	 * 生成
@@ -192,6 +194,10 @@ class PlayState extends FlxState {
         _txtMessage.visible = false;
         _txtMessage.scrollFactor.set(0, 0);
         this.add(_txtMessage);
+
+        // 各種パラメータ
+        _csvTopSpeed = new CsvLoader();
+        _csvTopSpeed.load("assets/params/topspeed.csv");
 
         // 変数初期化
         _state = State.Start;
@@ -579,9 +585,24 @@ class PlayState extends FlxState {
             _speedCtrl.speedUp();
 
             _cntSameBlock++;
-            if(_cntBlock%TOPSPEED_UP_BLOCK_COUNT == 0) {
+
+            // トップスピード上昇判定
+            var count:Int = 9999999;
+            var value:Int = 2;
+            var search = function(data:Map<String,String>) {
+                if(_speedCtrl.getTop() < Std.parseFloat(data["speed"])) {
+                    count = Std.parseInt(data["count"]);
+                    value = Std.parseInt(data["value"]);
+                    return true;
+                }
+                return false;
+            }
+            _csvTopSpeed.foreachSearchID(search);
+//            trace("" + _cntSameBlock + "/" + count + " -> " + value);
+            if(_cntSameBlock >= count) {
                 // トップスピードアップ
-                _speedCtrl.addTop(TOPSPEED_UP_VELOCITY);
+                _speedCtrl.addTop(value);
+                _cntSameBlock = 0;
             }
             // コンボ数アップ
             _addCombo();
@@ -696,7 +717,7 @@ class PlayState extends FlxState {
      **/
     private function _updateDebug():Void {
 
-    #if !FLX_NO_DEBUG
+//    #if !FLX_NO_DEBUG
         if(FlxG.keys.justPressed.ESCAPE) {
             throw "Terminate.";
         }
@@ -725,6 +746,6 @@ class PlayState extends FlxState {
             // 自爆
             _player.damage(99999);
         }
-    #end
+//    #end
     }
 }

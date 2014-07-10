@@ -102,6 +102,39 @@ class CsvLoader {
     }
 
     /**
+     * 特定のキーを持つIDを検索する
+     * @return 見つからなかったら-1
+     **/
+    public function searchID(key:String, value:String):Int {
+        for(k in  _datas.keys()) {
+            var data = _datas[k];
+            if(data[key] == value) {
+                return k;
+            }
+        }
+
+        return -1;
+    }
+
+    /**
+     * 関数指定でIDを検索する
+     * @param データをチェックする関数
+     * @return 見つからなかったら-1
+     **/
+    public function foreachSearchID(func:Map<String,String>->Bool):Int {
+        for(i in  0...size()+1) {
+            if(_datas.exists(i) == false) {
+                continue;
+            }
+            var data = _datas[i];
+            if(func(data)) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    /**
      * 値を数値として取得する
      * @param id id
      * @param key キー文字列
@@ -132,4 +165,5 @@ class CsvLoader {
             trace(str);
         }
     }
+
 }
