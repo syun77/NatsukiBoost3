@@ -5,3 +5,4 @@ int,str,int,str
 3,speedtop_accel,0.1,トップスピードへ近づく加速度
 4,speedtop_decceleration,0.05,異なる属性ブロック衝突時の減速度
 5,brake_ratio,0.05,ブレーキボタンによる減速度
+6,damage_timer,30,異なる属性ブロック衝突時の加速できない時間(フレーム数)
