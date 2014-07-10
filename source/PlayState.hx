@@ -1,5 +1,6 @@
 package;
 
+import util.Snd;
 import csv.CsvTopSpeed;
 import csv.CsvPlayer;
 import effects.Back;
@@ -107,10 +108,6 @@ class PlayState extends FlxState {
     private var _cntRing:Int    = 0; // リング獲得数
     private var _pasttime:Int   = 0; // 経過時間
     private var _comboMax:Int   = 0; // 最大コンボ数
-
-    // サウンド
-    private var _seBlock:FlxSound = null;
-    private var _seBlockPrev:Float = 0;
 
     // 各種パラメータ
     private var _csvTopSpeed:CsvTopSpeed;
@@ -410,6 +407,7 @@ class PlayState extends FlxState {
         if(_player.isOnBrake()) {
             // ブレーキをかける
             _speedCtrl.setBrakeTimer(1);
+            Snd.playSe("brake", true);
         }
 
         if(_speedCtrl.isBrake()) {
@@ -454,8 +452,8 @@ class PlayState extends FlxState {
             _hud.setIncTime(false);
 
             // サウンド再生
-            FlxG.sound.play("kya");
-            FlxG.sound.play("dead");
+            Snd.playSe("kya");
+            Snd.playSe("dead");
             if(FlxG.sound.music != null) {
                 FlxG.sound.music.stop();
             }
@@ -523,7 +521,7 @@ class PlayState extends FlxState {
         var pasttime:Int = _hud.getPastTime();
         _result = new ResultHUD(_cntRing, _cntBlock, _comboMax, _speedCtrl.getNow(), pasttime, _speedCtrl.getMax());
         this.add(_result);
-        Reg.playMusic("gameover", false);
+        Snd.playMusic("gameover", false);
     }
 
     /**
@@ -554,7 +552,7 @@ class PlayState extends FlxState {
         // 同じX座標にあるリングを削除
         _vanishRingX(v.x);
 
-        FlxG.sound.play("kin");
+        Snd.playSe("kin");
 
         // リング獲得数アップ
         _cntRing++;
@@ -593,13 +591,7 @@ class PlayState extends FlxState {
             // コンボ終了
             _resetCombo();
 
-            if(_hud.getPastTime() - _seBlockPrev > 20 ) {
-                if(_seBlock != null) {
-                    _seBlock.kill();
-                }
-                _seBlock = FlxG.sound.play("block");
-                _seBlockPrev = _hud.getPastTime();
-            }
+            Snd.playSe("block", true, 0.05);
         }
 
         if(b.getAttribute() == Attribute.Red) {
@@ -622,7 +614,7 @@ class PlayState extends FlxState {
     private function _vsPlayerStop(p:Player, s:StopSign):Void {
         _speedCtrl.setBrakeTimer(TIMER_STOP);
         s.kill();
-        FlxG.sound.play("brake");
+        Snd.playSe("brake", true);
     }
 
     /**
