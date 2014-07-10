@@ -1,0 +1,6 @@
+id,key,value,comment
+int,str,int,str
+1,speed_start,0,開始時の速さ
+2,speedtop_start,120,トップスピードの初期値
+3,speedtop_accel,0.1,トップスピードへ近づく加速度
+4,speedtop_decceleration,0.2,異なる属性ブロック衝突時の減速度
