@@ -58,7 +58,6 @@ class PlayState extends FlxState {
     private static inline var TIMER_CHANGE_WAIT_DEC = 3; // リング獲得時の停止タイマーの減少量
     private static inline var TIMER_CHANGE_WAIT_MIN = 4; // リング獲得時の停止タイマーの最低値
     private static inline var TIMER_DAMAGE = 30;
-    private static inline var TIMER_FRICTION:Int = 30; // 摩擦タイマー
     private static inline var TIMER_STOP:Int = 30; // 停止タイマー
 
     // ゲームオブジェクト
@@ -103,7 +102,6 @@ class PlayState extends FlxState {
     private var _timer:Int;   // 汎用タイマー
     private var _tDamage:Int   = 0; // ダメージによるペナルティ時間
     private var _combo:Int     = 0; // コンボ数
-    private var _tFriction:Int = 0; // 摩擦タイマー
     private var _tChangeWait:Int = TIMER_CHANGE_WAIT; // リング獲得時の停止タイマー
     private var _tStop:Int     = 0; // 停止タイマー
     private var _cntSameBlock  = 0; // 同属性のブロックを破壊した数
@@ -418,15 +416,6 @@ class PlayState extends FlxState {
      **/
     private function _updateMain():Void {
 
-        // 摩擦タイマー更新
-        if(_tFriction > 0) {
-            _tFriction--;
-        }
-        else {
-            // 速度減少
-            _speedCtrl.friction();
-        }
-
         if(_tStop > 0 || _player.isOnBrake()) {
             // 停止タイマー有効
             _speedCtrl.brake();
@@ -599,8 +588,6 @@ class PlayState extends FlxState {
             }
             // コンボ数アップ
             _addCombo();
-            // 摩擦タイマーをリセット
-            _tFriction = TIMER_FRICTION;
         }
         else {
             // ペナルティ
