@@ -55,6 +55,7 @@
         <sound path="kya.mp3" id="kya" />
         <sound path="brake.mp3" id="brake" />
         <sound path="push.mp3" id="push" />
+        <sound path="eat.mp3" id="eat" />
     </assets>
 
     <assets path="assets/music" unless="flash">
@@ -75,6 +76,7 @@
         <sound path="kya.ogg" id="kya" />
         <sound path="brake.ogg" id="brake" />
         <sound path="push.ogg" id="push" />
+        <sound path="eat.ogg" id="eat" />
     </assets>
 
 

@@ -580,6 +580,8 @@ class PlayState extends FlxState {
             }
             // コンボ数アップ
             _addCombo();
+
+            Snd.playSe("eat", true, _csvPlayer.eat_se_timer);
         }
         else {
             // ペナルティ

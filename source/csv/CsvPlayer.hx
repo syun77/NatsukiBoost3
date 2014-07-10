@@ -16,14 +16,21 @@ class CsvPlayer {
 
     public var damage_timer:Int;         // ダメージ時の加速できない時間
 
+    public var eat_se_timer:Float;       // "eat"SEのウェイト時間
+
     public function new() {
         var csv:CsvLoader = new CsvLoader("assets/params/player.csv");
 
         speed_start = csv.searchItemFloat("key", "speed_start", "value");
         speed_top = csv.searchItemFloat("key", "speedtop_start", "value");
+
         accel_ratio = csv.searchItemFloat("key", "speedtop_accel", "value");
         deceleration_ratio = csv.searchItemFloat("key", "speedtop_decceleration", "value");
         brake_ratio = csv.searchItemFloat("key", "brake_ratio", "value");
+
         damage_timer = csv.searchItemInt("key", "damage_timer", "value");
+
+        eat_se_timer = csv.searchItemFloat("key", "eat_se_timer", "value");
+
     }
 }
