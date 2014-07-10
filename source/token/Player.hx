@@ -80,6 +80,14 @@ class Player extends FlxSprite {
     public function isDead():Bool { return _speed <= 0; }
     // 危険チェック
     public function isDanger():Bool { return getSpeedRatio() < DANGER_RATIO; }
+    // ブレーキボタンを押しているかどうかチェック
+    public function isOnBrake():Bool {
+        if(FlxG.mouse.pressed) {
+            return true;
+        }
+
+        return false;
+    }
 
     /**
      * 更新

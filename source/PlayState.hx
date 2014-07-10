@@ -377,7 +377,7 @@ class PlayState extends FlxState {
      * 各種スクロール処理
      **/
     private function _updateScroll():Void {
-        if(_tDamage > 0) {
+        if(_tDamage > 0 || _player.isOnBrake()) {
             // ダメージペナルティ
             _tDamage--;
         }
@@ -425,7 +425,7 @@ class PlayState extends FlxState {
             _speedCtrl.friction();
         }
 
-        if(_tStop > 0) {
+        if(_tStop > 0 || _player.isOnBrake()) {
             // 停止タイマー有効
             _speedCtrl.brake();
             _tStop--;

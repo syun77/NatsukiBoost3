@@ -11,7 +11,6 @@ class SpeedController {
     public static inline var MAX:Float = 384; // 最大速度
     public static inline var ADD:Float = 1; // ブロック衝突による速度の上昇
     public static inline var FRICTION_MIN:Float = 200; // 摩擦による最低速度
-    public static inline var STOP_DECAY:Float = 0.97; // 停止標識の速度の低下
     public static inline var MISS_DECAY:Float = 0.9; // 異なるブロック衝突による速度の低下
     public static inline var MISS_TOP:Float = 5; // ミスにより減少するトップスピードの値
 
@@ -20,7 +19,8 @@ class SpeedController {
     private var _top:Float = 120;   // 現在の最大速度
 
     private var _accel_ratio:Float = 0.1;
-    private var _deceleration_ratio:Float = 0.2;
+    private var _deceleration_ratio:Float = 0.05;
+    private var _brake_ratio:Float = 0.05;
     /**
      * コンストラクタ
      **/
@@ -29,6 +29,7 @@ class SpeedController {
         _top = csvPlayer.searchItemFloat("key", "speedtop_start", "value");
         _accel_ratio = csvPlayer.searchItemFloat("key", "speedtop_accel", "value");
         _deceleration_ratio = csvPlayer.searchItemFloat("key", "speedtop_decceleration", "value");
+        _brake_ratio = csvPlayer.searchItemFloat("key", "brake_ratio", "value");
 
         FlxG.watch.add(this, "_now");
     }
@@ -111,7 +112,8 @@ class SpeedController {
      * プレーキをかける
      **/
     public function brake():Void {
-        _now *= STOP_DECAY;
+        var v = _now * _brake_ratio;
+        _now -= v;
         if(_now < 0) {
             _now = 0;
         }
