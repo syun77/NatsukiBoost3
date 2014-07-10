@@ -1,8 +1,6 @@
 package ;
 
 import csv.CsvPlayer;
-import flixel.FlxG;
-import jp_2dgames.CsvLoader;
 import flixel.util.FlxAngle;
 
 /**
@@ -22,6 +20,11 @@ class SpeedController {
     private var _accel_ratio:Float = 0.1;
     private var _deceleration_ratio:Float = 0.05;
     private var _brake_ratio:Float = 0.05;
+
+    // タイマー
+    private var _tBrake:Int = 0;    // ブレーキする時間
+    private var _tWait:Int = 0;     // 速度が上がらない時間
+
     /**
      * コンストラクタ
      **/
@@ -37,6 +40,55 @@ class SpeedController {
     public function getNow():Float { return _now; }
     public function getTop():Float { return _top; }
     public function getMax():Float { return _max; }
+
+    /**
+     * 更新
+     **/
+    public function update():Void {
+        if(_tWait > 0 || _tBrake > 0) {
+            // 速度ペナルティ中なので上昇しない
+        }
+        else {
+            // デフォルトの速度上昇
+            var d = _top - _now;
+            d *= _accel_ratio;
+            add(d);
+        }
+
+        if(_tWait > 0) {
+            _tWait--;
+        }
+        if(_tBrake > 0) {
+            // ブレーキをかけているので速度は上がらない
+            _tBrake--;
+            brake();
+        }
+    }
+
+    /**
+     * ブレーキタイマーを設定
+     * @param t ブレーキをかけるフレーム数
+     **/
+    public function setBrakeTimer(t:Int):Void {
+        if(_tBrake <= 0) {
+            _tBrake = t;
+        }
+    }
+
+    /**
+     * ブレーキをかけているかどうか
+     **/
+    public function isBrake():Bool {
+        return _tBrake > 0;
+    }
+
+    /**
+     * 速度上昇停止タイマーを設定
+     * @param t 停止するフレーム数
+     **/
+    public function setWaitTimer(t:Int):Void {
+        _tWait = t;
+    }
 
     /**
      * フォローオブジェクトの描画オフセット座標(X)を取得する
@@ -87,16 +139,6 @@ class SpeedController {
         if(_top > MAX) {
             _top = MAX;
         }
-    }
-
-    /**
-     * 更新
-     **/
-    public function update():Void {
-        // デフォルトの速度上昇
-        var d = _top - _now;
-        d *= _accel_ratio;
-        add(d);
     }
 
     /**

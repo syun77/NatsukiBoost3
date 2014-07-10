@@ -57,7 +57,7 @@ class PlayState extends FlxState {
     private static inline var TIMER_CHANGE_WAIT = 100; // リング獲得時の停止タイマー
     private static inline var TIMER_CHANGE_WAIT_DEC = 3; // リング獲得時の停止タイマーの減少量
     private static inline var TIMER_CHANGE_WAIT_MIN = 4; // リング獲得時の停止タイマーの最低値
-    private static inline var TIMER_DAMAGE = 30;
+//    private static inline var TIMER_DAMAGE = 30;
     private static inline var TIMER_STOP:Int = 30; // 停止タイマー
 
     // ゲームオブジェクト
@@ -100,10 +100,10 @@ class PlayState extends FlxState {
     // 変数
     private var _state:State; // 状態
     private var _timer:Int;   // 汎用タイマー
-    private var _tDamage:Int   = 0; // ダメージによるペナルティ時間
+//    private var _tDamage:Int   = 0; // ダメージによるペナルティ時間
     private var _combo:Int     = 0; // コンボ数
     private var _tChangeWait:Int = TIMER_CHANGE_WAIT; // リング獲得時の停止タイマー
-    private var _tStop:Int     = 0; // 停止タイマー
+//    private var _tStop:Int     = 0; // 停止タイマー
     private var _cntSameBlock  = 0; // 同属性のブロックを破壊した数
 
     // リザルト用変数
@@ -377,14 +377,17 @@ class PlayState extends FlxState {
      * 各種スクロール処理
      **/
     private function _updateScroll():Void {
-        if(_tDamage > 0 || _player.isOnBrake()) {
-            // ダメージペナルティ
-            _tDamage--;
-        }
-        else {
-            // デフォルトのスクロール速度上昇
-            _speedCtrl.update();
-        }
+//        if(_tDamage > 0 || _player.isOnBrake()) {
+//            // ダメージペナルティ
+//            _tDamage--;
+//        }
+//        else {
+//            // デフォルトのスクロール速度上昇
+//            _speedCtrl.update();
+//        }
+
+        // スピード更新
+        _speedCtrl.update();
 
         // プレイヤーをスクロールする
         _player.velocity.x = _speedCtrl.getNow();
@@ -416,10 +419,14 @@ class PlayState extends FlxState {
      **/
     private function _updateMain():Void {
 
-        if(_tStop > 0 || _player.isOnBrake()) {
+        if(_player.isOnBrake()) {
+            _speedCtrl.setBrakeTimer(1);
+        }
+
+        if(_speedCtrl.isBrake()) {
             // 停止タイマー有効
-            _speedCtrl.brake();
-            _tStop--;
+//            _speedCtrl.brake();
+//            _tStop--;
 
             // 足もとからブレーキエフェクト生成
             var px = _player.x+_player.width/2;
@@ -592,7 +599,8 @@ class PlayState extends FlxState {
         else {
             // ペナルティ
             _speedCtrl.hitBlock();
-            _tDamage = TIMER_DAMAGE;
+//            _tDamage = TIMER_DAMAGE;
+            _speedCtrl.setWaitTimer(30);
 
             // ダメージ処理
             _player.damage();
@@ -626,7 +634,8 @@ class PlayState extends FlxState {
      * プレイヤ vs 停止標識
      **/
     private function _vsPlayerStop(p:Player, s:StopSign):Void {
-        _tStop = TIMER_STOP;
+        _speedCtrl.setBrakeTimer(TIMER_STOP);
+//        _tStop = TIMER_STOP;
         s.kill();
         FlxG.sound.play("brake");
     }
