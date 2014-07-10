@@ -1,13 +1,13 @@
 package ;
 
+import flixel.FlxG;
+import jp_2dgames.CsvLoader;
 import flixel.util.FlxAngle;
 
 /**
  * スピード制御
  **/
 class SpeedController {
-    public static inline var START:Float = 0; // 開始時の速さ
-    public static inline var TOP:Float = 120; // 初期トップスピード
     public static inline var MAX:Float = 384; // 最大速度
     public static inline var ADD:Float = 1; // ブロック衝突による速度の上昇
     public static inline var FRICTION_MIN:Float = 200; // 摩擦による最低速度
@@ -15,9 +15,23 @@ class SpeedController {
     public static inline var MISS_DECAY:Float = 0.9; // 異なるブロック衝突による速度の低下
     public static inline var MISS_TOP:Float = 5; // ミスにより減少するトップスピードの値
 
-    private var _now:Float = START; // 現在の速度
+    private var _now:Float = 0;     // 現在の速度
     private var _max:Float = 0;     // 最大速度
-    private var _top:Float = TOP;   // 現在の最大速度
+    private var _top:Float = 120;   // 現在の最大速度
+
+    private var _accel_ratio:Float = 0.1;
+    private var _deceleration_ratio:Float = 0.2;
+    /**
+     * コンストラクタ
+     **/
+    public function new(csvPlayer:CsvLoader) {
+        _now = csvPlayer.searchItemFloat("key", "speed_start", "value");
+        _top = csvPlayer.searchItemFloat("key", "speedtop_start", "value");
+        _accel_ratio = csvPlayer.searchItemFloat("key", "speedtop_accel", "value");
+        _deceleration_ratio = csvPlayer.searchItemFloat("key", "speedtop_decceleration", "value");
+
+        FlxG.watch.add(this, "_now");
+    }
 
     public function getNow():Float { return _now; }
     public function getTop():Float { return _top; }
@@ -51,8 +65,8 @@ class SpeedController {
             // 最大スピード更新
             _max = _now;
         }
-        if(_now < START) {
-            _now = START;
+        if(_now < 0) {
+            _now = 0;
         }
     }
 
@@ -80,7 +94,7 @@ class SpeedController {
     public function update():Void {
         // デフォルトの速度上昇
         var d = _top - _now;
-        d *= 0.1;
+        d *= _accel_ratio;
         add(d);
     }
 
@@ -98,8 +112,8 @@ class SpeedController {
      **/
     public function brake():Void {
         _now *= STOP_DECAY;
-        if(_now < START) {
-            _now = START;
+        if(_now < 0) {
+            _now = 0;
         }
     }
 
@@ -107,9 +121,10 @@ class SpeedController {
      * ブロック衝突減速
      **/
     public function hitBlock():Void {
-        _now *= MISS_DECAY;
-        if(_now < START) {
-            _now = START;
+        var v = _now * _deceleration_ratio;
+        _now -= v;
+        if(_now < 0) {
+            _now = 0;
         }
 
         _top -= MISS_TOP;

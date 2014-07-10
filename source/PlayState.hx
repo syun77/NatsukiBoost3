@@ -118,6 +118,7 @@ class PlayState extends FlxState {
 
     // 各種パラメータ
     private var _csvTopSpeed:CsvLoader;
+    private var _csvPlayer:CsvLoader;
 
     /**
 	 * 生成
@@ -196,15 +197,15 @@ class PlayState extends FlxState {
         this.add(_txtMessage);
 
         // 各種パラメータ
-        _csvTopSpeed = new CsvLoader();
-        _csvTopSpeed.load("assets/params/topspeed.csv");
+        _csvTopSpeed = new CsvLoader("assets/params/topspeed.csv");
+        _csvPlayer = new CsvLoader("assets/params/player.csv");
 
         // 変数初期化
         _state = State.Start;
         _timer = 0;
 
         // スピード管理
-        _speedCtrl = new SpeedController();
+        _speedCtrl = new SpeedController(_csvPlayer);
 
         var width = _tmx.width * _tmx.tileWidth;
         var height = _tmx.height * _tmx.tileHeight;

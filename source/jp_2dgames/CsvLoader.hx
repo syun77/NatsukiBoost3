@@ -13,7 +13,10 @@ class CsvLoader {
     private var _types: Array<String>;
     private var _datas: Map<Int, Map<String, String>>;
 
-    public function new() {
+    public function new(filepath:String = null) {
+        if(filepath != null) {
+            load(filepath);
+        }
     }
 
     /**
@@ -114,6 +117,27 @@ class CsvLoader {
         }
 
         return -1;
+    }
+
+    /**
+     * 特定のキーに対応する値を持つ値を取得する
+     * @return 見つからなかったらエラー
+     **/
+    public function searchItem(key:String, name:String, item:String):String {
+        for(k in _datas.keys()) {
+            var data = _datas[k];
+            if(data[key] == name) {
+                return data[item];
+            }
+        }
+
+        throw 'Error: Not found key="${key}" name="${name}" item="${item}"';
+    }
+    public function searchItemInt(key:String, name:String, item:String):Int {
+        return Std.parseInt(searchItem(key, name, item));
+    }
+    public function searchItemFloat(key:String, name:String, item:String):Float {
+        return Std.parseFloat(searchItem(key, name, item));
     }
 
     /**
