@@ -1,5 +1,6 @@
 package;
 
+import util.Snd;
 import flixel.addons.effects.FlxTrail;
 import flixel.FlxSprite;
 import flixel.util.FlxStringUtil;
@@ -108,7 +109,7 @@ class MenuState extends FlxState {
         }
 
         // タイトル画面BGM再生
-        Reg.playMusic("title");
+        Snd.playMusic("title");
     }
 
     /**
@@ -134,7 +135,7 @@ class MenuState extends FlxState {
                         // ステージ1のみの場合は、ステージ選択なしで開始
                         _state = State.Decide;
                         _timer = 0;
-                        FlxG.sound.play("push");
+                        Snd.playSe("push");
                         if(FlxG.sound.music != null) {
                             FlxG.sound.music.stop();
                         }
@@ -170,7 +171,7 @@ class MenuState extends FlxState {
                 if(_bDecide) {
                     _state = State.Decide;
                     _timer = 0;
-                    FlxG.sound.play("push");
+                    Snd.playSe("push");
                     if(FlxG.sound.music != null) {
                         FlxG.sound.music.stop();
                     }

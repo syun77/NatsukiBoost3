@@ -16,10 +16,6 @@ class Reg {
     // レベルの最大
     public static var LEVEL_MAX = 4;
 
-    // BGM無効フラグ
-    private static var _bBgmDisable = true;
-//    private static var _bBgmDisable = false;
-
     // レベル
 	public static var level:Int = 1;
     // スコア
@@ -201,33 +197,4 @@ class Reg {
         return TextUtil.fillZero(level, 3);
     }
 
-    /**
-     * キャッシュする
-     **/
-    public static function cacheMusic():Void {
-        FlxG.sound.volume = 1;
-
-        FlxG.sound.cache("title");
-        FlxG.sound.cache("001");
-        FlxG.sound.cache("002");
-        FlxG.sound.cache("003");
-        FlxG.sound.cache("gameover");
-    }
-
-    public static function playMusic(name:String, bLoop:Bool=true):Void {
-
-        if(_bBgmDisable) {
-            // BGM無効
-            return;
-        }
-
-        var sound = FlxG.sound.cache(name);
-        if(sound != null) {
-            // キャッシュがあればキャッシュから再生
-            FlxG.sound.playMusic(sound, 1, bLoop);
-        }
-        else {
-            FlxG.sound.playMusic(name, 1, bLoop);
-        }
-    }
 }

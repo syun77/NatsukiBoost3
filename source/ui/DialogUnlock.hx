@@ -1,4 +1,5 @@
 package ui;
+import util.Snd;
 import flixel.util.FlxColor;
 import flixel.FlxG;
 import flixel.FlxObject;
@@ -60,7 +61,7 @@ class DialogUnlock extends FlxGroup {
             this.add(o);
         }
 
-        FlxG.sound.play("push");
+        Snd.playSe("push");
     }
 
     /**

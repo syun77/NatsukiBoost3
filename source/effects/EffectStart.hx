@@ -1,4 +1,5 @@
 package effects;
+import util.Snd;
 import jp_2dgames.TextUtil;
 import flixel.FlxG;
 import flixel.tweens.FlxEase;
@@ -20,7 +21,7 @@ class EffectStart extends FlxSprite {
         scale.set(2, 2);
         FlxTween.tween(scale, {x:1, y:1}, TIMER_START, { ease: FlxEase.expoOut, complete:_cbStart});
 
-        FlxG.sound.play("3");
+        Snd.playSe("3");
     }
 
     /**
@@ -29,29 +30,25 @@ class EffectStart extends FlxSprite {
     private function _cbStart(tween:FlxTween):Void {
         switch(_tStart) {
             case 0:
-                FlxG.sound.play("2");
+                Snd.playSe("2");
                 scale.set(2, 2);
                 loadGraphic("assets/images/start/2.png");
                 FlxTween.tween(scale, {x:1, y:1}, TIMER_START, { ease: FlxEase.expoOut, complete:_cbStart});
                 _tStart++;
             case 1:
-                FlxG.sound.play("1");
+                Snd.playSe("1");
                 scale.set(2, 2);
                 loadGraphic("assets/images/start/1.png");
                 FlxTween.tween(scale, {x:1, y:1}, TIMER_START, { ease: FlxEase.expoOut, complete:_cbStart});
                 _tStart++;
             case 2:
-                FlxG.sound.play("go");
-                Reg.playMusic(TextUtil.fillZero(Reg.level, 3));
+                Snd.playSe("go");
+                Snd.playMusic(TextUtil.fillZero(Reg.level, 3));
                 scale.set(2, 2);
                 loadGraphic("assets/images/start/go.png");
                 x -= 16;
                 FlxTween.tween(scale, {x:1, y:1}, TIMER_START, { ease: FlxEase.expoOut, complete:_cbStart});
                 _tStart++;
-                // ゲーム開始
-//                _state = State.Main;
-                // 時間計測開始
-//                _hud.setIncTime(true);
             case 3:
                 FlxTween.tween(scale, {x:0.25, y:4}, 0.1, { ease: FlxEase.expoInOut, complete:_cbStart});
                 _tStart++;

@@ -1,4 +1,5 @@
 package ;
+import util.Snd;
 import flixel.addons.effects.FlxGlitchSprite;
 import flixel.util.FlxSpriteUtil;
 import flixel.FlxG;
@@ -49,7 +50,7 @@ class LogoState extends FlxState {
 
     private function _cbEnd(tween:FlxTween):Void {
         // ロゴ表示待ちの代わりにキャッシュする
-        Reg.cacheMusic();
+        Snd.cache();
         FlxG.switchState(new MenuState());
     }
  }
