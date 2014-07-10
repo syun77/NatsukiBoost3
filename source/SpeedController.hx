@@ -1,5 +1,6 @@
 package ;
 
+import csv.CsvPlayer;
 import flixel.FlxG;
 import jp_2dgames.CsvLoader;
 import flixel.util.FlxAngle;
@@ -24,14 +25,13 @@ class SpeedController {
     /**
      * コンストラクタ
      **/
-    public function new(csvPlayer:CsvLoader) {
-        _now = csvPlayer.searchItemFloat("key", "speed_start", "value");
-        _top = csvPlayer.searchItemFloat("key", "speedtop_start", "value");
-        _accel_ratio = csvPlayer.searchItemFloat("key", "speedtop_accel", "value");
-        _deceleration_ratio = csvPlayer.searchItemFloat("key", "speedtop_decceleration", "value");
-        _brake_ratio = csvPlayer.searchItemFloat("key", "brake_ratio", "value");
+    public function new(csvPlayer:CsvPlayer) {
+        _now = csvPlayer.speed_start;
+        _top = csvPlayer.speed_top;
+        _accel_ratio = csvPlayer.accel_ratio;
+        _deceleration_ratio = csvPlayer.deceleration_ratio;
+        _brake_ratio = csvPlayer.brake_ratio;
 
-        FlxG.watch.add(this, "_now");
     }
 
     public function getNow():Float { return _now; }

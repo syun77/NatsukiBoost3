@@ -1,5 +1,7 @@
 package;
 
+import csv.CsvTopSpeed;
+import csv.CsvPlayer;
 import jp_2dgames.CsvLoader;
 import effects.Back;
 import effects.EffectPlayer;
@@ -117,8 +119,8 @@ class PlayState extends FlxState {
     private var _seBlockPrev:Float = 0;
 
     // 各種パラメータ
-    private var _csvTopSpeed:CsvLoader;
-    private var _csvPlayer:CsvLoader;
+    private var _csvTopSpeed:CsvTopSpeed;
+    private var _csvPlayer:CsvPlayer;
 
     /**
 	 * 生成
@@ -197,8 +199,8 @@ class PlayState extends FlxState {
         this.add(_txtMessage);
 
         // 各種パラメータ
-        _csvTopSpeed = new CsvLoader("assets/params/topspeed.csv");
-        _csvPlayer = new CsvLoader("assets/params/player.csv");
+        _csvTopSpeed = new CsvTopSpeed();
+        _csvPlayer = new CsvPlayer();
 
         // 変数初期化
         _state = State.Start;
@@ -588,21 +590,11 @@ class PlayState extends FlxState {
             _cntSameBlock++;
 
             // トップスピード上昇判定
-            var count:Int = 9999999;
-            var value:Int = 2;
-            var search = function(data:Map<String,String>) {
-                if(_speedCtrl.getTop() < Std.parseFloat(data["speed"])) {
-                    count = Std.parseInt(data["count"]);
-                    value = Std.parseInt(data["value"]);
-                    return true;
-                }
-                return false;
-            }
-            _csvTopSpeed.foreachSearchID(search);
-//            trace("" + _cntSameBlock + "/" + count + " -> " + value);
-            if(_cntSameBlock >= count) {
+            _csvTopSpeed.update(_speedCtrl.getTop());
+//            trace("" + _cntSameBlock + "/" + _csvTopSpeed.getCount() + " -> " + _csvTopSpeed.getValue());
+            if(_cntSameBlock >= _csvTopSpeed.getCount()) {
                 // トップスピードアップ
-                _speedCtrl.addTop(value);
+                _speedCtrl.addTop(_csvTopSpeed.getValue());
                 _cntSameBlock = 0;
             }
             // コンボ数アップ
