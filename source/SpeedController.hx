@@ -100,15 +100,6 @@ class SpeedController {
     }
 
     /**
-     * 摩擦による速度減少
-     **/
-    public function friction():Void {
-        if(_now > FRICTION_MIN) {
-            _now -= 0.2;
-        }
-    }
-
-    /**
      * プレーキをかける
      **/
     public function brake():Void {
