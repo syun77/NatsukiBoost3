@@ -1,5 +1,7 @@
 package;
 
+import token.FieldMap;
+import haxe.macro.Expr.Field;
 import util.Snd;
 import csv.CsvTopSpeed;
 import csv.CsvPlayer;
@@ -91,7 +93,8 @@ class PlayState extends FlxState {
     private var _unlock:DialogUnlock;
 
     // マップ
-    private var _tmx:TmxLoader;
+//    private var _tmx:TmxLoader;
+    private var _field:FieldMap;
 
     // 背景
     private var _back:Back;
@@ -124,9 +127,10 @@ class PlayState extends FlxState {
         this.add(_back);
 
         // マップ読み込み
-        _tmx = new TmxLoader();
-        var fTmx = "assets/levels/" + Reg.getLevelString() + ".tmx";
-        _tmx.load(fTmx);
+//        _tmx = new TmxLoader();
+//        var fTmx = "assets/levels/" + Reg.getLevelString() + ".tmx";
+//        _tmx.load(fTmx);
+        _field = new FieldMap();
 
         // ゲームオブジェクト生成
         _player = new Player(32, FlxG.height/2);
@@ -200,8 +204,10 @@ class PlayState extends FlxState {
         // スピード管理
         _speedCtrl = new SpeedController(_csvPlayer);
 
-        var width = _tmx.width * _tmx.tileWidth;
-        var height = _tmx.height * _tmx.tileHeight;
+//        var width = _tmx.width * _tmx.tileWidth;
+//        var height = _tmx.height * _tmx.tileHeight;
+        var width = _field.getRealWidth();
+        var height = _field.getRealHeight();
         FlxG.camera.follow(_follow, FlxCamera.STYLE_NO_DEAD_ZONE);
         FlxG.camera.bounds = new FlxRect(0, 0, width, height);
         FlxG.worldBounds.set(0, 0, width, height);
@@ -308,31 +314,42 @@ class PlayState extends FlxState {
 
         // ブロックの生成
         var createBlock = function(i, j, type:Attribute) {
-            var x = i * _tmx.tileWidth;
-            var y = j * _tmx.tileHeight;
+//            var x = i * _tmx.tileWidth;
+//            var y = j * _tmx.tileHeight;
+            var x = _field.toRealX(i);
+            var y = _field.toRealY(j);
             var b:Block = _blocks.recycle();
             b.init(type, x, y);
         }
         // リングの生成
         var createRing = function(i, j, type:Attribute) {
-            var x = i * _tmx.tileWidth - (32/2) - (_tmx.tileWidth/2);
-            var y = j * _tmx.tileHeight - (32/2) - (_tmx.tileHeight/2);
+//            var x = i * _tmx.tileWidth - (32/2) - (_tmx.tileWidth/2);
+//            var y = j * _tmx.tileHeight - (32/2) - (_tmx.tileHeight/2);
+            var x = _field.toRealX(i, 32);
+            var y = _field.toRealY(i, 32);
             var r:Ring = _rings.recycle();
             r.init(type, x, y);
         }
         // 一時停止標識の生成
         var createStopSign = function(i, j) {
-            var x = i * _tmx.tileWidth;
-            var y = j * _tmx.tileHeight;
+//            var x = i * _tmx.tileWidth;
+//            var y = j * _tmx.tileHeight;
+            var x = _field.toRealX(i);
+            var y = _field.toRealY(j);
             var s:StopSign = _stopSigns.recycle();
             s.init(x, y);
         }
 
-        var layer:Layer2D = _tmx.getLayer(0);
-        var px = Math.floor(FlxG.camera.scroll.x / _tmx.tileWidth);
-        var w = Math.floor(FlxG.width / _tmx.tileWidth);
+//        var layer:Layer2D = _tmx.getLayer(0);
+//        var px = Math.floor(FlxG.camera.scroll.x / _tmx.tileWidth);
+//        var w = Math.floor(FlxG.width / _tmx.tileWidth);
+
+        var layer:Layer2D = _field.getLayer(0);
+        var px = Math.floor(FlxG.camera.scroll.x / _field.tileWidth);
+        var w = Math.floor(FlxG.width / _field.tileWidth);
         w += 8; // 検索範囲を広めに取る
-        for(j in 0..._tmx.height) {
+//        for(j in 0..._tmx.height) {
+          for(j in 0..._field.height) {
             for(i in px...(px+w)) {
                 switch(layer.get(i, j)) {
                     case 1: // 青ブロック
@@ -423,7 +440,8 @@ class PlayState extends FlxState {
         _updateScroll();
 
         // クリア判定
-        if(FlxG.camera.scroll.x >= _tmx.width * _tmx.tileWidth - FlxG.width) {
+//        if(FlxG.camera.scroll.x >= _tmx.width * _tmx.tileWidth - FlxG.width) {
+        if(FlxG.camera.scroll.x >= _field.getRealWidth() - FlxG.width) {
             // クリア
             _state = State.StageClearInit;
             _timer = TIMER_STAGE_CLEAR_INIT;
@@ -486,7 +504,8 @@ class PlayState extends FlxState {
         }
     }
     private function _updateStageClearMain():Void {
-        if(_player.x > _tmx.width * _tmx.tileWidth) {
+//        if(_player.x > _tmx.width * _tmx.tileWidth) {
+        if(_player.x > _field.getRealWidth()) {
             _player.active = false;
         }
         if(FlxG.mouse.justPressed && _result.isEnd()) {
@@ -506,7 +525,8 @@ class PlayState extends FlxState {
      * アンロックウィンドウのクローズ待ち
      **/
     private function _updateUnlockWait():Void {
-        if(_player.x > _tmx.width * _tmx.tileWidth) {
+//        if(_player.x > _tmx.width * _tmx.tileWidth) {
+        if(_player.x > _field.getRealWidth()) {
             _player.active = false;
         }
         if(_unlock.isClose()) {
