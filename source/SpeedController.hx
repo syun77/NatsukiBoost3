@@ -139,6 +139,10 @@ class SpeedController {
         if(_top > MAX) {
             _top = MAX;
         }
+
+        if(_top < 0) {
+            _top = 0;
+        }
     }
 
     /**
@@ -162,10 +166,7 @@ class SpeedController {
             _now = 0;
         }
 
-        _top -= MISS_TOP;
-        if(_top < 0) {
-            _top = 0;
-        }
+        addTop(-MISS_TOP);
     }
 }
 

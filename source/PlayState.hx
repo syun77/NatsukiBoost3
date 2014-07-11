@@ -704,15 +704,15 @@ class PlayState extends FlxState {
 
         if(FlxG.keys.pressed.RIGHT) {
             // 右キーでスピードアップ
-            _speedCtrl.add(10);
+            _speedCtrl.addTop(10);
         }
         if(FlxG.keys.pressed.LEFT) {
             // 左キーでスピードダウン
-            _speedCtrl.add(-10);
+            _speedCtrl.addTop(-10);
         }
         if(FlxG.keys.justPressed.D) {
             // 自爆
-            _player.damage(99999);
+            _speedCtrl.addTop(-99999999);
         }
 //    #end
     }
