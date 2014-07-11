@@ -1,4 +1,7 @@
 package token;
+import Math;
+import flash.events.AccelerometerEvent;
+import flash.sensors.Accelerometer;
 import flixel.util.FlxColor;
 import flixel.addons.effects.FlxTrail;
 import flixel.FlxG;
@@ -32,6 +35,10 @@ class Player extends FlxSprite {
     private var _touchId:Int; // 現在のタッチID
     private var _touchStartX:Float; // タッチ開始X座標
     private var _touchStartY:Float; // タッチ開始Y座標
+
+    // 加速度センサー
+    private var _accelerometer:Accelerometer;
+    private var _accelerometerY:Float = 0;
 
     /**
      * 生成
@@ -68,6 +75,29 @@ class Player extends FlxSprite {
         _tDamage = 0;
         _cntHit = 0;
         _tAnime = 0;
+
+        if(Accelerometer.isSupported) {
+            // 加速度センサー有効
+            _accelerometer = new Accelerometer();
+            _accelerometer.setRequestedUpdateInterval(50);
+            _accelerometer.addEventListener(AccelerometerEvent.UPDATE, onUpdateAccelerometer);
+//            FlxG.watch.add(this, "_accelerometerY");
+//            FlxG.debugger.visible = true;
+        }
+    }
+
+    public function onUpdateAccelerometer(e:AccelerometerEvent):Void {
+        var d = (e.accelerationX * 100 - 58); // 中央
+        var sign = 1;
+        if(d < 0) { sign = -1; } // 符号
+        if(d < -15) { d = -15; } // 速度制限
+        if(d > 15) { d = 15; }
+        _accelerometerY += sign * Math.abs(d) * 5;
+        _accelerometerY *= 0.75; // 減衰
+
+        // さらに速度制限
+        if(_accelerometerY > 300) { _accelerometerY = 300; }
+        if(_accelerometerY < -300) { _accelerometerY = -300; }
     }
 
     // スピードの設定
@@ -99,8 +129,8 @@ class Player extends FlxSprite {
         _eftAttribute.y = y - 16;
 
         // 画面外に出ないようする
-        if(y < 0) { y = 0; }
-        if(y > FlxG.height-16) { y = FlxG.height-16; }
+        if(y < 0) { y = 0; _accelerometerY *= 0.8; }
+        if(y > FlxG.height-16) { y = FlxG.height-16; _accelerometerY *= 0.8; }
 
 #if FLX_NO_TOUCH
         // マウスの座標に向かって移動する
@@ -122,60 +152,8 @@ class Player extends FlxSprite {
         var dx:Float = 0;
         var dy:Float = 0;
 
-        // マルチタッチは無効
-        /*
-        for(touch in FlxG.touches.list) {
-            if(touch.justPressed) {
-                // タッチIDを格納
-                _touchId = touch.touchPointID;
-                _touchStartX = touch.screenX;
-                _touchStartY = touch.screenY;
-            }
-
-            if(touch.touchPointID != _touchId) {
-                // 最後のタッチのみ判定
-                continue;
-            }
-            var tx = touch.screenX;
-            var ty = touch.screenY;
-
-            var dx2 = tx - _touchStartX;
-            var dy2 = ty - _touchStartY;
-            dx2 *= FlxG.updateFramerate * 0.2;
-            dy2 *= FlxG.updateFramerate * 0.2;
-            dx = velocity.x + dx2;
-            dy = velocity.y + dy2;
-            dx *= 0.9;
-            dy *= 0.9;
-
-            _touchStartX = tx;
-            _touchStartY = ty;
-        }
-        */
-        // 無効化ここまで
-
-        // シングルタッチのみ
-        if(FlxG.mouse.justPressed) {
-            // タッチ開始座標を保存する
-            var p = FlxG.mouse.getWorldPosition();
-            _touchStartX = p.x;
-            _touchStartY = p.y;
-        }
-        else if(FlxG.mouse.pressed) {
-            var p = FlxG.mouse.getWorldPosition();
-            var dx2 = p.x - _touchStartX;
-            var dy2 = p.y - _touchStartY;
-            dx2 *= FlxG.updateFramerate * 0.2;
-            dy2 *= FlxG.updateFramerate * 0.2;
-            dx = velocity.x + dx2;
-            dy = velocity.y + dy2;
-            dx *= 0.9;
-            dy *= 0.9;
-
-            _touchStartX = p.x;
-            _touchStartY = p.y;
-        }
-        // シングルタッチ処理はここまで
+        // 加速度センサーを使う
+        var dy = _accelerometerY;
 #end
 //        velocity.set(dx, dy);
         velocity.y = dy;
