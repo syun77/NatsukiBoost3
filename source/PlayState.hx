@@ -433,7 +433,7 @@ class PlayState extends FlxState {
             _hud.setIncTime(false);
             return;
         }
-        if(_speedCtrl.getTop() <= 0) {
+        if(_speedCtrl.getTop() <= _csvPlayer.speedtop_deadline) {
             // プレイヤー死亡
             _player.vanish();
             _follow.kill();
@@ -566,8 +566,6 @@ class PlayState extends FlxState {
 
         if(p.getAttribute() == b.getAttribute()) {
             // スピードアップ
-            _speedCtrl.speedUp();
-
             _cntSameBlock++;
 
             // トップスピード上昇判定
@@ -584,12 +582,13 @@ class PlayState extends FlxState {
             Snd.playSe("eat", true, _csvPlayer.eat_se_timer);
         }
         else {
-            // ペナルティ
-            _speedCtrl.hitBlock();
-            _speedCtrl.setWaitTimer(_csvPlayer.damage_timer);
-
             // ダメージ処理
             _player.damage();
+
+            // ペナルティ
+            _speedCtrl.hitBlock(_player.getHitCount());
+            _speedCtrl.setWaitTimer(_csvPlayer.damage_timer);
+
             // コンボ終了
             _resetCombo();
 

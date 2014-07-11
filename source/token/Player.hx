@@ -205,6 +205,10 @@ class Player extends FlxSprite {
         _trailRed.kill();
     }
 
+    public function getHitCount():Int {
+        return _cntHit;
+    }
+
     /**
      * ダメージ処理
      * @param v ダメージ量

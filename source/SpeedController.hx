@@ -1,5 +1,6 @@
 package ;
 
+import flixel.FlxG;
 import csv.CsvPlayer;
 import flixel.util.FlxAngle;
 
@@ -9,8 +10,6 @@ import flixel.util.FlxAngle;
 class SpeedController {
     public static inline var MAX:Float = 384; // 最大速度
     public static inline var ADD:Float = 1; // ブロック衝突による速度の上昇
-    public static inline var FRICTION_MIN:Float = 200; // 摩擦による最低速度
-    public static inline var MISS_DECAY:Float = 0.9; // 異なるブロック衝突による速度の低下
     public static inline var MISS_TOP:Float = 5; // ミスにより減少するトップスピードの値
 
     private var _now:Float = 0;     // 現在の速度
@@ -20,6 +19,11 @@ class SpeedController {
     private var _accel_ratio:Float = 0.1;
     private var _deceleration_ratio:Float = 0.05;
     private var _brake_ratio:Float = 0.05;
+
+    private var _damagetop_base:Float = 10;
+    private var _damagetop_inc:Float = 5;
+
+    private var _speedtop_deadline:Float = 0;
 
     // タイマー
     private var _tBrake:Int = 0;    // ブレーキする時間
@@ -35,6 +39,10 @@ class SpeedController {
         _deceleration_ratio = csvPlayer.deceleration_ratio;
         _brake_ratio = csvPlayer.brake_ratio;
 
+        _damagetop_base = csvPlayer.damagetop_base;
+        _damagetop_inc = csvPlayer.damagetop_inc;
+
+        _speedtop_deadline = csvPlayer.speedtop_deadline;
     }
 
     public function getNow():Float { return _now; }
@@ -124,13 +132,6 @@ class SpeedController {
     }
 
     /**
-     * 同属性ブロック習得によるスピードアップ
-     **/
-    public function speedUp():Void {
-        add(ADD);
-    }
-
-    /**
      * トップスピード上昇
      **/
     public function addTop(v:Float):Void {
@@ -158,15 +159,24 @@ class SpeedController {
 
     /**
      * ブロック衝突減速
+     * @param 連続で衝突した回数
      **/
-    public function hitBlock():Void {
+    public function hitBlock(cnt:Int):Void {
         var v = _now * _deceleration_ratio;
         _now -= v;
         if(_now < 0) {
             _now = 0;
         }
 
-        addTop(-MISS_TOP);
+        var damage = _damagetop_base + _damagetop_inc * cnt;
+        addTop(-damage);
+
+        if(cnt > 1) {
+            if(_top <= _speedtop_deadline) {
+                // 初回ダメージ以外は死なない
+                _top = _speedtop_deadline+1;
+            }
+        }
     }
 }
 
