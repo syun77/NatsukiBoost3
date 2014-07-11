@@ -397,8 +397,7 @@ class PlayState extends FlxState {
 
         _setFolloPosition();
 
-        // 背景をスクロールする
-        _back.scroll();
+        // 背景の更新
         _back.setDanger(_player.isDanger());
 
     }
