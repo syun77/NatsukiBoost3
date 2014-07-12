@@ -1,5 +1,8 @@
 package ui;
 
+import flixel.tweens.FlxEase;
+import flixel.tweens.FlxTween;
+import flixel.FlxG;
 import token.Player;
 import flixel.util.FlxColor;
 import flixel.FlxObject;
@@ -21,10 +24,19 @@ class SpeedBar extends FlxGroup {
     private var _width:Int; // 幅
     private var _height:Int; // 高さ
 
+    private var _y1:Float;
+    private var _y2:Float;
+    private var _bBottom:Bool;
+
     private var _objs:Array<FlxObject>;
 
     public function new(px:Float, py:Float, w:Int, h:Int) {
         super();
+
+        _y1 = 4;
+        _y2 = FlxG.height - 16;
+        _bBottom = true;
+
         _x = px;
         _y = py;
         _width = w;
@@ -77,8 +89,53 @@ class SpeedBar extends FlxGroup {
         var top = ctrl.getTop();
         var rTop = top / SpeedController.MAX;
         _top.x = _x - 1 + _width * rTop;
+
+        if(player.y < FlxG.height/3) {
+            // 上にいるので下に移動
+            _move(true);
+        }
+        if(player.y > FlxG.height*2/3) {
+            // 下にいるので上に移動
+            _move(false);
+        }
     }
 
+    private function _move(bBottom:Bool):Void {
+        if(_bBottom == bBottom) {
+            // 位置が同じなので何もしない
+            return;
+        }
+
+        _bBottom = bBottom;
+
+        var py1:Float = 0;
+        var py2:Float = 0;
+        if(bBottom) {
+            // 下に移動
+            py1 = _y2 + 32;
+            py2 = _y2;
+        }
+        else {
+            // 上に移動
+            py1 = _y1 - 32;
+            py2 = _y1;
+        }
+
+        var size = 1;
+        _frame.y = py1 - size;
+        _frame2.y = py1;
+        _frame3.y = py1;
+        _meter.y = py1;
+        _top.y = py1;
+
+        var time = 0.3;
+        FlxTween.tween(_frame, {y:(py2-size)}, time, {ease:FlxEase.expoOut});
+        FlxTween.tween(_frame2, {y:py2}, time, {ease:FlxEase.expoOut});
+        FlxTween.tween(_frame3, {y:py2}, time, {ease:FlxEase.expoOut});
+        FlxTween.tween(_meter, {y:py2}, time, {ease:FlxEase.expoOut});
+        FlxTween.tween(_top, {y:py2}, time, {ease:FlxEase.expoOut});
+
+    }
 
 }
 
