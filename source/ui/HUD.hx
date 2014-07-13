@@ -162,7 +162,7 @@ class HUD extends FlxGroup {
      * 更新
      **/
     public function updateAll():Void {
-        _txtSpeed.text = "Speed: " + Math.floor(_player.velocity.x);
+        _txtSpeed.text = "Speed: " + Math.ceil(_player.velocity.x);
         _txtDistance.text = "Distance: " + Math.floor(_player.x/10) + "/" + Math.floor(_goal/10);
 
         _barDistance.percent = 100*_player.x / _goal;

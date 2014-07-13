@@ -10,3 +10,4 @@ int,str,int,str
 8,damagetop_base,10,異なる属性ブロックに衝突したときのトップスピードの減少値（基本値）
 9,damagetop_inc,5,異なる属性ブロックに衝突したときのトップスピードの減少値（累積値）
 10,speedtop_deadline,50,ゲームオーバーとなる速度
+11,speedtop_max,500,トップスピードの限界速度
