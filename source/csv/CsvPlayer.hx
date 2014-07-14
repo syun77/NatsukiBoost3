@@ -17,6 +17,7 @@ class CsvPlayer {
     public var damage_timer:Int;          // ダメージ時の加速できない時間
     public var damagetop_base:Float;      // トップスピードのダメージ初期値
     public var damagetop_inc:Float;       // トップスピードのダメージ累積値
+    public var speedtop_max:Float;        // トップスピードの限界速度
 
     public var speedtop_deadline:Float;   // ゲームオーバーとなる速度
     public var eat_se_timer:Float;        // "eat"SEのウェイト時間
@@ -36,6 +37,7 @@ class CsvPlayer {
         damagetop_inc = csv.searchItemFloat("key", "damagetop_inc", "value");
 
         speedtop_deadline = csv.searchItemFloat("key", "speedtop_deadline", "value");
+        speedtop_max = csv.searchItemFloat("key", "speedtop_max", "value");
 
         eat_se_timer = csv.searchItemFloat("key", "eat_se_timer", "value");
 
