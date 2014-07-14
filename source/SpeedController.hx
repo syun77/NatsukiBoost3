@@ -20,6 +20,8 @@ class SpeedController {
     private var _deceleration_ratio:Float = 0.05;
     private var _brake_ratio:Float = 0.05;
 
+    private var _speed_over_deceleration:Float = 0.05;
+
     private var _damagetop_base:Float = 10;
     private var _damagetop_inc:Float = 5;
 
@@ -38,6 +40,8 @@ class SpeedController {
         _accel_ratio = csvPlayer.accel_ratio;
         _deceleration_ratio = csvPlayer.deceleration_ratio;
         _brake_ratio = csvPlayer.brake_ratio;
+
+        _speed_over_deceleration = csvPlayer.speed_over_deceleration;
 
         _damagetop_base = csvPlayer.damagetop_base;
         _damagetop_inc = csvPlayer.damagetop_inc;

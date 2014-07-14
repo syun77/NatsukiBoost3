@@ -14,6 +14,8 @@ class CsvPlayer {
     public var deceleration_ratio:Float;  // 減速割合
     public var brake_ratio:Float;         // ブレーキボタンによる減速割合
 
+    public var speed_over_deceleration:Float; // トップスピードを超えていた際の減速度
+
     public var damage_timer:Int;          // ダメージ時の加速できない時間
     public var damagetop_base:Float;      // トップスピードのダメージ初期値
     public var damagetop_inc:Float;       // トップスピードのダメージ累積値
@@ -28,8 +30,10 @@ class CsvPlayer {
         speed_top = csv.searchItemFloat("key", "speedtop_start", "value");
 
         accel_ratio = csv.searchItemFloat("key", "speedtop_accel", "value");
-        deceleration_ratio = csv.searchItemFloat("key", "speedtop_decceleration", "value");
+        deceleration_ratio = csv.searchItemFloat("key", "speedtop_deceleration", "value");
         brake_ratio = csv.searchItemFloat("key", "brake_ratio", "value");
+
+        speed_over_deceleration = csv.searchItemFloat("key", "speed_over_deceleration", "value");
 
         damage_timer = csv.searchItemInt("key", "damage_timer", "value");
         damagetop_base = csv.searchItemFloat("key", "damagetop_base", "value");
