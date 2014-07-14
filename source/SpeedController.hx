@@ -1,6 +1,5 @@
 package ;
 
-import flixel.FlxG;
 import csv.CsvPlayer;
 import flixel.util.FlxAngle;
 
@@ -124,8 +123,10 @@ class SpeedController {
         _now += v;
 
         if(_now > _top) {
-            // トップスピードよりは上がらない
-            _now = _top;
+            // トップスピードを超えていたら減速する
+            var d = _now - _top;
+            d *= _speed_over_deceleration;
+            _now -= d;
         }
 
         if(_now > _max) {
