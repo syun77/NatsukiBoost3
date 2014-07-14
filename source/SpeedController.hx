@@ -8,7 +8,6 @@ import flixel.util.FlxAngle;
  * スピード制御
  **/
 class SpeedController {
-    public static inline var MAX:Float = 384; // 最大速度
     public static inline var ADD:Float = 1; // ブロック衝突による速度の上昇
     public static inline var MISS_TOP:Float = 5; // ミスにより減少するトップスピードの値
 
@@ -26,6 +25,7 @@ class SpeedController {
     private var _damagetop_inc:Float = 5;
 
     private var _speedtop_deadline:Float = 0;
+    private var _speedtop_max:Float = 0; // トップスピードの限界速度
 
     // タイマー
     private var _tBrake:Int = 0;    // ブレーキする時間
@@ -47,11 +47,13 @@ class SpeedController {
         _damagetop_inc = csvPlayer.damagetop_inc;
 
         _speedtop_deadline = csvPlayer.speedtop_deadline;
+        _speedtop_max = csvPlayer.speedtop_max;
     }
 
     public function getNow():Float { return _now; }
     public function getTop():Float { return _top; }
     public function getMax():Float { return _max; }
+    public function getSpeedTopMax():Float { return _speedtop_max; }
 
     /**
      * 更新
@@ -106,11 +108,11 @@ class SpeedController {
      * フォローオブジェクトの描画オフセット座標(X)を取得する
      **/
     public function getFollowOffsetX():Float {
-        var diffSpeed = MAX - _now;
+        var diffSpeed = _speedtop_max - _now;
         var dx:Float = 0;
         if(diffSpeed > 0) {
-            diffSpeed = MAX - diffSpeed;
-            dx = 64 * Math.cos(FlxAngle.TO_RAD * 90 * diffSpeed / MAX);
+            diffSpeed = _speedtop_max - diffSpeed;
+            dx = 64 * Math.cos(FlxAngle.TO_RAD * 90 * diffSpeed / _speedtop_max);
         }
         return dx;
     }
@@ -141,8 +143,8 @@ class SpeedController {
     public function addTop(v:Float):Void {
         _top += v;
 
-        if(_top > MAX) {
-            _top = MAX;
+        if(_top > _speedtop_max) {
+            _top = _speedtop_max;
         }
 
         if(_top < 0) {
