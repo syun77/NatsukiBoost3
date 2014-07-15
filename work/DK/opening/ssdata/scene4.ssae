@@ -1,0 +1,2561 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<SpriteStudioAnimePack version="1.00.02">
+	<settings>
+		<fps>30</fps>
+		<frameCount>11</frameCount>
+		<sortMode>prio</sortMode>
+		<canvasSize>320 320</canvasSize>
+		<pivot>0 0</pivot>
+		<bgColor>FF323232</bgColor>
+		<gridSize>32</gridSize>
+		<gridColor>FF808080</gridColor>
+		<outStartNum>0</outStartNum>
+	</settings>
+	<name>scene4</name>
+	<exportPath></exportPath>
+	<Model>
+		<partList>
+			<value>
+				<name>root</name>
+				<arrayIndex>0</arrayIndex>
+				<parentIndex>-1</parentIndex>
+				<type>null</type>
+				<boundsType>none</boundsType>
+				<inheritType>parent</inheritType>
+				<ineheritRates>
+					<FLPH>0</FLPH>
+					<FLPV>0</FLPV>
+					<HIDE>0</HIDE>
+					<IFLH>0</IFLH>
+					<IFLV>0</IFLV>
+				</ineheritRates>
+				<alphaBlendType>mix</alphaBlendType>
+				<show>1</show>
+				<locked>0</locked>
+				<expandAttribute>0</expandAttribute>
+				<expandChildren>1</expandChildren>
+			</value>
+			<value>
+				<name>bg</name>
+				<arrayIndex>1</arrayIndex>
+				<parentIndex>0</parentIndex>
+				<type>normal</type>
+				<boundsType>none</boundsType>
+				<inheritType>parent</inheritType>
+				<ineheritRates>
+					<FLPH>0</FLPH>
+					<FLPV>0</FLPV>
+					<HIDE>0</HIDE>
+					<IFLH>0</IFLH>
+					<IFLV>0</IFLV>
+				</ineheritRates>
+				<alphaBlendType>mix</alphaBlendType>
+				<show>1</show>
+				<locked>0</locked>
+				<expandAttribute>0</expandAttribute>
+				<expandChildren>1</expandChildren>
+			</value>
+			<value>
+				<name>bg_4</name>
+				<arrayIndex>2</arrayIndex>
+				<parentIndex>0</parentIndex>
+				<type>normal</type>
+				<boundsType>none</boundsType>
+				<inheritType>parent</inheritType>
+				<ineheritRates>
+					<FLPH>0</FLPH>
+					<FLPV>0</FLPV>
+					<HIDE>0</HIDE>
+					<IFLH>0</IFLH>
+					<IFLV>0</IFLV>
+				</ineheritRates>
+				<alphaBlendType>mix</alphaBlendType>
+				<show>1</show>
+				<locked>0</locked>
+				<expandAttribute>0</expandAttribute>
+				<expandChildren>1</expandChildren>
+			</value>
+			<value>
+				<name>scene_char2</name>
+				<arrayIndex>3</arrayIndex>
+				<parentIndex>0</parentIndex>
+				<type>normal</type>
+				<boundsType>none</boundsType>
+				<inheritType>parent</inheritType>
+				<ineheritRates>
+					<FLPH>0</FLPH>
+					<FLPV>0</FLPV>
+					<HIDE>0</HIDE>
+					<IFLH>0</IFLH>
+					<IFLV>0</IFLV>
+				</ineheritRates>
+				<alphaBlendType>mix</alphaBlendType>
+				<show>1</show>
+				<locked>0</locked>
+				<expandAttribute>0</expandAttribute>
+				<expandChildren>1</expandChildren>
+			</value>
+			<value>
+				<name>scene_4_char</name>
+				<arrayIndex>4</arrayIndex>
+				<parentIndex>0</parentIndex>
+				<type>normal</type>
+				<boundsType>none</boundsType>
+				<inheritType>parent</inheritType>
+				<ineheritRates>
+					<FLPH>0</FLPH>
+					<FLPV>0</FLPV>
+					<HIDE>0</HIDE>
+					<IFLH>0</IFLH>
+					<IFLV>0</IFLV>
+				</ineheritRates>
+				<alphaBlendType>mix</alphaBlendType>
+				<show>1</show>
+				<locked>0</locked>
+				<expandAttribute>0</expandAttribute>
+				<expandChildren>1</expandChildren>
+			</value>
+			<value>
+				<name>scene_4_char3</name>
+				<arrayIndex>5</arrayIndex>
+				<parentIndex>0</parentIndex>
+				<type>normal</type>
+				<boundsType>none</boundsType>
+				<inheritType>parent</inheritType>
+				<ineheritRates>
+					<FLPH>0</FLPH>
+					<FLPV>0</FLPV>
+					<HIDE>0</HIDE>
+					<IFLH>0</IFLH>
+					<IFLV>0</IFLV>
+				</ineheritRates>
+				<alphaBlendType>mix</alphaBlendType>
+				<show>1</show>
+				<locked>0</locked>
+				<expandAttribute>0</expandAttribute>
+				<expandChildren>1</expandChildren>
+			</value>
+			<value>
+				<name>waku</name>
+				<arrayIndex>6</arrayIndex>
+				<parentIndex>0</parentIndex>
+				<type>normal</type>
+				<boundsType>none</boundsType>
+				<inheritType>parent</inheritType>
+				<ineheritRates>
+					<FLPH>0</FLPH>
+					<FLPV>0</FLPV>
+					<HIDE>0</HIDE>
+					<IFLH>0</IFLH>
+					<IFLV>0</IFLV>
+				</ineheritRates>
+				<alphaBlendType>mix</alphaBlendType>
+				<show>1</show>
+				<locked>0</locked>
+				<expandAttribute>0</expandAttribute>
+				<expandChildren>1</expandChildren>
+			</value>
+			<value>
+				<name>msg4</name>
+				<arrayIndex>7</arrayIndex>
+				<parentIndex>0</parentIndex>
+				<type>normal</type>
+				<boundsType>none</boundsType>
+				<inheritType>parent</inheritType>
+				<ineheritRates>
+					<FLPH>0</FLPH>
+					<FLPV>0</FLPV>
+					<HIDE>0</HIDE>
+					<IFLH>0</IFLH>
+					<IFLV>0</IFLV>
+				</ineheritRates>
+				<alphaBlendType>mix</alphaBlendType>
+				<show>1</show>
+				<locked>0</locked>
+				<expandAttribute>0</expandAttribute>
+				<expandChildren>1</expandChildren>
+			</value>
+		</partList>
+	</Model>
+	<cellmapNames>
+		<value>msg_waku.ssce</value>
+		<value>opening02.ssce</value>
+		<value>opening04.ssce</value>
+		<value>opening04_char.ssce</value>
+		<value>opening04_msg.ssce</value>
+		<value>opening04_zan.ssce</value>
+		<value>opening04_zan_mae.ssce</value>
+	</cellmapNames>
+	<animeList>
+		<anime>
+			<name>anime_1</name>
+			<overrideSettings>1</overrideSettings>
+			<settings>
+				<fps>30</fps>
+				<frameCount>180</frameCount>
+				<sortMode>prio</sortMode>
+				<canvasSize>426 240</canvasSize>
+				<pivot>0 0</pivot>
+				<bgColor>FF323232</bgColor>
+				<gridSize>32</gridSize>
+				<gridColor>FF808080</gridColor>
+				<outStartNum>0</outStartNum>
+			</settings>
+			<labels />
+			<partAnimes>
+				<partAnime>
+					<partName>root</partName>
+					<attributes>
+						<attribute tag="HIDE">
+							<key time="0">
+								<value>0</value>
+							</key>
+						</attribute>
+					</attributes>
+				</partAnime>
+				<partAnime>
+					<partName>bg</partName>
+					<attributes>
+						<attribute tag="CELL">
+							<key time="0">
+								<value>
+									<mapId>1</mapId>
+									<name>bg</name>
+								</value>
+							</key>
+						</attribute>
+						<attribute tag="POSX">
+							<key time="0" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="10" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="170" ipType="linear">
+								<value>0</value>
+							</key>
+						</attribute>
+						<attribute tag="POSY">
+							<key time="0" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="10" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="170" ipType="linear">
+								<value>0</value>
+							</key>
+						</attribute>
+						<attribute tag="ROTZ">
+							<key time="0" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="10" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="170" ipType="linear">
+								<value>0</value>
+							</key>
+						</attribute>
+						<attribute tag="HIDE">
+							<key time="0">
+								<value>0</value>
+							</key>
+							<key time="10">
+								<value>1</value>
+							</key>
+							<key time="170">
+								<value>0</value>
+							</key>
+						</attribute>
+					</attributes>
+				</partAnime>
+				<partAnime>
+					<partName>bg_4</partName>
+					<attributes>
+						<attribute tag="CELL">
+							<key time="0">
+								<value>
+									<mapId>2</mapId>
+									<name>bg_4</name>
+								</value>
+							</key>
+						</attribute>
+						<attribute tag="POSX">
+							<key time="0" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="10" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="170" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="179" ipType="linear">
+								<value>0</value>
+							</key>
+						</attribute>
+						<attribute tag="POSY">
+							<key time="0" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="10" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="170" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="179" ipType="linear">
+								<value>0</value>
+							</key>
+						</attribute>
+						<attribute tag="ROTZ">
+							<key time="0" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="10" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="170" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="179" ipType="linear">
+								<value>0</value>
+							</key>
+						</attribute>
+						<attribute tag="ALPH">
+							<key time="0" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="10" ipType="linear">
+								<value>1</value>
+							</key>
+							<key time="170" ipType="linear">
+								<value>1</value>
+							</key>
+							<key time="179" ipType="linear">
+								<value>0</value>
+							</key>
+						</attribute>
+						<attribute tag="HIDE">
+							<key time="0">
+								<value>0</value>
+							</key>
+							<key time="10">
+								<value>0</value>
+							</key>
+							<key time="170">
+								<value>0</value>
+							</key>
+							<key time="179">
+								<value>0</value>
+							</key>
+						</attribute>
+					</attributes>
+				</partAnime>
+				<partAnime>
+					<partName>scene_char2</partName>
+					<attributes>
+						<attribute tag="CELL">
+							<key time="60">
+								<value>
+									<mapId>5</mapId>
+									<name>scene_char2</name>
+								</value>
+							</key>
+						</attribute>
+						<attribute tag="POSX">
+							<key time="60" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="120" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="170" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="179" ipType="linear">
+								<value>0</value>
+							</key>
+						</attribute>
+						<attribute tag="POSY">
+							<key time="60" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="120" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="170" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="179" ipType="linear">
+								<value>0</value>
+							</key>
+						</attribute>
+						<attribute tag="ROTZ">
+							<key time="60" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="120" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="170" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="179" ipType="linear">
+								<value>0</value>
+							</key>
+						</attribute>
+						<attribute tag="ALPH">
+							<key time="60" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="120" ipType="linear">
+								<value>0.5</value>
+							</key>
+							<key time="170" ipType="linear">
+								<value>0.5</value>
+							</key>
+							<key time="179" ipType="linear">
+								<value>0</value>
+							</key>
+						</attribute>
+						<attribute tag="PRIO">
+							<key time="120" ipType="linear">
+								<value>0</value>
+							</key>
+						</attribute>
+						<attribute tag="HIDE">
+							<key time="60">
+								<value>0</value>
+							</key>
+							<key time="120">
+								<value>0</value>
+							</key>
+							<key time="170">
+								<value>0</value>
+							</key>
+							<key time="179">
+								<value>0</value>
+							</key>
+						</attribute>
+					</attributes>
+				</partAnime>
+				<partAnime>
+					<partName>scene_4_char</partName>
+					<attributes>
+						<attribute tag="CELL">
+							<key time="20">
+								<value>
+									<mapId>3</mapId>
+									<name>scene_4_char</name>
+								</value>
+							</key>
+						</attribute>
+						<attribute tag="POSX">
+							<key time="20" ipType="bezier">
+								<curve syncStartEnd="0">0 0 0 0</curve>
+								<value>96</value>
+							</key>
+							<key time="30" ipType="linear">
+								<value>208</value>
+							</key>
+							<key time="40" ipType="bezier">
+								<curve syncStartEnd="0">0 0 0 0</curve>
+								<value>241</value>
+							</key>
+							<key time="60" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="170" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="179" ipType="linear">
+								<value>0</value>
+							</key>
+						</attribute>
+						<attribute tag="POSY">
+							<key time="20" ipType="bezier">
+								<curve syncStartEnd="0">0 0 0 0</curve>
+								<value>-3</value>
+							</key>
+							<key time="30" ipType="bezier">
+								<curve syncStartEnd="0">0 0 0 0</curve>
+								<value>47.4000015258789</value>
+							</key>
+							<key time="40" ipType="bezier">
+								<curve syncStartEnd="0">0 0 0 0</curve>
+								<value>65.1999969482422</value>
+							</key>
+							<key time="60" ipType="bezier">
+								<curve syncStartEnd="0">0 0 0 0</curve>
+								<value>0</value>
+							</key>
+							<key time="170" ipType="bezier">
+								<curve syncStartEnd="0">0 0 0 0</curve>
+								<value>0</value>
+							</key>
+							<key time="179" ipType="bezier">
+								<curve syncStartEnd="0">0 0 0 0</curve>
+								<value>0</value>
+							</key>
+						</attribute>
+						<attribute tag="ROTZ">
+							<key time="20" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="30" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="40" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="60" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="170" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="179" ipType="linear">
+								<value>0</value>
+							</key>
+						</attribute>
+						<attribute tag="SCLX">
+							<key time="20" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="60" ipType="linear">
+								<value>1</value>
+							</key>
+						</attribute>
+						<attribute tag="SCLY">
+							<key time="20" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="60" ipType="linear">
+								<value>1</value>
+							</key>
+						</attribute>
+						<attribute tag="ALPH">
+							<key time="170" ipType="linear">
+								<value>1</value>
+							</key>
+							<key time="179" ipType="linear">
+								<value>0</value>
+							</key>
+						</attribute>
+						<attribute tag="HIDE">
+							<key time="20">
+								<value>0</value>
+							</key>
+							<key time="30">
+								<value>0</value>
+							</key>
+							<key time="40">
+								<value>0</value>
+							</key>
+							<key time="60">
+								<value>0</value>
+							</key>
+							<key time="170">
+								<value>0</value>
+							</key>
+							<key time="179">
+								<value>0</value>
+							</key>
+						</attribute>
+					</attributes>
+				</partAnime>
+				<partAnime>
+					<partName>scene_4_char3</partName>
+					<attributes>
+						<attribute tag="CELL">
+							<key time="60">
+								<value>
+									<mapId>6</mapId>
+									<name>scene_4_char3</name>
+								</value>
+							</key>
+							<key time="62">
+								<value>
+									<mapId>6</mapId>
+									<name>scene_4_char3</name>
+								</value>
+							</key>
+							<key time="64">
+								<value>
+									<mapId>6</mapId>
+									<name>scene_4_char3</name>
+								</value>
+							</key>
+							<key time="66">
+								<value>
+									<mapId>6</mapId>
+									<name>scene_4_char3</name>
+								</value>
+							</key>
+							<key time="68">
+								<value>
+									<mapId>6</mapId>
+									<name>scene_4_char3</name>
+								</value>
+							</key>
+							<key time="70">
+								<value>
+									<mapId>6</mapId>
+									<name>scene_4_char3</name>
+								</value>
+							</key>
+							<key time="72">
+								<value>
+									<mapId>6</mapId>
+									<name>scene_4_char3</name>
+								</value>
+							</key>
+							<key time="74">
+								<value>
+									<mapId>6</mapId>
+									<name>scene_4_char3</name>
+								</value>
+							</key>
+							<key time="76">
+								<value>
+									<mapId>6</mapId>
+									<name>scene_4_char3</name>
+								</value>
+							</key>
+							<key time="78">
+								<value>
+									<mapId>6</mapId>
+									<name>scene_4_char3</name>
+								</value>
+							</key>
+							<key time="80">
+								<value>
+									<mapId>6</mapId>
+									<name>scene_4_char3</name>
+								</value>
+							</key>
+							<key time="82">
+								<value>
+									<mapId>6</mapId>
+									<name>scene_4_char3</name>
+								</value>
+							</key>
+							<key time="84">
+								<value>
+									<mapId>6</mapId>
+									<name>scene_4_char3</name>
+								</value>
+							</key>
+							<key time="86">
+								<value>
+									<mapId>6</mapId>
+									<name>scene_4_char3</name>
+								</value>
+							</key>
+							<key time="88">
+								<value>
+									<mapId>6</mapId>
+									<name>scene_4_char3</name>
+								</value>
+							</key>
+							<key time="90">
+								<value>
+									<mapId>6</mapId>
+									<name>scene_4_char3</name>
+								</value>
+							</key>
+							<key time="92">
+								<value>
+									<mapId>6</mapId>
+									<name>scene_4_char3</name>
+								</value>
+							</key>
+							<key time="94">
+								<value>
+									<mapId>6</mapId>
+									<name>scene_4_char3</name>
+								</value>
+							</key>
+							<key time="96">
+								<value>
+									<mapId>6</mapId>
+									<name>scene_4_char3</name>
+								</value>
+							</key>
+							<key time="98">
+								<value>
+									<mapId>6</mapId>
+									<name>scene_4_char3</name>
+								</value>
+							</key>
+							<key time="100">
+								<value>
+									<mapId>6</mapId>
+									<name>scene_4_char3</name>
+								</value>
+							</key>
+							<key time="102">
+								<value>
+									<mapId>6</mapId>
+									<name>scene_4_char3</name>
+								</value>
+							</key>
+							<key time="104">
+								<value>
+									<mapId>6</mapId>
+									<name>scene_4_char3</name>
+								</value>
+							</key>
+							<key time="106">
+								<value>
+									<mapId>6</mapId>
+									<name>scene_4_char3</name>
+								</value>
+							</key>
+							<key time="108">
+								<value>
+									<mapId>6</mapId>
+									<name>scene_4_char3</name>
+								</value>
+							</key>
+							<key time="110">
+								<value>
+									<mapId>6</mapId>
+									<name>scene_4_char3</name>
+								</value>
+							</key>
+							<key time="112">
+								<value>
+									<mapId>6</mapId>
+									<name>scene_4_char3</name>
+								</value>
+							</key>
+							<key time="114">
+								<value>
+									<mapId>6</mapId>
+									<name>scene_4_char3</name>
+								</value>
+							</key>
+							<key time="116">
+								<value>
+									<mapId>6</mapId>
+									<name>scene_4_char3</name>
+								</value>
+							</key>
+							<key time="118">
+								<value>
+									<mapId>6</mapId>
+									<name>scene_4_char3</name>
+								</value>
+							</key>
+							<key time="120">
+								<value>
+									<mapId>6</mapId>
+									<name>scene_4_char3</name>
+								</value>
+							</key>
+							<key time="122">
+								<value>
+									<mapId>6</mapId>
+									<name>scene_4_char3</name>
+								</value>
+							</key>
+							<key time="124">
+								<value>
+									<mapId>6</mapId>
+									<name>scene_4_char3</name>
+								</value>
+							</key>
+							<key time="126">
+								<value>
+									<mapId>6</mapId>
+									<name>scene_4_char3</name>
+								</value>
+							</key>
+							<key time="128">
+								<value>
+									<mapId>6</mapId>
+									<name>scene_4_char3</name>
+								</value>
+							</key>
+							<key time="130">
+								<value>
+									<mapId>6</mapId>
+									<name>scene_4_char3</name>
+								</value>
+							</key>
+							<key time="132">
+								<value>
+									<mapId>6</mapId>
+									<name>scene_4_char3</name>
+								</value>
+							</key>
+							<key time="134">
+								<value>
+									<mapId>6</mapId>
+									<name>scene_4_char3</name>
+								</value>
+							</key>
+							<key time="136">
+								<value>
+									<mapId>6</mapId>
+									<name>scene_4_char3</name>
+								</value>
+							</key>
+							<key time="138">
+								<value>
+									<mapId>6</mapId>
+									<name>scene_4_char3</name>
+								</value>
+							</key>
+							<key time="140">
+								<value>
+									<mapId>6</mapId>
+									<name>scene_4_char3</name>
+								</value>
+							</key>
+							<key time="142">
+								<value>
+									<mapId>6</mapId>
+									<name>scene_4_char3</name>
+								</value>
+							</key>
+							<key time="144">
+								<value>
+									<mapId>6</mapId>
+									<name>scene_4_char3</name>
+								</value>
+							</key>
+							<key time="146">
+								<value>
+									<mapId>6</mapId>
+									<name>scene_4_char3</name>
+								</value>
+							</key>
+							<key time="148">
+								<value>
+									<mapId>6</mapId>
+									<name>scene_4_char3</name>
+								</value>
+							</key>
+							<key time="150">
+								<value>
+									<mapId>6</mapId>
+									<name>scene_4_char3</name>
+								</value>
+							</key>
+							<key time="152">
+								<value>
+									<mapId>6</mapId>
+									<name>scene_4_char3</name>
+								</value>
+							</key>
+							<key time="154">
+								<value>
+									<mapId>6</mapId>
+									<name>scene_4_char3</name>
+								</value>
+							</key>
+							<key time="156">
+								<value>
+									<mapId>6</mapId>
+									<name>scene_4_char3</name>
+								</value>
+							</key>
+							<key time="158">
+								<value>
+									<mapId>6</mapId>
+									<name>scene_4_char3</name>
+								</value>
+							</key>
+							<key time="160">
+								<value>
+									<mapId>6</mapId>
+									<name>scene_4_char3</name>
+								</value>
+							</key>
+							<key time="162">
+								<value>
+									<mapId>6</mapId>
+									<name>scene_4_char3</name>
+								</value>
+							</key>
+							<key time="164">
+								<value>
+									<mapId>6</mapId>
+									<name>scene_4_char3</name>
+								</value>
+							</key>
+							<key time="166">
+								<value>
+									<mapId>6</mapId>
+									<name>scene_4_char3</name>
+								</value>
+							</key>
+							<key time="168">
+								<value>
+									<mapId>6</mapId>
+									<name>scene_4_char3</name>
+								</value>
+							</key>
+							<key time="170">
+								<value>
+									<mapId>6</mapId>
+									<name>scene_4_char3</name>
+								</value>
+							</key>
+							<key time="172">
+								<value>
+									<mapId>6</mapId>
+									<name>scene_4_char3</name>
+								</value>
+							</key>
+							<key time="174">
+								<value>
+									<mapId>6</mapId>
+									<name>scene_4_char3</name>
+								</value>
+							</key>
+							<key time="176">
+								<value>
+									<mapId>6</mapId>
+									<name>scene_4_char3</name>
+								</value>
+							</key>
+							<key time="178">
+								<value>
+									<mapId>6</mapId>
+									<name>scene_4_char3</name>
+								</value>
+							</key>
+						</attribute>
+						<attribute tag="POSX">
+							<key time="60" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="61" ipType="linear">
+								<value>1</value>
+							</key>
+							<key time="62" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="63" ipType="linear">
+								<value>1</value>
+							</key>
+							<key time="64" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="65" ipType="linear">
+								<value>1</value>
+							</key>
+							<key time="66" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="67" ipType="linear">
+								<value>1</value>
+							</key>
+							<key time="68" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="69" ipType="linear">
+								<value>1</value>
+							</key>
+							<key time="70" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="71" ipType="linear">
+								<value>1</value>
+							</key>
+							<key time="72" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="73" ipType="linear">
+								<value>1</value>
+							</key>
+							<key time="74" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="75" ipType="linear">
+								<value>1</value>
+							</key>
+							<key time="76" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="77" ipType="linear">
+								<value>1</value>
+							</key>
+							<key time="78" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="79" ipType="linear">
+								<value>1</value>
+							</key>
+							<key time="80" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="81" ipType="linear">
+								<value>1</value>
+							</key>
+							<key time="82" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="83" ipType="linear">
+								<value>1</value>
+							</key>
+							<key time="84" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="85" ipType="linear">
+								<value>1</value>
+							</key>
+							<key time="86" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="87" ipType="linear">
+								<value>1</value>
+							</key>
+							<key time="88" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="89" ipType="linear">
+								<value>1</value>
+							</key>
+							<key time="90" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="91" ipType="linear">
+								<value>1</value>
+							</key>
+							<key time="92" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="93" ipType="linear">
+								<value>1</value>
+							</key>
+							<key time="94" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="95" ipType="linear">
+								<value>1</value>
+							</key>
+							<key time="96" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="97" ipType="linear">
+								<value>1</value>
+							</key>
+							<key time="98" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="99" ipType="linear">
+								<value>1</value>
+							</key>
+							<key time="100" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="101" ipType="linear">
+								<value>1</value>
+							</key>
+							<key time="102" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="103" ipType="linear">
+								<value>1</value>
+							</key>
+							<key time="104" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="105" ipType="linear">
+								<value>1</value>
+							</key>
+							<key time="106" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="107" ipType="linear">
+								<value>1</value>
+							</key>
+							<key time="108" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="109" ipType="linear">
+								<value>1</value>
+							</key>
+							<key time="110" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="111" ipType="linear">
+								<value>1</value>
+							</key>
+							<key time="112" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="113" ipType="linear">
+								<value>1</value>
+							</key>
+							<key time="114" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="115" ipType="linear">
+								<value>1</value>
+							</key>
+							<key time="116" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="117" ipType="linear">
+								<value>1</value>
+							</key>
+							<key time="118" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="119" ipType="linear">
+								<value>1</value>
+							</key>
+							<key time="120" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="121" ipType="linear">
+								<value>1</value>
+							</key>
+							<key time="122" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="123" ipType="linear">
+								<value>1</value>
+							</key>
+							<key time="124" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="125" ipType="linear">
+								<value>1</value>
+							</key>
+							<key time="126" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="127" ipType="linear">
+								<value>1</value>
+							</key>
+							<key time="128" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="129" ipType="linear">
+								<value>1</value>
+							</key>
+							<key time="130" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="131" ipType="linear">
+								<value>1</value>
+							</key>
+							<key time="132" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="133" ipType="linear">
+								<value>1</value>
+							</key>
+							<key time="134" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="135" ipType="linear">
+								<value>1</value>
+							</key>
+							<key time="136" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="137" ipType="linear">
+								<value>1</value>
+							</key>
+							<key time="138" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="139" ipType="linear">
+								<value>1</value>
+							</key>
+							<key time="140" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="141" ipType="linear">
+								<value>1</value>
+							</key>
+							<key time="142" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="143" ipType="linear">
+								<value>1</value>
+							</key>
+							<key time="144" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="145" ipType="linear">
+								<value>1</value>
+							</key>
+							<key time="146" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="147" ipType="linear">
+								<value>1</value>
+							</key>
+							<key time="148" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="149" ipType="linear">
+								<value>1</value>
+							</key>
+							<key time="150" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="151" ipType="linear">
+								<value>1</value>
+							</key>
+							<key time="152" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="153" ipType="linear">
+								<value>1</value>
+							</key>
+							<key time="154" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="155" ipType="linear">
+								<value>1</value>
+							</key>
+							<key time="156" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="157" ipType="linear">
+								<value>1</value>
+							</key>
+							<key time="158" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="159" ipType="linear">
+								<value>1</value>
+							</key>
+							<key time="160" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="161" ipType="linear">
+								<value>1</value>
+							</key>
+							<key time="162" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="163" ipType="linear">
+								<value>1</value>
+							</key>
+							<key time="164" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="165" ipType="linear">
+								<value>1</value>
+							</key>
+							<key time="166" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="167" ipType="linear">
+								<value>1</value>
+							</key>
+							<key time="168" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="169" ipType="linear">
+								<value>1</value>
+							</key>
+							<key time="170" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="171" ipType="linear">
+								<value>1</value>
+							</key>
+							<key time="172" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="173" ipType="linear">
+								<value>1</value>
+							</key>
+							<key time="174" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="175" ipType="linear">
+								<value>1</value>
+							</key>
+							<key time="176" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="177" ipType="linear">
+								<value>1</value>
+							</key>
+							<key time="178" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="179" ipType="linear">
+								<value>1</value>
+							</key>
+						</attribute>
+						<attribute tag="POSY">
+							<key time="60" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="61" ipType="linear">
+								<value>6</value>
+							</key>
+							<key time="62" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="63" ipType="linear">
+								<value>6</value>
+							</key>
+							<key time="64" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="65" ipType="linear">
+								<value>6</value>
+							</key>
+							<key time="66" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="67" ipType="linear">
+								<value>6</value>
+							</key>
+							<key time="68" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="69" ipType="linear">
+								<value>6</value>
+							</key>
+							<key time="70" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="71" ipType="linear">
+								<value>6</value>
+							</key>
+							<key time="72" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="73" ipType="linear">
+								<value>6</value>
+							</key>
+							<key time="74" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="75" ipType="linear">
+								<value>6</value>
+							</key>
+							<key time="76" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="77" ipType="linear">
+								<value>6</value>
+							</key>
+							<key time="78" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="79" ipType="linear">
+								<value>6</value>
+							</key>
+							<key time="80" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="81" ipType="linear">
+								<value>6</value>
+							</key>
+							<key time="82" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="83" ipType="linear">
+								<value>6</value>
+							</key>
+							<key time="84" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="85" ipType="linear">
+								<value>6</value>
+							</key>
+							<key time="86" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="87" ipType="linear">
+								<value>6</value>
+							</key>
+							<key time="88" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="89" ipType="linear">
+								<value>6</value>
+							</key>
+							<key time="90" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="91" ipType="linear">
+								<value>6</value>
+							</key>
+							<key time="92" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="93" ipType="linear">
+								<value>6</value>
+							</key>
+							<key time="94" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="95" ipType="linear">
+								<value>6</value>
+							</key>
+							<key time="96" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="97" ipType="linear">
+								<value>6</value>
+							</key>
+							<key time="98" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="99" ipType="linear">
+								<value>6</value>
+							</key>
+							<key time="100" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="101" ipType="linear">
+								<value>6</value>
+							</key>
+							<key time="102" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="103" ipType="linear">
+								<value>6</value>
+							</key>
+							<key time="104" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="105" ipType="linear">
+								<value>6</value>
+							</key>
+							<key time="106" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="107" ipType="linear">
+								<value>6</value>
+							</key>
+							<key time="108" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="109" ipType="linear">
+								<value>6</value>
+							</key>
+							<key time="110" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="111" ipType="linear">
+								<value>6</value>
+							</key>
+							<key time="112" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="113" ipType="linear">
+								<value>6</value>
+							</key>
+							<key time="114" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="115" ipType="linear">
+								<value>6</value>
+							</key>
+							<key time="116" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="117" ipType="linear">
+								<value>6</value>
+							</key>
+							<key time="118" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="119" ipType="linear">
+								<value>6</value>
+							</key>
+							<key time="120" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="121" ipType="linear">
+								<value>6</value>
+							</key>
+							<key time="122" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="123" ipType="linear">
+								<value>6</value>
+							</key>
+							<key time="124" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="125" ipType="linear">
+								<value>6</value>
+							</key>
+							<key time="126" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="127" ipType="linear">
+								<value>6</value>
+							</key>
+							<key time="128" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="129" ipType="linear">
+								<value>6</value>
+							</key>
+							<key time="130" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="131" ipType="linear">
+								<value>6</value>
+							</key>
+							<key time="132" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="133" ipType="linear">
+								<value>6</value>
+							</key>
+							<key time="134" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="135" ipType="linear">
+								<value>6</value>
+							</key>
+							<key time="136" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="137" ipType="linear">
+								<value>6</value>
+							</key>
+							<key time="138" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="139" ipType="linear">
+								<value>6</value>
+							</key>
+							<key time="140" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="141" ipType="linear">
+								<value>6</value>
+							</key>
+							<key time="142" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="143" ipType="linear">
+								<value>6</value>
+							</key>
+							<key time="144" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="145" ipType="linear">
+								<value>6</value>
+							</key>
+							<key time="146" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="147" ipType="linear">
+								<value>6</value>
+							</key>
+							<key time="148" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="149" ipType="linear">
+								<value>6</value>
+							</key>
+							<key time="150" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="151" ipType="linear">
+								<value>6</value>
+							</key>
+							<key time="152" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="153" ipType="linear">
+								<value>6</value>
+							</key>
+							<key time="154" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="155" ipType="linear">
+								<value>6</value>
+							</key>
+							<key time="156" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="157" ipType="linear">
+								<value>6</value>
+							</key>
+							<key time="158" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="159" ipType="linear">
+								<value>6</value>
+							</key>
+							<key time="160" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="161" ipType="linear">
+								<value>6</value>
+							</key>
+							<key time="162" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="163" ipType="linear">
+								<value>6</value>
+							</key>
+							<key time="164" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="165" ipType="linear">
+								<value>6</value>
+							</key>
+							<key time="166" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="167" ipType="linear">
+								<value>6</value>
+							</key>
+							<key time="168" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="169" ipType="linear">
+								<value>6</value>
+							</key>
+							<key time="170" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="171" ipType="linear">
+								<value>6</value>
+							</key>
+							<key time="172" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="173" ipType="linear">
+								<value>6</value>
+							</key>
+							<key time="174" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="175" ipType="linear">
+								<value>6</value>
+							</key>
+							<key time="176" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="177" ipType="linear">
+								<value>6</value>
+							</key>
+							<key time="178" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="179" ipType="linear">
+								<value>6</value>
+							</key>
+						</attribute>
+						<attribute tag="ROTZ">
+							<key time="60" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="61" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="62" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="63" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="64" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="65" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="66" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="67" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="68" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="69" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="70" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="71" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="72" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="73" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="74" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="75" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="76" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="77" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="78" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="79" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="80" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="81" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="82" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="83" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="84" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="85" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="86" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="87" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="88" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="89" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="90" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="91" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="92" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="93" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="94" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="95" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="96" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="97" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="98" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="99" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="100" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="101" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="102" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="103" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="104" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="105" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="106" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="107" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="108" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="109" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="110" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="111" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="112" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="113" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="114" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="115" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="116" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="117" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="118" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="119" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="120" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="121" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="122" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="123" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="124" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="125" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="126" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="127" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="128" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="129" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="130" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="131" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="132" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="133" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="134" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="135" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="136" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="137" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="138" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="139" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="140" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="141" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="142" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="143" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="144" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="145" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="146" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="147" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="148" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="149" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="150" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="151" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="152" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="153" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="154" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="155" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="156" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="157" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="158" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="159" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="160" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="161" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="162" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="163" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="164" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="165" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="166" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="167" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="168" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="169" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="170" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="171" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="172" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="173" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="174" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="175" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="176" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="177" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="178" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="179" ipType="linear">
+								<value>0</value>
+							</key>
+						</attribute>
+						<attribute tag="ALPH">
+							<key time="170" ipType="linear">
+								<value>1</value>
+							</key>
+							<key time="179" ipType="linear">
+								<value>0</value>
+							</key>
+						</attribute>
+						<attribute tag="HIDE">
+							<key time="60">
+								<value>0</value>
+							</key>
+							<key time="61">
+								<value>0</value>
+							</key>
+							<key time="62">
+								<value>0</value>
+							</key>
+							<key time="63">
+								<value>0</value>
+							</key>
+							<key time="64">
+								<value>0</value>
+							</key>
+							<key time="65">
+								<value>0</value>
+							</key>
+							<key time="66">
+								<value>0</value>
+							</key>
+							<key time="67">
+								<value>0</value>
+							</key>
+							<key time="68">
+								<value>0</value>
+							</key>
+							<key time="69">
+								<value>0</value>
+							</key>
+							<key time="70">
+								<value>0</value>
+							</key>
+							<key time="71">
+								<value>0</value>
+							</key>
+							<key time="72">
+								<value>0</value>
+							</key>
+							<key time="73">
+								<value>0</value>
+							</key>
+							<key time="74">
+								<value>0</value>
+							</key>
+							<key time="75">
+								<value>0</value>
+							</key>
+							<key time="76">
+								<value>0</value>
+							</key>
+							<key time="77">
+								<value>0</value>
+							</key>
+							<key time="78">
+								<value>0</value>
+							</key>
+							<key time="79">
+								<value>0</value>
+							</key>
+							<key time="80">
+								<value>0</value>
+							</key>
+							<key time="81">
+								<value>0</value>
+							</key>
+							<key time="82">
+								<value>0</value>
+							</key>
+							<key time="83">
+								<value>0</value>
+							</key>
+							<key time="84">
+								<value>0</value>
+							</key>
+							<key time="85">
+								<value>0</value>
+							</key>
+							<key time="86">
+								<value>0</value>
+							</key>
+							<key time="87">
+								<value>0</value>
+							</key>
+							<key time="88">
+								<value>0</value>
+							</key>
+							<key time="89">
+								<value>0</value>
+							</key>
+							<key time="90">
+								<value>0</value>
+							</key>
+							<key time="91">
+								<value>0</value>
+							</key>
+							<key time="92">
+								<value>0</value>
+							</key>
+							<key time="93">
+								<value>0</value>
+							</key>
+							<key time="94">
+								<value>0</value>
+							</key>
+							<key time="95">
+								<value>0</value>
+							</key>
+							<key time="96">
+								<value>0</value>
+							</key>
+							<key time="97">
+								<value>0</value>
+							</key>
+							<key time="98">
+								<value>0</value>
+							</key>
+							<key time="99">
+								<value>0</value>
+							</key>
+							<key time="100">
+								<value>0</value>
+							</key>
+							<key time="101">
+								<value>0</value>
+							</key>
+							<key time="102">
+								<value>0</value>
+							</key>
+							<key time="103">
+								<value>0</value>
+							</key>
+							<key time="104">
+								<value>0</value>
+							</key>
+							<key time="105">
+								<value>0</value>
+							</key>
+							<key time="106">
+								<value>0</value>
+							</key>
+							<key time="107">
+								<value>0</value>
+							</key>
+							<key time="108">
+								<value>0</value>
+							</key>
+							<key time="109">
+								<value>0</value>
+							</key>
+							<key time="110">
+								<value>0</value>
+							</key>
+							<key time="111">
+								<value>0</value>
+							</key>
+							<key time="112">
+								<value>0</value>
+							</key>
+							<key time="113">
+								<value>0</value>
+							</key>
+							<key time="114">
+								<value>0</value>
+							</key>
+							<key time="115">
+								<value>0</value>
+							</key>
+							<key time="116">
+								<value>0</value>
+							</key>
+							<key time="117">
+								<value>0</value>
+							</key>
+							<key time="118">
+								<value>0</value>
+							</key>
+							<key time="119">
+								<value>0</value>
+							</key>
+							<key time="120">
+								<value>0</value>
+							</key>
+							<key time="121">
+								<value>0</value>
+							</key>
+							<key time="122">
+								<value>0</value>
+							</key>
+							<key time="123">
+								<value>0</value>
+							</key>
+							<key time="124">
+								<value>0</value>
+							</key>
+							<key time="125">
+								<value>0</value>
+							</key>
+							<key time="126">
+								<value>0</value>
+							</key>
+							<key time="127">
+								<value>0</value>
+							</key>
+							<key time="128">
+								<value>0</value>
+							</key>
+							<key time="129">
+								<value>0</value>
+							</key>
+							<key time="130">
+								<value>0</value>
+							</key>
+							<key time="131">
+								<value>0</value>
+							</key>
+							<key time="132">
+								<value>0</value>
+							</key>
+							<key time="133">
+								<value>0</value>
+							</key>
+							<key time="134">
+								<value>0</value>
+							</key>
+							<key time="135">
+								<value>0</value>
+							</key>
+							<key time="136">
+								<value>0</value>
+							</key>
+							<key time="137">
+								<value>0</value>
+							</key>
+							<key time="138">
+								<value>0</value>
+							</key>
+							<key time="139">
+								<value>0</value>
+							</key>
+							<key time="140">
+								<value>0</value>
+							</key>
+							<key time="141">
+								<value>0</value>
+							</key>
+							<key time="142">
+								<value>0</value>
+							</key>
+							<key time="143">
+								<value>0</value>
+							</key>
+							<key time="144">
+								<value>0</value>
+							</key>
+							<key time="145">
+								<value>0</value>
+							</key>
+							<key time="146">
+								<value>0</value>
+							</key>
+							<key time="147">
+								<value>0</value>
+							</key>
+							<key time="148">
+								<value>0</value>
+							</key>
+							<key time="149">
+								<value>0</value>
+							</key>
+							<key time="150">
+								<value>0</value>
+							</key>
+							<key time="151">
+								<value>0</value>
+							</key>
+							<key time="152">
+								<value>0</value>
+							</key>
+							<key time="153">
+								<value>0</value>
+							</key>
+							<key time="154">
+								<value>0</value>
+							</key>
+							<key time="155">
+								<value>0</value>
+							</key>
+							<key time="156">
+								<value>0</value>
+							</key>
+							<key time="157">
+								<value>0</value>
+							</key>
+							<key time="158">
+								<value>0</value>
+							</key>
+							<key time="159">
+								<value>0</value>
+							</key>
+							<key time="160">
+								<value>0</value>
+							</key>
+							<key time="161">
+								<value>0</value>
+							</key>
+							<key time="162">
+								<value>0</value>
+							</key>
+							<key time="163">
+								<value>0</value>
+							</key>
+							<key time="164">
+								<value>0</value>
+							</key>
+							<key time="165">
+								<value>0</value>
+							</key>
+							<key time="166">
+								<value>0</value>
+							</key>
+							<key time="167">
+								<value>0</value>
+							</key>
+							<key time="168">
+								<value>0</value>
+							</key>
+							<key time="169">
+								<value>0</value>
+							</key>
+							<key time="170">
+								<value>0</value>
+							</key>
+							<key time="171">
+								<value>0</value>
+							</key>
+							<key time="172">
+								<value>0</value>
+							</key>
+							<key time="173">
+								<value>0</value>
+							</key>
+							<key time="174">
+								<value>0</value>
+							</key>
+							<key time="175">
+								<value>0</value>
+							</key>
+							<key time="176">
+								<value>0</value>
+							</key>
+							<key time="177">
+								<value>0</value>
+							</key>
+							<key time="178">
+								<value>0</value>
+							</key>
+							<key time="179">
+								<value>0</value>
+							</key>
+						</attribute>
+					</attributes>
+				</partAnime>
+				<partAnime>
+					<partName>waku</partName>
+					<attributes>
+						<attribute tag="CELL">
+							<key time="60">
+								<value>
+									<mapId>0</mapId>
+									<name>waku</name>
+								</value>
+							</key>
+						</attribute>
+						<attribute tag="POSX">
+							<key time="60" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="70" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="170" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="179" ipType="linear">
+								<value>0</value>
+							</key>
+						</attribute>
+						<attribute tag="POSY">
+							<key time="60" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="70" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="170" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="179" ipType="linear">
+								<value>0</value>
+							</key>
+						</attribute>
+						<attribute tag="ROTZ">
+							<key time="60" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="70" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="170" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="179" ipType="linear">
+								<value>0</value>
+							</key>
+						</attribute>
+						<attribute tag="ALPH">
+							<key time="60" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="70" ipType="linear">
+								<value>1</value>
+							</key>
+							<key time="170" ipType="linear">
+								<value>1</value>
+							</key>
+							<key time="179" ipType="linear">
+								<value>0</value>
+							</key>
+						</attribute>
+						<attribute tag="HIDE">
+							<key time="60">
+								<value>0</value>
+							</key>
+							<key time="70">
+								<value>0</value>
+							</key>
+							<key time="170">
+								<value>0</value>
+							</key>
+							<key time="179">
+								<value>0</value>
+							</key>
+						</attribute>
+					</attributes>
+				</partAnime>
+				<partAnime>
+					<partName>msg4</partName>
+					<attributes>
+						<attribute tag="CELL">
+							<key time="70">
+								<value>
+									<mapId>4</mapId>
+									<name>msg4</name>
+								</value>
+							</key>
+						</attribute>
+						<attribute tag="POSX">
+							<key time="70" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="80" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="160" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="170" ipType="linear">
+								<value>0</value>
+							</key>
+						</attribute>
+						<attribute tag="POSY">
+							<key time="70" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="80" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="160" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="170" ipType="linear">
+								<value>0</value>
+							</key>
+						</attribute>
+						<attribute tag="ROTZ">
+							<key time="70" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="80" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="160" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="170" ipType="linear">
+								<value>0</value>
+							</key>
+						</attribute>
+						<attribute tag="ALPH">
+							<key time="70" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="80" ipType="linear">
+								<value>1</value>
+							</key>
+							<key time="160" ipType="linear">
+								<value>1</value>
+							</key>
+							<key time="170" ipType="linear">
+								<value>0</value>
+							</key>
+						</attribute>
+						<attribute tag="HIDE">
+							<key time="70">
+								<value>0</value>
+							</key>
+							<key time="80">
+								<value>0</value>
+							</key>
+							<key time="160">
+								<value>0</value>
+							</key>
+							<key time="170">
+								<value>0</value>
+							</key>
+						</attribute>
+					</attributes>
+				</partAnime>
+			</partAnimes>
+		</anime>
+	</animeList>
+</SpriteStudioAnimePack>
