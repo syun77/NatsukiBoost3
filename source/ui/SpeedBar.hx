@@ -83,11 +83,11 @@ class SpeedBar extends FlxGroup {
     public function updateAll(player:Player, ctrl:SpeedController):Void {
 
         // スピードを設定
-        setRatio(player.velocity.x / SpeedController.MAX);
+        setRatio(player.velocity.x / ctrl.getSpeedTopMax());
 
         // トップスピードの位置更新
         var top = ctrl.getTop();
-        var rTop = top / SpeedController.MAX;
+        var rTop = top / ctrl.getSpeedTopMax();
         _top.x = _x - 1 + _width * rTop;
 
         if(player.y < FlxG.height/3) {
