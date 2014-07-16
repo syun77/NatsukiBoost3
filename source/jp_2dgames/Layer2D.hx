@@ -53,6 +53,18 @@ class Layer2D {
         }
     }
 
+    public function copyRectDestination(layer:Layer2D, destX:Int, destY:Int, srcX:Int = 0, srcY:Int = 0, srcW:Int = 0, srcH:Int = 0):Void {
+        if(srcW <= 0) { srcW = layer.width; }
+        if(srcH <= 0) { srcH = layer.height; }
+
+        for(j in 0...srcH) {
+            for(i in 0...srcW) {
+                var v = layer.get(srcX + i, srcY + j);
+                set(destX + i, destY + j, v);
+            }
+        }
+    }
+
     /**
 	 * 有効な範囲かどうかチェックする
 	 * @param	x
