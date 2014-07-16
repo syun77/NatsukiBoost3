@@ -1,7 +1,6 @@
 package;
 
 import token.FieldMap;
-import haxe.macro.Expr.Field;
 import util.Snd;
 import csv.CsvTopSpeed;
 import csv.CsvPlayer;
@@ -20,7 +19,6 @@ import effects.EmitterBlockRed;
 import effects.EmitterPlayer;
 import effects.EmitterBrake;
 import effects.EffectRing;
-import jp_2dgames.TmxLoader;
 import jp_2dgames.Layer2D;
 import flixel.system.FlxSound;
 import flixel.text.FlxText;

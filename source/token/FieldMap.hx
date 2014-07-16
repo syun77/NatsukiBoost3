@@ -1,5 +1,6 @@
 package token;
 
+import Reg.GameMode;
 import jp_2dgames.Layer2D;
 import jp_2dgames.TmxLoader;
 /**
@@ -18,6 +19,14 @@ class FieldMap {
         _tmx = new TmxLoader();
         var fTmx = "assets/levels/" + Reg.getLevelString() + ".tmx";
         _tmx.load(fTmx);
+
+        var mode = Reg.mode;
+        switch(mode) {
+            case GameMode.Fix:
+            case GameMode.Random:
+            case GameMode.Endless:
+        }
+
     }
 
     public function getRealWidth():Int { return width * tileWidth; }

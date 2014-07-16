@@ -198,15 +198,15 @@ class MenuState extends FlxState {
 
     // ボタンを押した
     private function _btnEasy():Void {
-        Reg.level = 1;
+        Reg.setLevel(1);
         _bDecide = true;
     }
     private function _btnNormal():Void {
-        Reg.level = 2;
+        Reg.setLevel(2);
         _bDecide = true;
     }
     private function _btnHard():Void {
-        Reg.level = 3;
+        Reg.setLevel(3);
         _bDecide = true;
     }
 }

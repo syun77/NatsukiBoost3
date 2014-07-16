@@ -1,23 +1,29 @@
 package;
 
+import jp_2dgames.TextUtil;
+import flixel.util.FlxSave;
 /**
  * Handy, pre-built Registry class that can be used to store 
  * references to objects and other things for quick-access. Feel
  * free to simply ignore it or change it in any way you like.
  */
-import jp_2dgames.TextUtil;
-import flixel.util.FlxSave;
-import flixel.FlxG;
 class Reg {
 
     // 初期タイム
     public static var TIME_INIT = (59 * 60 * 1000) + (59 * 1000) + 999;
 
+    // ゲームモード
+//    private static var _mode:GameMode = GameMode.Fix;
+    private static var _mode:GameMode = GameMode.Random;
+    public static var mode(get, null):GameMode;
+
     // レベルの最大
     public static var LEVEL_MAX = 4;
 
     // レベル
-	public static var level:Int = 1;
+    private static var _level:Int = 1;
+	public static var level(get, null):Int;
+
     // スコア
 	public static var score:Int = 0;
 
@@ -73,7 +79,7 @@ class Reg {
     public static function getHiScore(lv:Int = -1):Int {
         var s = _getSave();
         if(lv < 0) {
-            lv = level;
+            lv = _level;
         }
 
         return s.data.scores[lv];
@@ -87,7 +93,7 @@ class Reg {
     public static function getTime(lv:Int = -1):Int {
         var s = _getSave();
         if(lv < 0) {
-            lv = level;
+            lv = _level;
         }
 
         return s.data.times[lv];
@@ -101,7 +107,7 @@ class Reg {
     public static function getRank(lv:Int = -1):String {
         var s = _getSave();
         if(lv < 0) {
-            lv = level;
+            lv = _level;
         }
 
         return s.data.ranks[lv];
@@ -125,11 +131,11 @@ class Reg {
 
         if(score > hiscore) {
             // ハイスコア更新
-            s.data.scores[level] = score;
+            s.data.scores[_level] = score;
         }
         if(time < hitime) {
             // 最短タイム更新
-            s.data.times[level] = time;
+            s.data.times[_level] = time;
         }
 
         // ランクを数値に変換
@@ -148,18 +154,18 @@ class Reg {
         var rankB = rankToInt(hirank);
         if(rankA > rankB) {
             // ランク更新
-            s.data.ranks[level] = rank;
+            s.data.ranks[_level] = rank;
         }
 
         var ret:Bool = false; // 新しいレベルをクリアしたかどうか
 
         if(bClear) {
             // クリアしていたら最大レベルチェック
-            if(level > getLevelMax()) {
+            if(_level > getLevelMax()) {
                 // クリアしたレベルを更新
-                s.data.levelMax = level;
+                s.data.levelMax = _level;
 
-                if(level < LEVEL_MAX - 1) {
+                if(_level < LEVEL_MAX - 1) {
                     // アンロック・ウィンドウ表示
                     ret = true;
                 }
@@ -177,7 +183,7 @@ class Reg {
     public static function getLevelName(lv:Int=-1):String {
 
         if(lv == -1) {
-            lv = level;
+            lv = _level;
         }
 
         switch(lv) {
@@ -194,7 +200,40 @@ class Reg {
     public static function getLevelString():String {
 
         // 3桁の0埋めの数値
-        return TextUtil.fillZero(level, 3);
+        return TextUtil.fillZero(_level, 3);
     }
 
+    /**
+     * ゲームモードを設定
+     **/
+    public static function setMode(m:GameMode):Void {
+        _mode = m;
+    }
+
+    /**
+     * ゲームモードを取得
+     **/
+    private static function get_mode():GameMode {
+        return GameMode.Fix;
+    }
+
+    /**
+     * レベルを設定
+     **/
+    public static function setLevel(v:Int):Void {
+        _level = v;
+    }
+
+    /**
+     * レベルを取得
+     **/
+    private static function get_level():Int {
+        return _level;
+    }
+}
+
+enum GameMode {
+    Fix; // 固定ステージ
+    Random; // ランダムマップ
+    Endless; // エンドレス
 }
