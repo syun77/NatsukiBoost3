@@ -8,6 +8,11 @@ import jp_2dgames.TmxLoader;
  **/
 class FieldMap {
 
+    // チップの幅
+    public static inline var _tileWidth:Int = 8;
+    // チップの高さ
+    public static inline var _tileHeight:Int = 8;
+
     public var width(get, null):Int;
     public var height(get, null):Int;
     public var tileWidth(get, null):Int;
@@ -53,6 +58,6 @@ class FieldMap {
 
     private function get_width():Int { return _tmx.width; }
     private function get_height():Int { return _tmx.height; }
-    private function get_tileWidth():Int { return _tmx.tileWidth; }
-    private function get_tileHeight():Int { return _tmx.tileHeight; }
+    private function get_tileWidth():Int { return _tileWidth; }
+    private function get_tileHeight():Int { return _tileHeight; }
 }
