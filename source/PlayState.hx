@@ -105,6 +105,7 @@ class PlayState extends FlxState {
     private var _combo:Int     = 0; // コンボ数
     private var _tChangeWait:Int = TIMER_CHANGE_WAIT; // リング獲得時の停止タイマー
     private var _cntSameBlock  = 0; // 同属性のブロックを破壊した数
+    private var _bInvisible:Bool = false; // 無敵フラグ
 
     // リザルト用変数
     private var _cntBlock:Int   = 0; // ブロック破壊数
@@ -601,17 +602,19 @@ class PlayState extends FlxState {
             Snd.playSe("eat", true, _csvPlayer.eat_se_timer);
         }
         else {
-            // ダメージ処理
-            _player.damage();
+            if(_bInvisible == false) {
+                // ダメージ処理
+                _player.damage();
 
-            // ペナルティ
-            _speedCtrl.hitBlock(_player.getHitCount());
-            _speedCtrl.setWaitTimer(_csvPlayer.damage_timer);
+                // ペナルティ
+                _speedCtrl.hitBlock(_player.getHitCount());
+                _speedCtrl.setWaitTimer(_csvPlayer.damage_timer);
 
-            // コンボ終了
-            _resetCombo();
+                // コンボ終了
+                _resetCombo();
 
-            Snd.playSe("block", true, 0.05);
+                Snd.playSe("block", true, 0.05);
+            }
         }
 
         if(b.getAttribute() == Attribute.Red) {
@@ -731,6 +734,10 @@ class PlayState extends FlxState {
         if(FlxG.keys.justPressed.D) {
             // 自爆
             _speedCtrl.addTop(-99999999);
+        }
+        if(FlxG.keys.justPressed.M) {
+            // 無敵状態切替
+            _bInvisible = if(_bInvisible) false else true;
         }
 //    #end
     }
