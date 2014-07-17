@@ -31,8 +31,7 @@ class FieldMap {
      * 固定マップをロード
      **/
     public function new() {
-
-        var cnt = cast(Math.floor(Sys.time() * 10), Int)%10;
+        var cnt = cast(Math.floor(Reg.getPasttime() * 1000), Int)%10;
         for(i in 0...cnt) {
             FlxRandom.resetGlobalSeed();
         }
@@ -91,7 +90,7 @@ class FieldMap {
             trace(' -> ${idx}');
             var fTmx = "assets/levels/random/" + TextUtil.fillZero(idx, 3) + ".tmx";
             if(openfl.Assets.getText(fTmx) == null) {
-                Sys.println('Warning: Not found map = ${fTmx}');
+                trace('Warning: Not found map = ${fTmx}');
                 continue;
             }
 

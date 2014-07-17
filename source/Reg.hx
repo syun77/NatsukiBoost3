@@ -1,5 +1,6 @@
 package;
 
+import flash.Lib;
 import jp_2dgames.TextUtil;
 import flixel.util.FlxSave;
 /**
@@ -229,6 +230,13 @@ class Reg {
      **/
     private static function get_level():Int {
         return _level;
+    }
+
+    /**
+     * ゲームを起動しての経過時間を取得する
+     **/
+    public static function getPasttime():Float {
+        return flash.Lib.getTimer() * 0.001;
     }
 }
 

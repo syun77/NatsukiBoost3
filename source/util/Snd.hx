@@ -1,4 +1,5 @@
 package util;
+
 import flixel.system.FlxSound;
 import flixel.FlxG;
 
@@ -35,8 +36,8 @@ class Snd {
 
             if(_oneShotTable.exists(key)) {
                 info = _oneShotTable[key];
-                var diff = Sys.time() - info.time;
 
+                var diff = Reg.getPasttime() - info.time;
                 if(diff < tWait) {
                     // ちょっと待ってから再生する
                     return info.data;
@@ -51,7 +52,7 @@ class Snd {
 
             var data:FlxSound = FlxG.sound.play(key);
             info.data = data;
-            info.time = Sys.time();
+            info.time = Reg.getPasttime();
             _oneShotTable[key] = info;
 
             return info.data;
