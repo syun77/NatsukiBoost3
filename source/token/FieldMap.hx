@@ -1,5 +1,7 @@
 package token;
 
+import flixel.util.FlxRandom;
+import jp_2dgames.CsvLoader;
 import jp_2dgames.TmxLoader;
 import jp_2dgames.TextUtil;
 import Reg.GameMode;
@@ -30,6 +32,11 @@ class FieldMap {
      **/
     public function new() {
 
+        var cnt = cast(Math.floor(Sys.time() * 10), Int)%10;
+        for(i in 0...cnt) {
+            FlxRandom.resetGlobalSeed();
+        }
+
         switch(Reg.mode) {
             case GameMode.Fix:
                 // 固定マップをロード
@@ -40,23 +47,69 @@ class FieldMap {
                 _height = _tmx.height;
 
             case GameMode.Random:
-                _width = 0;
-                var layers = new Array<Layer2D>();
-                for(i in 1...4) {
-                    var fTmx = "assets/levels/random/" + TextUtil.fillZero(i, 3) + ".tmx";
-                    var tmx = new TmxLoader();
-                    tmx.load(fTmx);
-                    _width += tmx.width;
-                    _height = tmx.height;
-                    layers.push(tmx.getLayer(0));
-                }
-                _layer = new Layer2D(_width, _height);
-                var x:Int = 0;
-                for(layer in layers) {
-                    _layer.copyRectDestination(layer, x, 0);
-                    x += layer.width;
-                }
+                _loadRandom();
             case GameMode.Endless:
+        }
+
+    }
+
+    /**
+     * ランダムステージ用のマップデータ読み込み
+     **/
+    private function _loadRandom():Void {
+
+        // CSV読み込み
+        var fCsv = "assets/levels/random/" + TextUtil.fillZero(Reg.level, 3) + ".csv";
+        var data:CsvLoader = new CsvLoader(fCsv);
+
+        // CSVをもとにマップデータ読み込み
+        _width = 0;
+        var layers = new Array<Layer2D>();
+        for(i in 1...data.size()+1) {
+            var cmd = data.getString(i, "cmd");
+            var vals = new Array();
+            for(j in 1...(9+1)) {
+                var key = "val" + j;
+                var val = data.getString(i, key);
+                if(val != "") {
+                    vals.push(Std.parseInt(val));
+                }
+            }
+            trace(cmd + vals.toString());
+
+            var idx:Int = 1;
+            switch(cmd) {
+                case "choise":
+                    // 指定した値の中からランダムに選ぶ
+                    FlxRandom.shuffleArray(vals, 3);
+                    idx = vals[0];
+                case "range":
+                    // 指定した範囲からランダムに選ぶ
+                    idx = FlxRandom.intRanged(vals[0], vals[1]);
+            }
+
+            trace(' -> ${idx}');
+            var fTmx = "assets/levels/random/" + TextUtil.fillZero(idx, 3) + ".tmx";
+            if(openfl.Assets.getText(fTmx) == null) {
+                Sys.println('Warning: Not found map = ${fTmx}');
+                continue;
+            }
+
+            // Tmxファイル読み込み
+            var tmx = new TmxLoader();
+            tmx.load(fTmx);
+            _width += tmx.width;
+            _height = tmx.height;
+            layers.push(tmx.getLayer(0));
+        }
+
+        // Layer2D生成
+        _layer = new Layer2D(_width, _height);
+        var x:Int = 0;
+        for(layer in layers) {
+            // 1つずつコピーする
+            _layer.copyRectDestination(layer, x, 0);
+            x += layer.width;
         }
 
     }
