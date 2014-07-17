@@ -108,9 +108,9 @@
 		<value>scene3.ssae</value>
 		<value>scene4.ssae</value>
 	</animepackNames>
-	<lastAnimeFile>scene4.ssae</lastAnimeFile>
+	<lastAnimeFile>scene3.ssae</lastAnimeFile>
 	<lastAnimeName>anime_1</lastAnimeName>
-	<lastCellMapFile>opening04_zan.ssce</lastCellMapFile>
-	<lastCell>scene_char2</lastCell>
-	<lastPart>scene_char2</lastPart>
+	<lastCellMapFile>opening03_oku.ssce</lastCellMapFile>
+	<lastCell>scene_3_2</lastCell>
+	<lastPart>scene_3_2</lastPart>
 </SpriteStudioProject>

@@ -401,10 +401,10 @@
 							</key>
 							<key time="80" ipType="bezier">
 								<curve syncStartEnd="0">0 0 0 0</curve>
-								<value>0</value>
+								<value>10</value>
 							</key>
 							<key time="90" ipType="linear">
-								<value>-5</value>
+								<value>5</value>
 							</key>
 							<key time="100" ipType="bezier">
 								<curve syncStartEnd="0">0 0 0 0</curve>
@@ -415,11 +415,11 @@
 								<value>5</value>
 							</key>
 							<key time="120" ipType="linear">
-								<value>0</value>
+								<value>10</value>
 							</key>
 							<key time="130" ipType="bezier">
 								<curve syncStartEnd="0">0 0 0 0</curve>
-								<value>-5</value>
+								<value>5</value>
 							</key>
 							<key time="140" ipType="bezier">
 								<curve syncStartEnd="0">0 0 0 0</curve>
@@ -430,7 +430,7 @@
 							</key>
 							<key time="160" ipType="bezier">
 								<curve syncStartEnd="0">0 0 0 0</curve>
-								<value>0</value>
+								<value>10</value>
 							</key>
 							<key time="170" ipType="bezier">
 								<curve syncStartEnd="0">0 0 0 0</curve>
