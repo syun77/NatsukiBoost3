@@ -19,7 +19,10 @@ BaseImage014=.\opening04_char.png
 BaseImage015=.\opening04_msg.png
 BaseImage016=.\opening04_zan.png
 BaseImage017=.\opening04_zan_mae.png
-Animation001=.\scene4_anime_1.ssax
+Animation001=.\scene1_anime_1.ssax
+Animation002=.\scene2_anime_1.ssax
+Animation003=.\scene3_anime_1.ssax
+Animation004=.\scene4_anime_1.ssax
 [Animation_Screen]
 ScreenW=213
 ScreenH=160

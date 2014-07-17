@@ -3,7 +3,7 @@
 	<!-- This data was created by OPTPiX SpriteStudio 5.3.0.5260 -->
 	<Header>
 		<EndFrame>179</EndFrame>
-		<BaseTickTime>60</BaseTickTime>
+		<BaseTickTime>30</BaseTickTime>
 		<OptionState>
 			<ScreenSize>
 				<CanvasWidth>426</CanvasWidth>
@@ -38,6 +38,13 @@
 		<Part Root="1">
 			<Type>1</Type>
 			<Name>root</Name>
+			<Attributes>
+				<Attribute Tag="HIDE">
+					<Key Time="0">
+						<Value>0</Value>
+					</Key>
+				</Attribute>
+			</Attributes>
 		</Part>
 		<Part>
 			<Type>0</Type>

@@ -270,10 +270,10 @@
 						<Value>-5</Value>
 					</Key>
 					<Key Time="80" CurveType="3" CurveStartT="0.000" CurveStartV="0.000" CurveEndT="0.000" CurveEndV="0.000">
-						<Value>0</Value>
+						<Value>-10</Value>
 					</Key>
 					<Key Time="90" CurveType="1">
-						<Value>5</Value>
+						<Value>-5</Value>
 					</Key>
 					<Key Time="100" CurveType="3" CurveStartT="0.000" CurveStartV="0.000" CurveEndT="0.000" CurveEndV="0.000">
 						<Value>0</Value>
@@ -282,10 +282,10 @@
 						<Value>-5</Value>
 					</Key>
 					<Key Time="120" CurveType="1">
-						<Value>0</Value>
+						<Value>-10</Value>
 					</Key>
 					<Key Time="130" CurveType="3" CurveStartT="0.000" CurveStartV="0.000" CurveEndT="0.000" CurveEndV="0.000">
-						<Value>5</Value>
+						<Value>-5</Value>
 					</Key>
 					<Key Time="140" CurveType="3" CurveStartT="0.000" CurveStartV="0.000" CurveEndT="0.000" CurveEndV="0.000">
 						<Value>0</Value>
@@ -294,7 +294,7 @@
 						<Value>-5</Value>
 					</Key>
 					<Key Time="160" CurveType="3" CurveStartT="0.000" CurveStartV="0.000" CurveEndT="0.000" CurveEndV="0.000">
-						<Value>0</Value>
+						<Value>-10</Value>
 					</Key>
 					<Key Time="170" CurveType="3" CurveStartT="0.000" CurveStartV="0.000" CurveEndT="0.000" CurveEndV="0.000">
 						<Value>5</Value>
