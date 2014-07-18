@@ -62,6 +62,7 @@ class FieldMap {
         var data:CsvLoader = new CsvLoader(fCsv);
 
         // CSVをもとにマップデータ読み込み
+        var tmxs = new Map<Int,TmxLoader>();
         _width = 0;
         var layers = new Array<Layer2D>();
         for(i in 1...data.size()+1) {
@@ -88,15 +89,24 @@ class FieldMap {
             }
 
             trace(' -> ${idx}');
-            var fTmx = "assets/levels/random/" + TextUtil.fillZero(idx, 3) + ".tmx";
-            if(openfl.Assets.getText(fTmx) == null) {
-                trace('Warning: Not found map = ${fTmx}');
-                continue;
+            var tmx = null;
+            if(tmxs.exists(idx)) {
+                // キャッシュから取得
+                tmx = tmxs.get(idx);
             }
+            else {
+                // キャッシュにないので生成
+                var fTmx = "assets/levels/random/" + TextUtil.fillZero(idx, 3) + ".tmx";
+                if(openfl.Assets.getText(fTmx) == null) {
+                    trace('Warning: Not found map = ${fTmx}');
+                    continue;
+                }
 
-            // Tmxファイル読み込み
-            var tmx = new TmxLoader();
-            tmx.load(fTmx);
+                // Tmxファイル読み込み
+                tmx = new TmxLoader();
+                tmx.load(fTmx);
+                tmxs[idx] = tmx;
+            }
             _width += tmx.width;
             _height = tmx.height;
             layers.push(tmx.getLayer(0));
