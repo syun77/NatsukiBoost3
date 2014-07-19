@@ -7,7 +7,6 @@ import csv.CsvPlayer;
 import effects.Back;
 import effects.EffectPlayer;
 import effects.EffectStart;
-import token.StopSign;
 import token.Player;
 import token.Block;
 import token.Ring;
@@ -64,7 +63,6 @@ class PlayState extends FlxState {
     private var _follow:FlxSprite;
     private var _rings:FlxTypedGroup<Ring>;
     private var _blocks:FlxTypedGroup<Block>;
-    private var _stopSigns:FlxTypedGroup<StopSign>;
 
     // スピード管理
     private var _speedCtrl:SpeedController;
@@ -147,13 +145,6 @@ class PlayState extends FlxState {
             _blocks.add(new Block());
         }
         this.add(_blocks);
-
-        // 停止標識
-        _stopSigns = new FlxTypedGroup<StopSign>(32);
-        for(i in 0..._stopSigns.maxSize) {
-            _stopSigns.add(new StopSign());
-        }
-        this.add(_stopSigns);
 
         // エフェクト
         _eftPlayer = new EffectPlayer();
@@ -319,13 +310,6 @@ class PlayState extends FlxState {
             var r:Ring = _rings.recycle();
             r.init(type, x, y);
         }
-        // 一時停止標識の生成
-        var createStopSign = function(i, j) {
-            var x = _field.toRealX(i);
-            var y = _field.toRealY(j);
-            var s:StopSign = _stopSigns.recycle();
-            s.init(x, y);
-        }
 
         var layer:Layer2D = _field.getLayer(0);
         var px = Math.floor(FlxG.camera.scroll.x / _field.tileWidth);
@@ -345,9 +329,6 @@ class PlayState extends FlxState {
                         layer.set(i, j, 0);
                     case 4: // 赤リング
                         createRing(i, j, Attribute.Red);
-                        layer.set(i, j, 0);
-                    case 5: // 一時停止標識
-                        createStopSign(i, j);
                         layer.set(i, j, 0);
                 }
             }
@@ -464,7 +445,6 @@ class PlayState extends FlxState {
         // 当たり判定
         FlxG.overlap(_player, _rings, _vsPlayerRing, _collideCircle);
         FlxG.overlap(_player, _blocks, _vsPlayerBlock, _collideCircleBlock);
-        FlxG.overlap(_player, _stopSigns, _vsPlayerStop, _collideCircle);
     }
 
     private function _updateChangeWait():Void {
@@ -607,15 +587,6 @@ class PlayState extends FlxState {
 
         // ブロック破壊数アップ
         _cntBlock++;
-    }
-
-    /**
-     * プレイヤ vs 停止標識
-     **/
-    private function _vsPlayerStop(p:Player, s:StopSign):Void {
-        _speedCtrl.setBrakeTimer(TIMER_STOP);
-        s.kill();
-        Snd.playSe("brake", true);
     }
 
     /**
