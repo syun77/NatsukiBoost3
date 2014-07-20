@@ -15,10 +15,10 @@ class EffectRing extends FlxSprite {
 
     public function init(attr:Attribute, px:Float, py:Float):Void {
         if(attr == Attribute.Blue) {
-            loadGraphic("assets/images/ring_blue.png", true);
+            loadGraphic("assets/images/item/ring_blue.png", true);
         }
         else {
-            loadGraphic("assets/images/ring_red.png", true);
+            loadGraphic("assets/images/item/ring_red.png", true);
         }
         x = px;
         y = py;

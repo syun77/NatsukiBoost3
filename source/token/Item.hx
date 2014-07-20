@@ -51,11 +51,11 @@ class Item extends FlxSprite {
         y = py;
         switch(chipID) {
         case 3:
-            loadGraphic("assets/images/ring_blue.png", true);
+            loadGraphic("assets/images/item/ring_blue.png", true);
             _id = ItemID.Ring;
             _attr = Attribute.Blue;
         case 4:
-            loadGraphic("assets/images/ring_red.png", true);
+            loadGraphic("assets/images/item/ring_red.png", true);
             _id = ItemID.Ring;
             _attr = Attribute.Red;
         }
