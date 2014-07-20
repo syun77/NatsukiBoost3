@@ -14,15 +14,15 @@ class Reg {
     public static var TIME_INIT = (59 * 60 * 1000) + (59 * 1000) + 999;
 
     // ゲームモード
-    private static var _mode:GameMode = GameMode.Fix;
-//    private static var _mode:GameMode = GameMode.Random;
+//    private static var _mode:GameMode = GameMode.Fix;
+    private static var _mode:GameMode = GameMode.Random;
     public static var mode(get, null):GameMode;
 
     // レベルの最大
     public static var LEVEL_MAX = 4;
 
     // レベル
-    private static var _level:Int = 2;
+    private static var _level:Int = 1;
 	public static var level(get, null):Int;
 
     // スコア

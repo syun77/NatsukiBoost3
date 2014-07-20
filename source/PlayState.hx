@@ -308,6 +308,10 @@ class PlayState extends FlxState {
         var createItem = function(i, j, id:Int) {
             var x = _field.toRealX(i, 32);
             var y = _field.toRealY(j, 32);
+            if(id == 36) {
+                x = _field.toRealX(i, 48);
+                y = _field.toRealY(j, 48);
+            }
             var item:Item = _items.recycle();
             item.init(id, x, y);
         }
@@ -318,6 +322,7 @@ class PlayState extends FlxState {
         w += 8; // 検索範囲を広めに取る
           for(j in 0..._field.height) {
             for(i in px...(px+w)) {
+                var id = layer.get(i, j);
                 switch(layer.get(i, j)) {
                     case 1: // 青ブロック
                         createBlock(i, j, Attribute.Blue);
@@ -325,13 +330,8 @@ class PlayState extends FlxState {
                     case 2: // 赤ブロック
                         createBlock(i, j, Attribute.Red);
                         layer.set(i, j, 0);
-                    case 3: // 青リング
-//                        createRing(i, j, Attribute.Blue);
-                        createItem(i, j, 3);
-                        layer.set(i, j, 0);
-                    case 4: // 赤リング
-//                        createRing(i, j, Attribute.Red);
-                        createItem(i, j, 4);
+                    case 3,4,17,18,19,20,21,33,34,35,36: // アイテム
+                        createItem(i, j, id);
                         layer.set(i, j, 0);
                 }
             }

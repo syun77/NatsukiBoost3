@@ -47,6 +47,10 @@ class CsvLoader {
                 var data:Map<String, String> = new Map<String, String>();
                 for(k in _header) {
                     var v:String = arr[col];
+                    if(v == null) {
+                        // データがなければ空文字にしておく
+                        v = "";
+                    }
                     if(k == "id") {
                         nId = Std.parseInt(v);
                     }
