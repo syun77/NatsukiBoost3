@@ -100,7 +100,6 @@ class PlayState extends FlxState {
     private var _combo:Int     = 0; // コンボ数
     private var _tChangeWait:Int = TIMER_CHANGE_WAIT; // リング獲得時の停止タイマー
     private var _cntSameBlock  = 0; // 同属性のブロックを破壊した数
-    private var _bInvisible:Bool = false; // 無敵フラグ
 
     // リザルト用変数
     private var _cntBlock:Int   = 0; // ブロック破壊数
@@ -128,6 +127,7 @@ class PlayState extends FlxState {
         // ゲームオブジェクト生成
         _player = new Player(32, FlxG.height/2);
         this.add(_player);
+        this.add(_player.getStar());
         _follow = new FlxSprite(_player.x+FlxG.width/2, _player.y);
         _follow.visible = false;
         this.add(_follow);
@@ -551,6 +551,10 @@ class PlayState extends FlxState {
             _player.startSmall();
             item.vanish();
 
+        case ItemID.Star:
+            _player.startStar();
+            item.vanish();
+
         default:
             // 何もしない
         }
@@ -578,7 +582,7 @@ class PlayState extends FlxState {
             Snd.playSe("eat", true, _csvPlayer.eat_se_timer);
         }
         else {
-            if(_bInvisible == false) {
+            if(_player.isStar() == false) {
                 // ダメージ処理
                 _player.damage();
 
@@ -704,7 +708,7 @@ class PlayState extends FlxState {
         }
         if(FlxG.keys.justPressed.M) {
             // 無敵状態切替
-            _bInvisible = if(_bInvisible) false else true;
+            _player.startStar();
         }
         if(FlxG.keys.justPressed.B) {
             // 巨大化

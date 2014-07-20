@@ -32,6 +32,7 @@ class Player extends FlxSprite {
     private var _cntHit:Int; // 蓄積ダメージ数
     private var _tAnime:Int; // アニメ用タイマー
     private var _eftAttribute:FlxSprite; // 属性エフェクト
+    private var _star:FlxSprite; // 無敵エフェクト
     private var _width:Float; // 元の幅
     private var _height:Float; // 元の高さ
 
@@ -75,11 +76,15 @@ class Player extends FlxSprite {
         _eftAttribute.loadGraphic("assets/images/attribute.png", true);
         _eftAttribute.animation.add("blue", [0]);
         _eftAttribute.animation.add("red", [1]);
-        _eftAttribute.width = _width;
-        _eftAttribute.height = _height;
-        _eftAttribute.centerOffsets();
         _eftAttribute.alpha = 0.8;
         FlxG.state.add(_eftAttribute);
+
+        _star = new FlxSprite();
+        _star.loadGraphic("assets/images/star.png");
+        _star.angularVelocity = 200;
+        _star.kill();
+
+        _setScale(1, width, height);
 
         _speed = 100;
         _attr = Attribute.Blue;
@@ -107,6 +112,30 @@ class Player extends FlxSprite {
 //            FlxG.watch.add(this, "_accelerometerY");
 //            FlxG.debugger.visible = true;
         }
+    }
+
+    private function _setScale(sc:Float, w:Float, h:Float):Void {
+        scale.set(sc, sc);
+        width = w;
+        height = h;
+        centerOffsets();
+
+        _eftAttribute.scale.set(sc, sc);
+        _eftAttribute.width = w;
+        _eftAttribute.height = h;
+        _eftAttribute.centerOffsets();
+
+        _star.scale.set(sc, sc);
+        _star.width = w;
+        _star.height = h;
+        _star.centerOffsets();
+    }
+
+    public function getStar():FlxSprite {
+        return _star;
+    }
+    public function isStar():Bool {
+        return _bStar;
     }
 
     public function onUpdateAccelerometer(e:AccelerometerEvent):Void {
@@ -151,6 +180,8 @@ class Player extends FlxSprite {
         super.update();
         _eftAttribute.x = x;
         _eftAttribute.y = y;
+        _star.x = x;
+        _star.y = y;
 
         // 画面外に出ないようする
         if(y < 0) { y = 0; _accelerometerY *= 0.8; }
@@ -203,6 +234,7 @@ class Player extends FlxSprite {
     public function vanish():Void {
         kill();
         _eftAttribute.kill();
+        _star.kill();
         _trailBlue.kill();
         _trailRed.kill();
     }
@@ -277,14 +309,7 @@ class Player extends FlxSprite {
     public function startBig():Void {
 
         var size = _csv.item_big_size;
-        scale.set(size, size);
-        width = _width * size;
-        height = _height * size;
-        centerOffsets();
-        _eftAttribute.scale.set(size, size);
-        _eftAttribute.width = _width * size;
-        _eftAttribute.height = _height * size;
-        _eftAttribute.centerOffsets();
+        _setScale(size, _width*size, _height*size);
 
         _bBig = true;
         _bSmall = false;
@@ -303,14 +328,7 @@ class Player extends FlxSprite {
     public function startSmall():Void {
 
         var size = _csv.item_small_size;
-        scale.set(size, size);
-        width = _width * size;
-        height = _height * size;
-        centerOffsets();
-        _eftAttribute.scale.set(size, size);
-        _eftAttribute.width = _width * size;
-        _eftAttribute.height = _height * size;
-        _eftAttribute.centerOffsets();
+        _setScale(size, _width*size, _height*size);
 
         _bBig = false;
         _bSmall = true;
@@ -327,6 +345,8 @@ class Player extends FlxSprite {
      * 無敵開始
      **/
     public function startStar():Void {
+
+        _star.revive();
 
         _bStar = true;
         if(_tStar != null) {
@@ -352,34 +372,21 @@ class Player extends FlxSprite {
     private function _CB_endBig(timer:FlxTimer):Void {
         if(_bBig == false) { return; }
 
-        scale.set(1, 1);
-        width = _width;
-        height = _height;
-        centerOffsets();
-        _eftAttribute.scale.set(1, 1);
-        _eftAttribute.width = _width;
-        _eftAttribute.height = _height;
-        _eftAttribute.centerOffsets();
+        _setScale(1, _width, _height);
         _bBig = false;
     }
     // 縮小終了
     private function _CB_endSmall(timer:FlxTimer):Void {
         if(_bSmall == false) { return; }
 
-        scale.set(1, 1);
-        width = _width;
-        height = _height;
-        centerOffsets();
-        _eftAttribute.scale.set(1, 1);
-        _eftAttribute.width = _width;
-        _eftAttribute.height = _height;
-        _eftAttribute.centerOffsets();
+        _setScale(1, _width, _height);
         _bSmall = false;
     }
     // 無敵終了
     private function _CB_endStar(timer:FlxTimer):Void {
         if(_bStar == false) { return; }
 
+        _star.kill();
         _bStar = false;
     }
     // 加速終了
