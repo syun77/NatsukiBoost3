@@ -22,7 +22,7 @@ class Reg {
     public static var LEVEL_MAX = 4;
 
     // レベル
-    private static var _level:Int = 1;
+    private static var _level:Int = 2;
 	public static var level(get, null):Int;
 
     // スコア

@@ -1,5 +1,7 @@
 package;
 
+import token.Item;
+import token.Item;
 import token.FieldMap;
 import util.Snd;
 import csv.CsvTopSpeed;
@@ -9,7 +11,6 @@ import effects.EffectPlayer;
 import effects.EffectStart;
 import token.Player;
 import token.Block;
-import token.Ring;
 import ui.HUD;
 import ui.DialogUnlock;
 import ui.ResultHUD;
@@ -61,7 +62,7 @@ class PlayState extends FlxState {
     // ゲームオブジェクト
     private var _player:Player;
     private var _follow:FlxSprite;
-    private var _rings:FlxTypedGroup<Ring>;
+    private var _items:FlxTypedGroup<Item>;
     private var _blocks:FlxTypedGroup<Block>;
 
     // スピード管理
@@ -132,12 +133,12 @@ class PlayState extends FlxState {
         _follow.visible = false;
         this.add(_follow);
 
-        // リング
-        _rings = new FlxTypedGroup<Ring>(32);
-        for(i in 0..._rings.maxSize) {
-            _rings.add(new Ring());
+        // アイテム
+        _items = new FlxTypedGroup<Item>(64);
+        for(i in 0..._items.maxSize) {
+            _items.add(new Item());
         }
-        this.add(_rings);
+        this.add(_items);
 
         // ブロック
         _blocks = new FlxTypedGroup<Block>(512);
@@ -267,7 +268,7 @@ class PlayState extends FlxState {
     private function _setActiveAll(b:Bool):Void {
         _follow.active = b;
         _blocks.active = b;
-        _rings.active = b;
+        _items.active = b;
     }
 
     /**
@@ -303,12 +304,12 @@ class PlayState extends FlxState {
             var b:Block = _blocks.recycle();
             b.init(type, x, y);
         }
-        // リングの生成
-        var createRing = function(i, j, type:Attribute) {
+        // アイテムの生成
+        var createItem = function(i, j, id:Int) {
             var x = _field.toRealX(i, 32);
-            var y = _field.toRealY(i, 32);
-            var r:Ring = _rings.recycle();
-            r.init(type, x, y);
+            var y = _field.toRealY(j, 32);
+            var item:Item = _items.recycle();
+            item.init(id, x, y);
         }
 
         var layer:Layer2D = _field.getLayer(0);
@@ -325,10 +326,12 @@ class PlayState extends FlxState {
                         createBlock(i, j, Attribute.Red);
                         layer.set(i, j, 0);
                     case 3: // 青リング
-                        createRing(i, j, Attribute.Blue);
+//                        createRing(i, j, Attribute.Blue);
+                        createItem(i, j, 3);
                         layer.set(i, j, 0);
                     case 4: // 赤リング
-                        createRing(i, j, Attribute.Red);
+//                        createRing(i, j, Attribute.Red);
+                        createItem(i, j, 4);
                         layer.set(i, j, 0);
                 }
             }
@@ -443,7 +446,7 @@ class PlayState extends FlxState {
         _putObjects();
 
         // 当たり判定
-        FlxG.overlap(_player, _rings, _vsPlayerRing, _collideCircle);
+        FlxG.overlap(_player, _items, _vsPlayerItem, _collideCircle);
         FlxG.overlap(_player, _blocks, _vsPlayerBlock, _collideCircleBlock);
     }
 
@@ -518,24 +521,30 @@ class PlayState extends FlxState {
         }
     }
 
-    // プレイヤー vs 色変えアイテム
-    private function _vsPlayerRing(p:Player, v:Ring):Void {
+    // プレイヤー vs アイテム
+    private function _vsPlayerItem(p:Player, item:Item):Void {
 
-        if(p.getAttribute() != v.getAttribute()) {
-            // 色変え実行
-            p.changeAttribute(v.getAttribute());
+        switch(item.getID()) {
+        case ItemID.Ring:
+            if(p.getAttribute() != item.getAttribute()) {
+                // 色変え実行
+                p.changeAttribute(item.getAttribute());
+            }
+            item.vanish();
+
+            // 同じX座標にあるリングを削除
+            _vanishRingX(item.x);
+
+            Snd.playSe("kin");
+
+            // リング獲得数アップ
+            _cntRing++;
+
+            _startChangeWait();
+
+        default:
+            // 何もしない
         }
-        v.vanish();
-
-        // 同じX座標にあるリングを削除
-        _vanishRingX(v.x);
-
-        Snd.playSe("kin");
-
-        // リング獲得数アップ
-        _cntRing++;
-
-        _startChangeWait();
 
     }
 
@@ -639,15 +648,15 @@ class PlayState extends FlxState {
      **/
     private function _vanishRingX(x:Float):Void {
 
-        var check = function(r:Ring) {
-            if(r.x == x) {
-                r.vanish();
+        var check = function(item:Item) {
+            if(item.getID() == ItemID.Ring && item.x == x) {
+                item.vanish();
                 var eft:EffectRing = _eftRings.recycle();
-                eft.init(r.getAttribute(), r.x, r.y);
+                eft.init(item.getAttribute(), item.x, item.y);
             }
         }
 
-        _rings.forEachAlive(check);
+        _items.forEachAlive(check);
     }
 
     /**
