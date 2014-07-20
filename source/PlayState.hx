@@ -543,6 +543,14 @@ class PlayState extends FlxState {
 
             _startChangeWait();
 
+        case ItemID.Big:
+            _player.startBig();
+            item.vanish();
+
+        case ItemID.Small:
+            _player.startSmall();
+            item.vanish();
+
         default:
             // 何もしない
         }
@@ -701,6 +709,10 @@ class PlayState extends FlxState {
         if(FlxG.keys.justPressed.B) {
             // 巨大化
             _player.startBig();
+        }
+        if(FlxG.keys.justPressed.S) {
+            // 縮小化
+            _player.startSmall();
         }
 //    #end
     }

@@ -41,6 +41,10 @@ class Player extends FlxSprite {
     private var _bStar:Bool  = false; // 無敵フラグ
     private var _nShield:Int = 0; // シールドの有効回数
     private var _bDash:Bool  = false; // ダッシュフラグ
+    private var _tBig:FlxTimer = null;
+    private var _tSmall:FlxTimer = null;
+    private var _tStar:FlxTimer = null;
+    private var _tDash:FlxTimer = null;
 
     // タッチ情報
     private var _touchId:Int; // 現在のタッチID
@@ -71,6 +75,9 @@ class Player extends FlxSprite {
         _eftAttribute.loadGraphic("assets/images/attribute.png", true);
         _eftAttribute.animation.add("blue", [0]);
         _eftAttribute.animation.add("red", [1]);
+        _eftAttribute.width = _width;
+        _eftAttribute.height = _height;
+        _eftAttribute.centerOffsets();
         _eftAttribute.alpha = 0.8;
         FlxG.state.add(_eftAttribute);
 
@@ -142,16 +149,8 @@ class Player extends FlxSprite {
      **/
     override public function update():Void {
         super.update();
-        if(scale.x == 1) {
-            // エフェクトの位置を更新
-            _eftAttribute.x = x - width/2;
-            _eftAttribute.y = y - height/2;
-
-        }
-        else {
-            _eftAttribute.x = x;
-            _eftAttribute.y = y;
-        }
+        _eftAttribute.x = x;
+        _eftAttribute.y = y;
 
         // 画面外に出ないようする
         if(y < 0) { y = 0; _accelerometerY *= 0.8; }
@@ -279,14 +278,23 @@ class Player extends FlxSprite {
 
         var size = _csv.item_big_size;
         scale.set(size, size);
-        width = _width * _csv.item_big_size;
-        height = _height * _csv.item_big_size;
+        width = _width * size;
+        height = _height * size;
         centerOffsets();
         _eftAttribute.scale.set(size, size);
+        _eftAttribute.width = _width * size;
+        _eftAttribute.height = _height * size;
         _eftAttribute.centerOffsets();
 
         _bBig = true;
-        new FlxTimer(_csv.item_big_timer, _CB_endBig);
+        _bSmall = false;
+        if(_tBig != null) {
+            _tBig.destroy();
+        }
+        if(_tSmall != null) {
+            _tSmall.destroy();
+        }
+        _tBig = new FlxTimer(_csv.item_big_timer, _CB_endBig);
     }
 
     /**
@@ -294,8 +302,25 @@ class Player extends FlxSprite {
      **/
     public function startSmall():Void {
 
+        var size = _csv.item_small_size;
+        scale.set(size, size);
+        width = _width * size;
+        height = _height * size;
+        centerOffsets();
+        _eftAttribute.scale.set(size, size);
+        _eftAttribute.width = _width * size;
+        _eftAttribute.height = _height * size;
+        _eftAttribute.centerOffsets();
+
+        _bBig = false;
         _bSmall = true;
-        new FlxTimer(_csv.item_small_timer, _CB_endSmall);
+        if(_tBig != null) {
+            _tBig.destroy();
+        }
+        if(_tSmall != null) {
+            _tSmall.destroy();
+        }
+        _tSmall = new FlxTimer(_csv.item_small_timer, _CB_endSmall);
     }
 
     /**
@@ -304,7 +329,10 @@ class Player extends FlxSprite {
     public function startStar():Void {
 
         _bStar = true;
-        new FlxTimer(_csv.item_star_timer, _CB_endStar);
+        if(_tStar != null) {
+            _tStar.destroy();
+        }
+        _tStar = new FlxTimer(_csv.item_star_timer, _CB_endStar);
     }
 
     /**
@@ -313,6 +341,9 @@ class Player extends FlxSprite {
     public function startDash():Void {
 
         _bDash = true;
+        if(_tDash != null) {
+            _tDash.destroy();
+        }
         new FlxTimer(_csv.item_dash_timer, _CB_endDash);
     }
 
@@ -326,6 +357,8 @@ class Player extends FlxSprite {
         height = _height;
         centerOffsets();
         _eftAttribute.scale.set(1, 1);
+        _eftAttribute.width = _width;
+        _eftAttribute.height = _height;
         _eftAttribute.centerOffsets();
         _bBig = false;
     }
@@ -333,6 +366,14 @@ class Player extends FlxSprite {
     private function _CB_endSmall(timer:FlxTimer):Void {
         if(_bSmall == false) { return; }
 
+        scale.set(1, 1);
+        width = _width;
+        height = _height;
+        centerOffsets();
+        _eftAttribute.scale.set(1, 1);
+        _eftAttribute.width = _width;
+        _eftAttribute.height = _height;
+        _eftAttribute.centerOffsets();
         _bSmall = false;
     }
     // 無敵終了
