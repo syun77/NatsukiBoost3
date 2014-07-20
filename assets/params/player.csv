@@ -12,3 +12,10 @@ int,str,int,str
 10,speedtop_deadline,20,ゲームオーバーとなる速度
 11,speedtop_max,800,トップスピードの限界速度
 12,speed_over_deceleration,0.01,トップスピードを超えていた際の減速度
+13,item_big_size,2,拡大アイテムによるサイズの倍率
+14,item_big_timer,5,拡大アイテムが有効な時間（秒）
+15,item_small_size,0.5,縮小アイテムによるサイズの倍率
+16,item_small_timer,5,縮小アイテムが有効な時間（秒）
+17,item_star_timer,5,無敵アイテムが有効な時間（秒）
+18,item_dash_addspeed,200,加速アイテムにより加算される速度
+19,item_dash_timer,5,加速アイテムが有効な時間（秒）

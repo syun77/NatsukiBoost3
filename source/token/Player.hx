@@ -1,4 +1,6 @@
 package token;
+import flixel.util.FlxTimer;
+import csv.CsvPlayer;
 import Math;
 import flash.events.AccelerometerEvent;
 import flash.sensors.Accelerometer;
@@ -30,6 +32,15 @@ class Player extends FlxSprite {
     private var _cntHit:Int; // 蓄積ダメージ数
     private var _tAnime:Int; // アニメ用タイマー
     private var _eftAttribute:FlxSprite; // 属性エフェクト
+    private var _width:Float; // 元の幅
+    private var _height:Float; // 元の高さ
+
+    // 状態フラグ
+    private var _bBig:Bool   = false; // 拡大フラグ
+    private var _bSmall:Bool = false; // 縮小フラグ
+    private var _bStar:Bool  = false; // 無敵フラグ
+    private var _nShield:Int = 0; // シールドの有効回数
+    private var _bDash:Bool  = false; // ダッシュフラグ
 
     // タッチ情報
     private var _touchId:Int; // 現在のタッチID
@@ -40,6 +51,9 @@ class Player extends FlxSprite {
     private var _accelerometer:Accelerometer;
     private var _accelerometerY:Float = 0;
 
+    // パラメータ
+    private var _csv:CsvPlayer;
+
     /**
      * 生成
      **/
@@ -47,6 +61,8 @@ class Player extends FlxSprite {
         super(px, py);
 
         loadGraphic("assets/images/player.png", true);
+        _width = width;
+        _height = height;
 
         animation.add("blue", [0]);
         animation.add("red", [1]);
@@ -118,15 +134,24 @@ class Player extends FlxSprite {
 
         return false;
     }
+    // CSVパラメータを設定
+    public function setCsvPlayer(csv:CsvPlayer):Void { _csv = csv; }
 
     /**
      * 更新
      **/
     override public function update():Void {
         super.update();
-        // エフェクトの位置を更新
-        _eftAttribute.x = x - 16;
-        _eftAttribute.y = y - 16;
+        if(scale.x == 1) {
+            // エフェクトの位置を更新
+            _eftAttribute.x = x - width/2;
+            _eftAttribute.y = y - height/2;
+
+        }
+        else {
+            _eftAttribute.x = x;
+            _eftAttribute.y = y;
+        }
 
         // 画面外に出ないようする
         if(y < 0) { y = 0; _accelerometerY *= 0.8; }
@@ -245,5 +270,81 @@ class Player extends FlxSprite {
         else {
             changeAttribute(Attribute.Blue);
         }
+    }
+
+    /**
+     * 巨大化開始
+     **/
+    public function startBig():Void {
+
+        var size = _csv.item_big_size;
+        scale.set(size, size);
+        width = _width * _csv.item_big_size;
+        height = _height * _csv.item_big_size;
+        centerOffsets();
+        _eftAttribute.scale.set(size, size);
+        _eftAttribute.centerOffsets();
+
+        _bBig = true;
+        new FlxTimer(_csv.item_big_timer, _CB_endBig);
+    }
+
+    /**
+     * 縮小開始
+     **/
+    public function startSmall():Void {
+
+        _bSmall = true;
+        new FlxTimer(_csv.item_small_timer, _CB_endSmall);
+    }
+
+    /**
+     * 無敵開始
+     **/
+    public function startStar():Void {
+
+        _bStar = true;
+        new FlxTimer(_csv.item_star_timer, _CB_endStar);
+    }
+
+    /**
+     * 加速開始
+     **/
+    public function startDash():Void {
+
+        _bDash = true;
+        new FlxTimer(_csv.item_dash_timer, _CB_endDash);
+    }
+
+    // ■各種数量用コールバック関数
+    // 拡大終了
+    private function _CB_endBig(timer:FlxTimer):Void {
+        if(_bBig == false) { return; }
+
+        scale.set(1, 1);
+        width = _width;
+        height = _height;
+        centerOffsets();
+        _eftAttribute.scale.set(1, 1);
+        _eftAttribute.centerOffsets();
+        _bBig = false;
+    }
+    // 縮小終了
+    private function _CB_endSmall(timer:FlxTimer):Void {
+        if(_bSmall == false) { return; }
+
+        _bSmall = false;
+    }
+    // 無敵終了
+    private function _CB_endStar(timer:FlxTimer):Void {
+        if(_bStar == false) { return; }
+
+        _bStar = false;
+    }
+    // 加速終了
+    private function _CB_endDash(timer:FlxTimer):Void {
+        if(_bDash == false) { return; }
+
+        _bDash = false;
     }
 }

@@ -24,6 +24,14 @@ class CsvPlayer {
     public var speedtop_deadline:Float;   // ゲームオーバーとなる速度
     public var eat_se_timer:Float;        // "eat"SEのウェイト時間
 
+    public var item_big_size:Float;       // 拡大アイテムによるサイズの倍率
+    public var item_big_timer:Float;      // 拡大アイテムが有効な時間（秒）
+    public var item_small_size:Float;     // 縮小アイテムによるサイズの倍率
+    public var item_small_timer:Float;    // 縮小アイテムが有効な時間（秒）
+    public var item_star_timer:Float;     // 無敵アイテムが有効な時間（秒）
+    public var item_dash_timer:Float;     // 加速アイテムが有効な時間（秒）
+
+
     public function new() {
         var csv:CsvLoader = new CsvLoader("assets/params/player.csv");
 
@@ -44,6 +52,13 @@ class CsvPlayer {
         speedtop_max = csv.searchItemFloat("key", "speedtop_max", "value");
 
         eat_se_timer = csv.searchItemFloat("key", "eat_se_timer", "value");
+
+        item_big_size = csv.searchItemFloat("key", "item_big_size", "value");
+        item_big_timer = csv.searchItemFloat("key", "item_big_timer", "value");
+        item_small_size = csv.searchItemFloat("key", "item_small_size", "value");
+        item_small_timer = csv.searchItemFloat("key", "item_small_timer", "value");
+        item_star_timer = csv.searchItemFloat("key", "item_star_timer", "value");
+        item_dash_timer = csv.searchItemFloat("key", "item_dash_timer", "value");
 
     }
 }

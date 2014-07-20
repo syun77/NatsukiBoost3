@@ -57,7 +57,6 @@ class PlayState extends FlxState {
     private static inline var TIMER_CHANGE_WAIT = 100; // リング獲得時の停止タイマー
     private static inline var TIMER_CHANGE_WAIT_DEC = 3; // リング獲得時の停止タイマーの減少量
     private static inline var TIMER_CHANGE_WAIT_MIN = 4; // リング獲得時の停止タイマーの最低値
-    private static inline var TIMER_STOP:Int = 30; // 停止タイマー
 
     // ゲームオブジェクト
     private var _player:Player;
@@ -183,6 +182,7 @@ class PlayState extends FlxState {
         // 各種パラメータ
         _csvTopSpeed = new CsvTopSpeed();
         _csvPlayer = new CsvPlayer();
+        _player.setCsvPlayer(_csvPlayer);
 
         // 変数初期化
         _state = State.Start;
@@ -309,6 +309,7 @@ class PlayState extends FlxState {
             var x = _field.toRealX(i, 32);
             var y = _field.toRealY(j, 32);
             if(id == 36) {
+                // 重力アイテムだけ48x48
                 x = _field.toRealX(i, 48);
                 y = _field.toRealY(j, 48);
             }
@@ -696,6 +697,10 @@ class PlayState extends FlxState {
         if(FlxG.keys.justPressed.M) {
             // 無敵状態切替
             _bInvisible = if(_bInvisible) false else true;
+        }
+        if(FlxG.keys.justPressed.B) {
+            // 巨大化
+            _player.startBig();
         }
 //    #end
     }
