@@ -167,8 +167,9 @@ class SpeedController {
     /**
      * ブロック衝突減速
      * @param 連続で衝突した回数
+     * @param val 固定ダメージ量
      **/
-    public function hitBlock(cnt:Int):Void {
+    public function hitBlock(cnt:Int, val:Float=0):Void {
         var v = _now * _deceleration_ratio;
         _now -= v;
         if(_now < 0) {
@@ -176,6 +177,10 @@ class SpeedController {
         }
 
         var damage = _damagetop_base + _damagetop_inc * cnt;
+        if(val > 0) {
+            // 固定ダメージ量
+            damage = val;
+        }
         addTop(-damage);
 
         if(cnt > 1) {

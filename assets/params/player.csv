@@ -19,3 +19,4 @@ int,str,int,str
 17,item_star_timer,5,無敵アイテムが有効な時間（秒）
 18,item_dash_addspeed,200,加速アイテムにより加算される速度
 19,item_dash_timer,5,加速アイテムが有効な時間（秒）
+20,item_damage_val,50,ダメージアイテムによるトップスピードの減少量

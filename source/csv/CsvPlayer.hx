@@ -30,6 +30,7 @@ class CsvPlayer {
     public var item_small_timer:Float;    // 縮小アイテムが有効な時間（秒）
     public var item_star_timer:Float;     // 無敵アイテムが有効な時間（秒）
     public var item_dash_timer:Float;     // 加速アイテムが有効な時間（秒）
+    public var item_damage_val:Float;     // ダメージアイテムによるトップスピードの減少量
 
 
     public function new() {
@@ -59,6 +60,7 @@ class CsvPlayer {
         item_small_timer = csv.searchItemFloat("key", "item_small_timer", "value");
         item_star_timer = csv.searchItemFloat("key", "item_star_timer", "value");
         item_dash_timer = csv.searchItemFloat("key", "item_dash_timer", "value");
+        item_damage_val = csv.searchItemFloat("key", "item_damage_val", "value");
 
     }
 }

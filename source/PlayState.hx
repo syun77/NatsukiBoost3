@@ -555,10 +555,39 @@ class PlayState extends FlxState {
             _player.startStar();
             item.vanish();
 
+        case ItemID.Damage:
+//            _player.damage(_csvPlayer.item_damage_val);
+            _damage(_csvPlayer.item_damage_val);
+            item.vanish();
+
         default:
             // 何もしない
         }
 
+    }
+
+    private function _damage(v:Float=0):Void {
+
+        if(_player.isStar()) {
+            // 無敵なのでノーダメージ
+            return;
+        }
+
+        if(v == 0) {
+            _player.damage();
+        }
+        else {
+            _player.damage(v);
+        }
+
+        // ペナルティ
+        _speedCtrl.hitBlock(_player.getHitCount(), v);
+        _speedCtrl.setWaitTimer(_csvPlayer.damage_timer);
+
+        // コンボ終了
+        _resetCombo();
+
+        Snd.playSe("block", true, 0.05);
     }
 
     // プレイヤー vs ブロック
@@ -582,19 +611,20 @@ class PlayState extends FlxState {
             Snd.playSe("eat", true, _csvPlayer.eat_se_timer);
         }
         else {
-            if(_player.isStar() == false) {
+//            if(_player.isStar() == false) {
                 // ダメージ処理
-                _player.damage();
-
-                // ペナルティ
-                _speedCtrl.hitBlock(_player.getHitCount());
-                _speedCtrl.setWaitTimer(_csvPlayer.damage_timer);
-
-                // コンボ終了
-                _resetCombo();
-
-                Snd.playSe("block", true, 0.05);
-            }
+                _damage();
+//                _player.damage();
+//
+//                // ペナルティ
+//                _speedCtrl.hitBlock(_player.getHitCount());
+//                _speedCtrl.setWaitTimer(_csvPlayer.damage_timer);
+//
+//                // コンボ終了
+//                _resetCombo();
+//
+//                Snd.playSe("block", true, 0.05);
+//            }
         }
 
         if(b.getAttribute() == Attribute.Red) {

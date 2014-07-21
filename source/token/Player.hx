@@ -250,7 +250,7 @@ class Player extends FlxSprite {
      * ダメージ処理
      * @param v ダメージ量
      **/
-    public function damage(v:Int=DAMAGE_INIT):Void {
+    public function damage(v:Float=DAMAGE_INIT):Void {
 
         if(_tDamage > 0) {
             // 連続ダメージなのでペナルティ
