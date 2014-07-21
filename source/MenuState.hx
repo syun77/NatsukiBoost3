@@ -1,5 +1,6 @@
 package;
 
+import Reg.GameMode;
 import util.Snd;
 import flixel.addons.effects.FlxTrail;
 import flixel.FlxSprite;
@@ -70,16 +71,23 @@ class MenuState extends FlxState {
 
 //        var x = FlxG.width/2-40;
         var x = FlxG.width/2-80;
+        var x2 = x + 80;
         var y = FlxG.height/2+24;
         var dy = 24;
         var _btn1 = new FlxButton( x, y, "EASY", _btnEasy);
+        var _btn4 = new FlxButton( x2, y, "EASY", _btnEasyRandom);
         y += dy;
         var _btn2 = new FlxButton( x, y, "NORMAL", _btnNormal);
+        var _btn5 = new FlxButton( x2, y, "NORMAL", _btnNormalRandom);
         y += dy;
         var _btn3 = new FlxButton( x, y, "HARD", _btnHard);
+        var _btn6 = new FlxButton( x2, y, "HARD", _btnHardRandom);
         _btnList.push(_btn1);
         _btnList.push(_btn2);
         _btnList.push(_btn3);
+        _btnList.push(_btn4);
+        _btnList.push(_btn5);
+        _btnList.push(_btn6);
 
         for(btn in _btnList) {
             btn.color = FlxColor.AZURE;
@@ -104,7 +112,7 @@ class MenuState extends FlxState {
             y += dy;
 
             txt.visible = false;
-            this.add(txt);
+//            this.add(txt);
             _texts.push(txt);
         }
 
@@ -147,18 +155,18 @@ class MenuState extends FlxState {
                     FlxTween.tween(_txtPress, {y:FlxG.height/2}, 1, {ease:FlxEase.expoOut});
                     var i = 0;
                     for(btn in _btnList) {
-                        if(i <= Reg.getLevelMax()) {
+//                        if(i <= Reg.getLevelMax()) {
                             // クリアしたステージ+1のみ選択可能
                             btn.visible = true;
-                        }
+//                        }
                         i++;
                     }
                     i = 0;
                     for(txt in _texts) {
-                        if(i <= Reg.getLevelMax()) {
+//                        if(i <= Reg.getLevelMax()) {
                             // クリアしたステージ+1のみ選択可能
                             txt.visible = true;
-                        }
+//                        }
                         i++;
                     }
                     _state = State.Select;
@@ -199,14 +207,32 @@ class MenuState extends FlxState {
     // ボタンを押した
     private function _btnEasy():Void {
         Reg.setLevel(1);
+        Reg.setMode(GameMode.Fix);
         _bDecide = true;
     }
     private function _btnNormal():Void {
         Reg.setLevel(2);
+        Reg.setMode(GameMode.Fix);
         _bDecide = true;
     }
     private function _btnHard():Void {
         Reg.setLevel(3);
+        Reg.setMode(GameMode.Fix);
+        _bDecide = true;
+    }
+    private function _btnEasyRandom():Void {
+        Reg.setLevel(1);
+        Reg.setMode(GameMode.Random);
+        _bDecide = true;
+    }
+    private function _btnNormalRandom():Void {
+        Reg.setLevel(2);
+        Reg.setMode(GameMode.Random);
+        _bDecide = true;
+    }
+    private function _btnHardRandom():Void {
+        Reg.setLevel(3);
+        Reg.setMode(GameMode.Random);
         _bDecide = true;
     }
 }
