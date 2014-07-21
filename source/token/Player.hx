@@ -1,4 +1,5 @@
 package token;
+import flixel.util.loaders.TexturePackerData;
 import flixel.util.FlxTimer;
 import csv.CsvPlayer;
 import Math;
@@ -65,7 +66,9 @@ class Player extends FlxSprite {
     public function new(px:Float, py:Float) {
         super(px, py);
 
-        loadGraphic("assets/images/player.png", true);
+        var tex = new TexturePackerData("assets/images/player.json", "assets/images/player.png");
+        loadGraphicFromTexture(tex);
+
         _width = width;
         _height = height;
 

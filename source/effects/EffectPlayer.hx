@@ -1,5 +1,6 @@
 package effects;
 
+import flixel.util.loaders.TexturePackerData;
 import flixel.FlxSprite;
 /**
  * プレイヤーエフェクト
@@ -13,7 +14,8 @@ class EffectPlayer extends FlxSprite {
      **/
     public function new() {
         super();
-        loadGraphic("assets/images/player.png", true);
+        var tex = new TexturePackerData("assets/images/player.json", "assets/images/player.png");
+        loadGraphicFromTexture(tex);
         animation.add("blue", [0]);
         animation.add("red", [1]);
         kill(); // 非表示にする
