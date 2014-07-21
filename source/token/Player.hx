@@ -59,12 +59,15 @@ class Player extends FlxSprite {
 
     // パラメータ
     private var _csv:CsvPlayer;
+    private var _shield:Shield;
 
     /**
      * 生成
      **/
-    public function new(px:Float, py:Float) {
+    public function new(px:Float, py:Float, shield:Shield) {
         super(px, py);
+        _shield = shield;
+        _shield.kill();
 
         var tex = new TexturePackerData("assets/images/player.json", "assets/images/player.png");
         loadGraphicFromTexture(tex);
@@ -185,6 +188,8 @@ class Player extends FlxSprite {
         _eftAttribute.y = y;
         _star.x = x;
         _star.y = y;
+        _shield.x = width + x;
+        _shield.y = y;
 
         // 画面外に出ないようする
         if(y < 0) { y = 0; _accelerometerY *= 0.8; }
@@ -247,6 +252,25 @@ class Player extends FlxSprite {
     }
 
     /**
+     * シールドの有効チェック
+     * @return シールドが残っていればtrue
+     **/
+    public function checkShield():Bool {
+        if(_nShield <= 0) {
+            return false;
+        }
+
+        _nShield--;
+        if(_nShield <= 0) {
+            _shield.kill();
+        }
+        else {
+            _shield.blink();
+        }
+        return true;
+    }
+
+    /**
      * ダメージ処理
      * @param v ダメージ量
      **/
@@ -291,6 +315,7 @@ class Player extends FlxSprite {
         }
         animation.play(name);
         _eftAttribute.animation.play(name);
+        _shield.setAttribute(_attr);
     }
 
     /**
@@ -356,6 +381,15 @@ class Player extends FlxSprite {
             _tStar.destroy();
         }
         _tStar = new FlxTimer(_csv.item_star_timer, _CB_endStar);
+    }
+
+    /**
+     * シールドアイテム有効開始
+     **/
+    public function startShield():Void {
+
+        _shield.revive();
+        _nShield =  _csv.item_shield_count;
     }
 
     /**

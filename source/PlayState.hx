@@ -1,5 +1,6 @@
 package;
 
+import token.Shield;
 import token.Item;
 import token.Item;
 import token.FieldMap;
@@ -60,6 +61,7 @@ class PlayState extends FlxState {
 
     // ゲームオブジェクト
     private var _player:Player;
+    private var _shield:Shield;
     private var _follow:FlxSprite;
     private var _items:FlxTypedGroup<Item>;
     private var _blocks:FlxTypedGroup<Block>;
@@ -125,7 +127,11 @@ class PlayState extends FlxState {
         _field = new FieldMap();
 
         // ゲームオブジェクト生成
-        _player = new Player(32, FlxG.height/2);
+        // シールド
+        _shield = new Shield();
+        this.add(_shield);
+        // プレイヤー
+        _player = new Player(32, FlxG.height/2, _shield);
         this.add(_player);
         this.add(_player.getStar());
         _follow = new FlxSprite(_player.x+FlxG.width/2, _player.y);
@@ -556,8 +562,11 @@ class PlayState extends FlxState {
             item.vanish();
 
         case ItemID.Damage:
-//            _player.damage(_csvPlayer.item_damage_val);
             _damage(_csvPlayer.item_damage_val);
+            item.vanish();
+
+        case ItemID.Shield:
+            _player.startShield();
             item.vanish();
 
         default:
@@ -570,6 +579,10 @@ class PlayState extends FlxState {
 
         if(_player.isStar()) {
             // 無敵なのでノーダメージ
+            return;
+        }
+        if(_player.checkShield()) {
+            // シールドでガード
             return;
         }
 

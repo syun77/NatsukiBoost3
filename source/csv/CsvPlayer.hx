@@ -31,6 +31,7 @@ class CsvPlayer {
     public var item_star_timer:Float;     // 無敵アイテムが有効な時間（秒）
     public var item_dash_timer:Float;     // 加速アイテムが有効な時間（秒）
     public var item_damage_val:Float;     // ダメージアイテムによるトップスピードの減少量
+    public var item_shield_count:Int;     // シールドアイテムで防ぐことができるダメージの回数
 
 
     public function new() {
@@ -61,6 +62,7 @@ class CsvPlayer {
         item_star_timer = csv.searchItemFloat("key", "item_star_timer", "value");
         item_dash_timer = csv.searchItemFloat("key", "item_dash_timer", "value");
         item_damage_val = csv.searchItemFloat("key", "item_damage_val", "value");
+        item_shield_count = csv.searchItemInt("key", "item_shield_count", "value");
 
     }
 }
