@@ -66,8 +66,9 @@ class FieldMap {
         _width = 0;
         var layers = new Array<Layer2D>();
         for(i in 1...data.size()+1) {
-            var cmd = data.getString(i, "cmd");
-            var vals = new Array();
+            var cmd = data.getString(i, "cmd"); // コマンド
+            var loop = data.getInt(i, "loop"); // ループ回数
+            var vals = new Array(); // パラメータ
             for(j in 1...(9+1)) {
                 var key = "val" + j;
                 var val = data.getString(i, key);
@@ -75,41 +76,44 @@ class FieldMap {
                     vals.push(Std.parseInt(val));
                 }
             }
-            //trace(cmd + vals.toString());
+            trace(cmd + vals.toString());
 
-            var idx:Int = 1;
-            switch(cmd) {
-                case "choise":
-                    // 指定した値の中からランダムに選ぶ
-                    FlxRandom.shuffleArray(vals, 3);
-                    idx = vals[0];
-                case "range":
-                    // 指定した範囲からランダムに選ぶ
-                    idx = FlxRandom.intRanged(vals[0], vals[1]);
-            }
+            for(i in 0...loop) {
 
-            //trace(' -> ${idx}');
-            var tmx = null;
-            if(tmxs.exists(idx)) {
-                // キャッシュから取得
-                tmx = tmxs.get(idx);
-            }
-            else {
-                // キャッシュにないので生成
-                var fTmx = "assets/levels/random/" + TextUtil.fillZero(idx, 3) + ".tmx";
-                if(openfl.Assets.getText(fTmx) == null) {
-                    trace('Warning: Not found map = ${fTmx}');
-                    continue;
+                var idx:Int = 1;
+                switch(cmd) {
+                    case "choise":
+                        // 指定した値の中からランダムに選ぶ
+                        FlxRandom.shuffleArray(vals, 3);
+                        idx = vals[0];
+                    case "range":
+                        // 指定した範囲からランダムに選ぶ
+                        idx = FlxRandom.intRanged(vals[0], vals[1]);
                 }
 
-                // Tmxファイル読み込み
-                tmx = new TmxLoader();
-                tmx.load(fTmx);
-                tmxs[idx] = tmx;
+                trace(' -> ${idx}');
+                var tmx = null;
+                if(tmxs.exists(idx)) {
+                    // キャッシュから取得
+                    tmx = tmxs.get(idx);
+                }
+                else {
+                    // キャッシュにないので生成
+                    var fTmx = "assets/levels/random/" + TextUtil.fillZero(idx, 3) + ".tmx";
+                    if(openfl.Assets.getText(fTmx) == null) {
+                        trace('Warning: Not found map = ${fTmx}');
+                        continue;
+                    }
+
+                    // Tmxファイル読み込み
+                    tmx = new TmxLoader();
+                    tmx.load(fTmx);
+                    tmxs[idx] = tmx;
+                }
+                _width += tmx.width;
+                _height = tmx.height;
+                layers.push(tmx.getLayer(0));
             }
-            _width += tmx.width;
-            _height = tmx.height;
-            layers.push(tmx.getLayer(0));
         }
 
         // Layer2D生成
