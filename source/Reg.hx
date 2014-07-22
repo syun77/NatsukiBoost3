@@ -14,8 +14,8 @@ class Reg {
     public static var TIME_INIT = (59 * 60 * 1000) + (59 * 1000) + 999;
 
     // ゲームモード
-//    private static var _mode:GameMode = GameMode.Fix;
-    private static var _mode:GameMode = GameMode.Random;
+    private static var _mode:GameMode = GameMode.Fix;
+//    private static var _mode:GameMode = GameMode.Random;
     public static var mode(get, null):GameMode;
 
     // レベルの最大

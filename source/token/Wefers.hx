@@ -11,6 +11,7 @@ class Wefers extends FlxSprite{
     private var _attr:Attribute;
     private var _timer:Int = 0;
     private var _target:Player;
+    private var _decay:Float = 0.1;
 
     public function new(target:Player) {
         super();
@@ -36,6 +37,7 @@ class Wefers extends FlxSprite{
         animation.add("play", [0, 1], FlxRandom.intRanged(5, 10));
         _timer = FlxRandom.intRanged(10, 30);
         velocity.set(0, -2*FlxRandom.intRanged(30, 100));
+        _decay = 0.1;
     }
 
     override function update():Void {
@@ -49,8 +51,12 @@ class Wefers extends FlxSprite{
         else {
             var dx = _target.x + _target.width/2 - (x + width/2);
             var dy = _target.y + _target.height/2 - (y + height/2);
-            x += dx * 0.1;
-            y += dy * 0.1;
+            x += dx * _decay;
+            y += dy * _decay;
+            _decay += 0.01;
+            if(_decay > 1) {
+                _decay = 1;
+            }
         }
     }
 }
