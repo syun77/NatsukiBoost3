@@ -76,7 +76,7 @@ class FieldMap {
                     vals.push(Std.parseInt(val));
                 }
             }
-            trace(cmd + vals.toString());
+//            trace(cmd + vals.toString());
 
             for(i in 0...loop) {
 
@@ -91,7 +91,7 @@ class FieldMap {
                         idx = FlxRandom.intRanged(vals[0], vals[1]);
                 }
 
-                trace(' -> ${idx}');
+//                trace(' -> ${idx}');
                 var tmx = null;
                 if(tmxs.exists(idx)) {
                     // キャッシュから取得
