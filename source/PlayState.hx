@@ -1,5 +1,8 @@
 package;
 
+import token.Wefers;
+import flixel.util.FlxRandom;
+import effects.EffectBomb;
 import token.Shield;
 import token.Item;
 import token.Item;
@@ -65,6 +68,7 @@ class PlayState extends FlxState {
     private var _follow:FlxSprite;
     private var _items:FlxTypedGroup<Item>;
     private var _blocks:FlxTypedGroup<Block>;
+    private var _weferses:FlxTypedGroup<Wefers>;
 
     // スピード管理
     private var _speedCtrl:SpeedController;
@@ -77,6 +81,7 @@ class PlayState extends FlxState {
     private var _emitterBrake:EmitterBrake;
     private var _eftStart:EffectStart;
     private var _eftRings:FlxTypedGroup<EffectRing>;
+    private var _eftBombs:FlxTypedGroup<EffectBomb>;
 
     // メッセージ
     private var _txtMessage:FlxText;
@@ -152,6 +157,13 @@ class PlayState extends FlxState {
         }
         this.add(_blocks);
 
+        // ウエハース
+        _weferses = new FlxTypedGroup<Wefers>(512);
+        for(i in 0..._weferses.maxSize) {
+            _weferses.add(new Wefers(_player));
+        }
+        this.add(_weferses);
+
         // エフェクト
         _eftPlayer = new EffectPlayer();
         this.add(_eftPlayer);
@@ -166,6 +178,13 @@ class PlayState extends FlxState {
             _eftRings.add(new EffectRing());
         }
         this.add(_eftRings);
+
+        // ボムエフェクト
+        _eftBombs = new FlxTypedGroup<EffectBomb>(64);
+        for(i in 0..._eftBombs.maxSize) {
+            _eftBombs.add(new EffectBomb());
+        }
+        this.add(_eftBombs);
 
         // パーティクル
         _emitterBlockBlue = new EmitterBlockBlue();
@@ -389,6 +408,24 @@ class PlayState extends FlxState {
     }
 
     /**
+     * 更新・ボム
+     **/
+    private function _updateBomb():Void {
+        if(_eftBombs.countLiving() > 0) {
+            var check = function(b:Block):Void {
+                if(b.isOnScreen()) {
+                    var w:Wefers = _weferses.recycle();
+                    w.init(b.getAttribute(), b.x, b.y);
+                    b.vanish();
+                }
+            }
+
+            // 画面内のブロックを消去
+            _blocks.forEachAlive(check);
+        }
+    }
+
+    /**
      * 更新・メイン
      **/
     private function _updateMain():Void {
@@ -401,7 +438,6 @@ class PlayState extends FlxState {
 
         if(_speedCtrl.isBrake()) {
             // ブレーキ中
-
             // 足もとからブレーキエフェクト生成
             var px = _player.x+_player.width/2;
             var py = _player.y+_player.height;
@@ -410,6 +446,9 @@ class PlayState extends FlxState {
 
         // スクロール処理
         _updateScroll();
+
+        // ボムの処理
+        _updateBomb();
 
         // クリア判定
         if(FlxG.camera.scroll.x >= _field.getRealWidth() - FlxG.width) {
@@ -455,6 +494,7 @@ class PlayState extends FlxState {
         // 当たり判定
         FlxG.overlap(_player, _items, _vsPlayerItem, _collideCircle);
         FlxG.overlap(_player, _blocks, _vsPlayerBlock, _collideCircleBlock);
+        FlxG.overlap(_player, _weferses, _vsPlayerWefers);
     }
 
     private function _updateChangeWait():Void {
@@ -569,6 +609,10 @@ class PlayState extends FlxState {
             _player.startShield();
             item.vanish();
 
+        case ItemID.Bomb:
+            _startBomb();
+            item.vanish();
+
         default:
             // 何もしない
         }
@@ -603,41 +647,34 @@ class PlayState extends FlxState {
         Snd.playSe("block", true, 0.05);
     }
 
+    private function _getBlock():Void {
+        // スピードアップ
+        _cntSameBlock++;
+
+        // トップスピード上昇判定
+        _csvTopSpeed.update(_speedCtrl.getTop());
+        //            trace("" + _cntSameBlock + "/" + _csvTopSpeed.getCount() + " -> " + _csvTopSpeed.getValue());
+        if(_cntSameBlock >= _csvTopSpeed.getCount()) {
+            // トップスピードアップ
+            _speedCtrl.addTop(_csvTopSpeed.getValue());
+            _cntSameBlock = 0;
+        }
+        // コンボ数アップ
+        _addCombo();
+
+        Snd.playSe("eat", true, _csvPlayer.eat_se_timer);
+
+    }
+
     // プレイヤー vs ブロック
     private function _vsPlayerBlock(p:Player, b:Block):Void {
 
         if(p.getAttribute() == b.getAttribute()) {
-            // スピードアップ
-            _cntSameBlock++;
-
-            // トップスピード上昇判定
-            _csvTopSpeed.update(_speedCtrl.getTop());
-//            trace("" + _cntSameBlock + "/" + _csvTopSpeed.getCount() + " -> " + _csvTopSpeed.getValue());
-            if(_cntSameBlock >= _csvTopSpeed.getCount()) {
-                // トップスピードアップ
-                _speedCtrl.addTop(_csvTopSpeed.getValue());
-                _cntSameBlock = 0;
-            }
-            // コンボ数アップ
-            _addCombo();
-
-            Snd.playSe("eat", true, _csvPlayer.eat_se_timer);
+            _getBlock();
         }
         else {
-//            if(_player.isStar() == false) {
-                // ダメージ処理
-                _damage();
-//                _player.damage();
-//
-//                // ペナルティ
-//                _speedCtrl.hitBlock(_player.getHitCount());
-//                _speedCtrl.setWaitTimer(_csvPlayer.damage_timer);
-//
-//                // コンボ終了
-//                _resetCombo();
-//
-//                Snd.playSe("block", true, 0.05);
-//            }
+            // ダメージ処理
+            _damage();
         }
 
         if(b.getAttribute() == Attribute.Red) {
@@ -652,6 +689,14 @@ class PlayState extends FlxState {
 
         // ブロック破壊数アップ
         _cntBlock++;
+    }
+
+    /**
+     * プレイヤーとウエハースとの衝突
+     **/
+    private function _vsPlayerWefers(p:Player, w:Wefers):Void {
+        _getBlock();
+        w.kill();
     }
 
     /**
@@ -716,6 +761,20 @@ class PlayState extends FlxState {
     }
 
     /**
+     * ボムエフェクト開始
+     **/
+    private function _startBomb():Void {
+        for(i in  0..._eftBombs.maxSize) {
+            var b:EffectBomb = _eftBombs.recycle();
+            var px = FlxG.camera.scroll.x + FlxRandom.intRanged(0, FlxG.width);
+            var py = FlxG.camera.scroll.y + FlxRandom.intRanged(0, FlxG.height);
+            b.start(px, py);
+        }
+        // 1秒間フラッシュする
+        FlxG.camera.flash(0xffFFFFFF, 0.3);
+    }
+
+    /**
      * 更新・デバッグ
      **/
     private function _updateDebug():Void {
@@ -760,6 +819,10 @@ class PlayState extends FlxState {
         if(FlxG.keys.justPressed.S) {
             // 縮小化
             _player.startSmall();
+        }
+        if(FlxG.keys.justPressed.A) {
+            // ボム
+            _startBomb();
         }
 //    #end
     }
