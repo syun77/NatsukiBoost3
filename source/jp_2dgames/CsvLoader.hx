@@ -1,5 +1,6 @@
 package jp_2dgames;
 
+import StringTools;
 import flixel.FlxG;
 import openfl.Assets;
 
@@ -34,7 +35,7 @@ class CsvLoader {
         var row = 0;
         for(line in text.split("\n")) {
             if(line == "") { continue; }
-
+            line = StringTools.trim(line);
             var arr:Array<String> = line.split(",");
             switch(row) {
             case 0:
