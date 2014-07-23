@@ -15,6 +15,7 @@ class EffectBomb extends FlxSprite {
      **/
     public function new() {
         super();
+        scrollFactor.set(0, 0);
         loadGraphic("assets/images/bomb.png", true);
         animation.add("play", [0, 1, 2, 3, 4, 5, 6, 7], 30, false);
         kill();

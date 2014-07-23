@@ -766,8 +766,8 @@ class PlayState extends FlxState {
     private function _startBomb():Void {
         for(i in  0..._eftBombs.maxSize) {
             var b:EffectBomb = _eftBombs.recycle();
-            var px = FlxG.camera.scroll.x + FlxRandom.intRanged(0, FlxG.width);
-            var py = FlxG.camera.scroll.y + FlxRandom.intRanged(0, FlxG.height);
+            var px = FlxRandom.intRanged(0, FlxG.width-32);
+            var py = FlxRandom.intRanged(0, FlxG.height-32);
             b.start(px, py);
         }
         // 1秒間フラッシュする
