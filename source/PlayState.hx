@@ -1,5 +1,7 @@
 package;
 
+import flixel.tweens.FlxEase;
+import flixel.tweens.FlxTween;
 import token.Wefers;
 import flixel.util.FlxRandom;
 import effects.EffectBomb;
@@ -43,6 +45,7 @@ private enum State {
     Start;          // 開始演出
     Main;           // メイン
     ChangeWait;     // 色変え演出中
+    WarpWait;       // ワープ演出中
     StageClearInit; // ステージクリア・初期化
     StageClearMain; // ステージクリア・メイン
     UnlockWait;     // ステージアンロック・ウィンドウ表示中
@@ -279,6 +282,7 @@ class PlayState extends FlxState {
             case State.Start: _updateStart();
             case State.Main: _updateMain();
             case State.ChangeWait: _updateChangeWait();
+            case State.WarpWait: _updateWarpWait();
             case State.StageClearInit: _updateStageClearInit();
             case State.StageClearMain: _updateStageClearMain();
             case State.UnlockWait: _updateUnlockWait();
@@ -290,10 +294,15 @@ class PlayState extends FlxState {
         _updateDebug();
     }
 
-    private function _setActiveAll(b:Bool):Void {
+    private function _setActiveForChangeWait(b:Bool):Void {
         _follow.active = b;
         _blocks.active = b;
         _items.active = b;
+    }
+
+    private function _setActiveForWarpWait(b:Bool):Void {
+        _follow.active = b;
+        _player.active = b;
     }
 
     /**
@@ -312,9 +321,45 @@ class PlayState extends FlxState {
 
         _eftPlayer.start(_player.getAttribute(), _player.x, _player.y, _timer);
 
-        _setActiveAll(false);
+        _setActiveForChangeWait(false);
         // プレイヤーだけ止めずに速度だけ0にする
         _player.velocity.x = 0;
+    }
+
+    /**
+     * ワープ演出開始
+     **/
+    private function _startWarpWait(warp:Item):Void {
+        var py:Float = 0;
+        var check = function(item:Item) {
+            if(item.getID() == ItemID.Warp) {
+                if(warp.x == item.x && warp.y != item.y) {
+                    // ワープ先を発見
+                    py = item.y;
+                    item.vanish();
+                }
+            }
+        }
+
+        _items.forEachAlive(check);
+
+        if(py != 0) {
+            // ワープ開始
+            _state = State.WarpWait;
+            _setActiveForWarpWait(false);
+            FlxTween.tween(_player, {y:py}, 1, {ease:FlxEase.expoOut, complete:_cb_warpend});
+        }
+        warp.vanish();
+    }
+
+    /**
+     * ワープ演出終了
+     **/
+    private function _cb_warpend(tween:FlxTween):Void {
+
+        // メインに戻る
+        _state = State.Main;
+        _setActiveForWarpWait(true);
     }
 
     /**
@@ -497,12 +542,22 @@ class PlayState extends FlxState {
         FlxG.overlap(_player, _weferses, _vsPlayerWefers);
     }
 
+    /**
+     * 更新・属性変更
+     **/
     private function _updateChangeWait():Void {
         if(_eftPlayer.isEnd()) {
-            _setActiveAll(true);
+            _setActiveForChangeWait(true);
             _state = State.Main;
         }
     }
+
+    /**
+     * 更新・ワープ
+     **/
+    private function _updateWarpWait():Void {
+    }
+
     /**
      * ステージクリア
      **/
@@ -612,6 +667,9 @@ class PlayState extends FlxState {
         case ItemID.Bomb:
             _startBomb();
             item.vanish();
+
+        case ItemID.Warp:
+            _startWarpWait(item);
 
         default:
             // 何もしない

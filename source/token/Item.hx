@@ -21,10 +21,14 @@ enum ItemID {
  */
 class Item extends FlxSprite {
 
+    private static inline var TIMER_VANISH = 60;
+
     // アイテムID
     private var _id:ItemID;
     // 属性
     private var _attr:Attribute;
+    // 消滅タイマー
+    private var _tVanish:Int;
 
     /**
      * コンストラクタ
@@ -47,6 +51,9 @@ class Item extends FlxSprite {
      * @param py  座標(Y)
      **/
     public function init(chipID:Int, px:Float, py:Float):Void {
+        _tVanish = 0;
+        visible = true;
+
         x = px;
         y = py;
         switch(chipID) {
@@ -115,7 +122,13 @@ class Item extends FlxSprite {
      * 消滅
      **/
     public function vanish():Void {
-        kill();
+        if(_id == ItemID.Warp) {
+            _tVanish = TIMER_VANISH;
+        }
+        else {
+            // そのまま消す
+            kill();
+        }
     }
 
     /**
@@ -123,6 +136,14 @@ class Item extends FlxSprite {
      */
     override public function update():Void {
         super.update();
+
+        if(_tVanish > 0) {
+            visible = _tVanish%4 < 2;
+            _tVanish--;
+            if(_tVanish <= 0) {
+                kill();
+            }
+        }
 
         if(x + width < FlxG.camera.scroll.x) {
             // 画面外に出たので消す
