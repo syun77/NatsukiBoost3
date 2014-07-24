@@ -21,3 +21,4 @@ int,str,int,str
 19,item_dash_timer,5,加速アイテムが有効な時間（秒）
 20,item_damage_val,50,ダメージアイテムによるトップスピードの減少量
 21,item_shield_count,5,シールドアイテムで防ぐことができるダメージの回数
+22,item_gravity_length,80,重力アイテムの影響範囲
