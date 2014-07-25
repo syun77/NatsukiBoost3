@@ -2,7 +2,7 @@ id,key,value,comment
 int,str,int,str
 1,speed_start,40,開始時の速さ
 2,speedtop_start,60,トップスピードの初期値
-3,speedtop_accel,0.01,トップスピードへ近づく加速度
+3,speedtop_accel,0.015,トップスピードへ近づく加速度
 4,speedtop_deceleration,0.05,異なる属性ブロック衝突時の減速度
 5,brake_ratio,0.04,ブレーキボタンによる減速度
 6,damage_timer,30,異なる属性ブロック衝突時の加速できない時間(フレーム数)
