@@ -56,6 +56,14 @@
         <sound path="brake.mp3" id="brake" />
         <sound path="push.mp3" id="push" />
         <sound path="eat.mp3" id="eat" />
+        <sound path="beam2002_lazer.mp3" id="kasoku" />
+        <sound path="burururu.mp3" id="big" />
+        <sound path="door_close.mp3" id="damage" />
+        <sound path="explosion1.mp3" id="bomb" />
+        <sound path="fanfare.mp3" id="muteki" />
+        <sound path="lazer15.mp3" id="shield" />
+        <sound path="punch_space_eq.mp3" id="shield_damage" />
+        <sound path="scratch5.mp3" id="warp" />
     </assets>
 
     <assets path="assets/music" unless="flash">
@@ -77,6 +85,14 @@
         <sound path="brake.ogg" id="brake" />
         <sound path="push.ogg" id="push" />
         <sound path="eat.ogg" id="eat" />
+        <sound path="beam2002_lazer.ogg" id="kasoku" />
+        <sound path="burururu.ogg" id="big" />
+        <sound path="door_close.ogg" id="damage" />
+        <sound path="explosion1.ogg" id="bomb" />
+        <sound path="fanfare.ogg" id="muteki" />
+        <sound path="lazer15.ogg" id="shield" />
+        <sound path="punch_space_eq.ogg" id="shield_damage" />
+        <sound path="scratch5.ogg" id="warp" />
     </assets>
 
 
