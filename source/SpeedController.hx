@@ -13,7 +13,9 @@ class SpeedController {
     private var _now:Float = 0;     // 現在の速度
     private var _max:Float = 0;     // 最大速度
     private var _top:Float = 120;   // 現在の最大速度
+    private var _kasoku:Float = 0;  // 加速アイテムによる速度の増分
 
+    // CSVから設定するパラメータ
     private var _accel_ratio:Float = 0.1;
     private var _deceleration_ratio:Float = 0.05;
     private var _brake_ratio:Float = 0.05;
@@ -25,6 +27,8 @@ class SpeedController {
 
     private var _speedtop_deadline:Float = 0;
     private var _speedtop_max:Float = 0; // トップスピードの限界速度
+
+    private var _item_dash_addspeed:Float = 0; // 加速アイテムによる上昇する速度
 
     // タイマー
     private var _tBrake:Int = 0;    // ブレーキする時間
@@ -47,12 +51,20 @@ class SpeedController {
 
         _speedtop_deadline = csvPlayer.speedtop_deadline;
         _speedtop_max = csvPlayer.speedtop_max;
+
+        _item_dash_addspeed = csvPlayer.item_dash_addspeed;
     }
 
-    public function getNow():Float { return _now; }
+    public function getNow():Float { return _now + _kasoku; }
     public function getTop():Float { return _top; }
     public function getMax():Float { return _max; }
     public function getSpeedTopMax():Float { return _speedtop_max; }
+
+    // 加速アイテムを有効にする
+    public function enableKasoku():Void {
+        _kasoku = _item_dash_addspeed;
+        trace("kasoku " + _item_dash_addspeed);
+    }
 
     /**
      * 更新
@@ -67,6 +79,14 @@ class SpeedController {
             d *= _accel_ratio;
             add(d);
         }
+
+        if(_kasoku > 0 && getNow() > _top) {
+            // 加速アイテムの効果を減衰させる
+            var d = _now - _top;
+            d *= _speed_over_deceleration;
+            _kasoku -= d;
+        }
+
 
         if(_tWait > 0) {
             _tWait--;

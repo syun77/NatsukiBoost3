@@ -178,6 +178,8 @@ class Player extends FlxSprite {
     }
     // CSVパラメータを設定
     public function setCsvPlayer(csv:CsvPlayer):Void { _csv = csv; }
+    // 加速が有効かどうか
+    public function isDash():Bool { return _bDash; }
 
     /**
      * 更新
@@ -401,7 +403,7 @@ class Player extends FlxSprite {
         if(_tDash != null) {
             _tDash.destroy();
         }
-        new FlxTimer(_csv.item_dash_timer, _CB_endDash);
+        _tDash = new FlxTimer(_csv.item_dash_timer, _CB_endDash);
     }
 
     // ■各種数量用コールバック関数

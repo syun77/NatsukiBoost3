@@ -489,6 +489,11 @@ class PlayState extends FlxState {
             _emitterBrake.explode(px, py);
         }
 
+        // 加速アイテムの処理
+        if(_player.isDash()) {
+            _speedCtrl.enableKasoku();
+        }
+
         // スクロール処理
         _updateScroll();
 
@@ -670,6 +675,10 @@ class PlayState extends FlxState {
 
         case ItemID.Warp:
             _startWarpWait(item);
+
+        case ItemID.Dash:
+            _player.startDash();
+            item.vanish();
 
         default:
             // 何もしない
@@ -881,6 +890,10 @@ class PlayState extends FlxState {
         if(FlxG.keys.justPressed.A) {
             // ボム
             _startBomb();
+        }
+        if(FlxG.keys.justPressed.K) {
+            // 加速アイテム
+            _player.startDash();
         }
 //    #end
     }
