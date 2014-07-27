@@ -17,8 +17,8 @@ int,str,int,str
 15,item_small_size,0.5,縮小アイテムによるサイズの倍率
 16,item_small_timer,4,縮小アイテムが有効な時間（秒）
 17,item_star_timer,4,無敵アイテムが有効な時間（秒）
-18,item_dash_addspeed,200,加速アイテムにより加算される速度
-19,item_dash_timer,4,加速アイテムが有効な時間（秒）
+18,item_dash_addspeed,100,加速アイテムにより加算される速度
+19,item_dash_timer,0.1,加速アイテムが有効な時間（秒）
 20,item_damage_val,200,ダメージアイテムによるトップスピードの減少量
 21,item_shield_count,20,シールドアイテムで防ぐことができるダメージの回数
 22,item_gravity_length,200,重力アイテムの影響範囲
