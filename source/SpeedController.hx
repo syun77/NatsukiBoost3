@@ -81,7 +81,7 @@ class SpeedController {
 
         if(_kasoku > 0 && getNow() > _top) {
             // 加速アイテムの効果を減衰させる
-            var d = _now - _top;
+            var d = getNow() - _top;
             d *= _speed_over_deceleration;
             _kasoku -= d;
         }
@@ -180,6 +180,11 @@ class SpeedController {
         _now -= v;
         if(_now < 0) {
             _now = 0;
+        }
+
+        if(_kasoku > 0) {
+            // アイテム加速も減衰する
+            _kasoku *= _brake_ratio;
         }
     }
 
