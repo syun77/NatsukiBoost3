@@ -709,6 +709,8 @@ class PlayState extends FlxState {
             _startWarpWait(item);
 
         case ItemID.Dash:
+            // 開始速度を記録しておく
+            _speedCtrl.recordKasokuInit();
             _player.startDash();
             item.vanish();
 
@@ -925,6 +927,8 @@ class PlayState extends FlxState {
         }
         if(FlxG.keys.justPressed.K) {
             // 加速アイテム
+            // 開始速度を記録しておく
+            _speedCtrl.recordKasokuInit();
             _player.startDash();
         }
 //    #end
