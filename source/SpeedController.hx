@@ -63,7 +63,6 @@ class SpeedController {
     // 加速アイテムを有効にする
     public function enableKasoku():Void {
         _kasoku = _item_dash_addspeed;
-        trace("kasoku " + _item_dash_addspeed);
     }
 
     /**
