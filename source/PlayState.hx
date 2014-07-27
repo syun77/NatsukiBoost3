@@ -421,6 +421,34 @@ class PlayState extends FlxState {
     }
 
     /**
+     * 重力アイテムのチェック
+     **/
+    private function _checkGravity():Void {
+
+        var bFind:Bool = false;
+        var px:Float = 0;
+        var py:Float = 9;
+        var distance:Float = 999999;
+        var check = function(item:Item) {
+            // 一番近い重力アイテムの座標を取得する
+            if(item.getID() == ItemID.Gravity) {
+                bFind = true;
+                var d = FlxMath.distanceBetween(item, _player);
+                if(d < _csvPlayer.item_gravity_length && d < distance) {
+                    distance = d;
+                    px = item.x;
+                    py = item.y;
+                }
+            }
+        }
+
+        _items.forEachAlive(check);
+
+        // 重力情報の設定
+        _player.setGravity(bFind, px, py);
+    }
+
+    /**
      * 各種スクロール処理
      **/
     private function _updateScroll():Void {
@@ -494,6 +522,9 @@ class PlayState extends FlxState {
             _speedCtrl.enableKasoku();
         }
 
+        // 重力アイテムのチェック
+        _checkGravity();
+
         // スクロール処理
         _updateScroll();
 
@@ -561,6 +592,7 @@ class PlayState extends FlxState {
      * 更新・ワープ
      **/
     private function _updateWarpWait():Void {
+        // 特に何もしない
     }
 
     /**
