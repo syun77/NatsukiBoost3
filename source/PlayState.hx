@@ -421,6 +421,34 @@ class PlayState extends FlxState {
     }
 
     /**
+     * 重力アイテムのチェック
+     **/
+    private function _checkGravity():Void {
+
+        var bFind:Bool = false;
+        var px:Float = 0;
+        var py:Float = 9;
+        var distance:Float = 999999;
+        var check = function(item:Item) {
+            // 一番近い重力アイテムの座標を取得する
+            if(item.getID() == ItemID.Gravity) {
+                bFind = true;
+                var d = FlxMath.distanceBetween(item, _player);
+                if(d < _csvPlayer.item_gravity_length && d < distance) {
+                    distance = d;
+                    px = item.x;
+                    py = item.y;
+                }
+            }
+        }
+
+        _items.forEachAlive(check);
+
+        // 重力情報の設定
+        _player.setGravity(bFind, px, py);
+    }
+
+    /**
      * 各種スクロール処理
      **/
     private function _updateScroll():Void {
@@ -494,6 +522,9 @@ class PlayState extends FlxState {
             _speedCtrl.enableKasoku();
         }
 
+        // 重力アイテムのチェック
+        _checkGravity();
+
         // スクロール処理
         _updateScroll();
 
@@ -561,6 +592,7 @@ class PlayState extends FlxState {
      * 更新・ワープ
      **/
     private function _updateWarpWait():Void {
+        // 特に何もしない
     }
 
     /**
@@ -578,15 +610,15 @@ class PlayState extends FlxState {
             _player.active = false;
         }
         if(FlxG.mouse.justPressed && _result.isEnd()) {
-            if(_result.isNewLevel()) {
-                // アンロックウィンドウをオープン
-                _unlock = new DialogUnlock(Reg.level+1);
-                this.add(_unlock);
-                _state = State.UnlockWait;
-            }
-            else {
+//            if(_result.isNewLevel()) {
+//                // アンロックウィンドウをオープン
+//                _unlock = new DialogUnlock(Reg.level+1);
+//                this.add(_unlock);
+//                _state = State.UnlockWait;
+//            }
+//            else {
                 FlxG.switchState(new MenuState());
-            }
+//            }
         }
     }
 
@@ -607,7 +639,7 @@ class PlayState extends FlxState {
      **/
     private function _startResult():Void {
         var pasttime:Int = _hud.getPastTime();
-        _result = new ResultHUD(_cntRing, _cntBlock, _comboMax, _speedCtrl.getNow(), pasttime, _speedCtrl.getMax());
+        _result = new ResultHUD();
         this.add(_result);
         Snd.playMusic("gameover", false);
     }
@@ -677,6 +709,8 @@ class PlayState extends FlxState {
             _startWarpWait(item);
 
         case ItemID.Dash:
+            // 開始速度を記録しておく
+            _speedCtrl.recordKasokuInit();
             _player.startDash();
             item.vanish();
 
@@ -893,6 +927,8 @@ class PlayState extends FlxState {
         }
         if(FlxG.keys.justPressed.K) {
             // 加速アイテム
+            // 開始速度を記録しておく
+            _speedCtrl.recordKasokuInit();
             _player.startDash();
         }
 //    #end
