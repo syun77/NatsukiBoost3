@@ -610,15 +610,15 @@ class PlayState extends FlxState {
             _player.active = false;
         }
         if(FlxG.mouse.justPressed && _result.isEnd()) {
-            if(_result.isNewLevel()) {
-                // アンロックウィンドウをオープン
-                _unlock = new DialogUnlock(Reg.level+1);
-                this.add(_unlock);
-                _state = State.UnlockWait;
-            }
-            else {
+//            if(_result.isNewLevel()) {
+//                // アンロックウィンドウをオープン
+//                _unlock = new DialogUnlock(Reg.level+1);
+//                this.add(_unlock);
+//                _state = State.UnlockWait;
+//            }
+//            else {
                 FlxG.switchState(new MenuState());
-            }
+//            }
         }
     }
 
@@ -639,7 +639,7 @@ class PlayState extends FlxState {
      **/
     private function _startResult():Void {
         var pasttime:Int = _hud.getPastTime();
-        _result = new ResultHUD(_cntRing, _cntBlock, _comboMax, _speedCtrl.getNow(), pasttime, _speedCtrl.getMax());
+        _result = new ResultHUD();
         this.add(_result);
         Snd.playMusic("gameover", false);
     }
