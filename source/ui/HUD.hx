@@ -1,4 +1,5 @@
 package ui;
+import jp_2dgames.TextUtil;
 import SpeedController;
 import token.Player;
 import flixel.util.FlxStringUtil;
@@ -22,7 +23,9 @@ class HUD extends FlxGroup {
     private var SPEEDBAR_WIDTH = FlxG.width*0.75;
     private var SPEEDBAR_HEIGHT = 8;
     private var SPEEDTXT_POS_X:Float;
-    // スピードテキスト
+
+    // スコア
+    private static inline var SCORE_DIGIT = 8; // スコアは8桁
 
     // 参照用ゲームオブジェクト
     private var _player:Player;
@@ -35,6 +38,7 @@ class HUD extends FlxGroup {
     private var _txtCombo:FlxText;
     private var _txtCombo2:FlxText;
     private var _txtTime:FlxText;
+    private var _txtScore:FlxText;
 
     // 経過時間
     private var _pastTime:Float = 0;
@@ -89,12 +93,18 @@ class HUD extends FlxGroup {
         // レベル
         _txtLevel.alignment = "right";
 
+        // スコア
+        _txtScore = new FlxText(x, y2, 128);
+        setScore(0);
+        y2 += dy;
+
         // コンボ数
         _txtCombo = new FlxText(FlxG.width-72, y2, 64);
         _txtCombo.alignment = "center";
         _txtCombo2 = new FlxText(FlxG.width-56, y2+24, 80);
         _txtCombo2.text = "combo";
         _txtCombo2.visible = false;
+
 
         _objs.push(_barDistance);
         _objs.push(_txtTime);
@@ -103,6 +113,7 @@ class HUD extends FlxGroup {
         _objs.push(_txtLevel);
         _objs.push(_txtCombo);
         _objs.push(_txtCombo2);
+        _objs.push(_txtScore);
 
         for(o in _objs) {
             // スクロール無効
@@ -123,6 +134,14 @@ class HUD extends FlxGroup {
      **/
     public function getPastTime():Int {
         return cast _pastTime;
+    }
+
+    /**
+     * スコアの設定
+     **/
+    public function setScore(score:Int):Void {
+        // スコアは8桁
+        _txtScore.text = "SCORE: " + TextUtil.fillZero(score, SCORE_DIGIT);
     }
 
     override public function update():Void {

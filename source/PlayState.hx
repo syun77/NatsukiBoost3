@@ -1,5 +1,6 @@
 package;
 
+import flixel.util.FlxAngle;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import token.Wefers;
@@ -426,18 +427,19 @@ class PlayState extends FlxState {
     private function _checkGravity():Void {
 
         var bFind:Bool = false;
-        var px:Float = 0;
-        var py:Float = 9;
-        var distance:Float = 999999;
+        var dx:Float = 0;
+        var dy:Float = 0;
         var check = function(item:Item) {
             // 一番近い重力アイテムの座標を取得する
             if(item.getID() == ItemID.Gravity) {
                 bFind = true;
                 var d = FlxMath.distanceBetween(item, _player);
-                if(d < _csvPlayer.item_gravity_length && d < distance) {
-                    distance = d;
-                    px = item.x;
-                    py = item.y;
+                if(d < _csvPlayer.item_gravity_length) {
+                    var rad = FlxAngle.angleBetween(_player, item);
+                    var power = _csvPlayer.item_gravity_power;
+                    dx += power * Math.cos(rad);
+                    dy += power * Math.sin(rad);
+                    trace('_checkGravity() rad=${rad} power=${power} dx=${dx} dy=${dy}');
                 }
             }
         }
@@ -445,7 +447,7 @@ class PlayState extends FlxState {
         _items.forEachAlive(check);
 
         // 重力情報の設定
-        _player.setGravity(bFind, px, py);
+        _player.setGravity(bFind, dx, dy);
     }
 
     /**

@@ -50,8 +50,8 @@ class Player extends FlxSprite {
 
     // 重力アイテム
     private var _bGravity:Bool = false; // 近くに重力アイテムがあるかどうか
-    private var _gravityX:Float = 0;    // 重力アイテムの座標(X)
-    private var _gravityY:Float = 0;    // 重力アイテムの座標(Y)
+    private var _gravityX:Float = 0;    // 重力アイテムにより引っ張られる力（X）
+    private var _gravityY:Float = 0;    // 重力アイテムにより引っ張られる力（Y）
 
     // タッチ情報
     private var _touchId:Int; // 現在のタッチID
@@ -152,13 +152,13 @@ class Player extends FlxSprite {
     /**
      * 重力アイテムの情報を設定する
      * @param b 近くに重力アイテムがあるかどうか
-     * @param px 重力アイテムの座標(x)
-     * @param py 重力アイテムの座標(Y)
+     * @param dx 重力アイテムにより引っ張られる力（X）
+     * @param dy 重力アイテムにより引っ張られる力（Y）
      **/
-    public function setGravity(b:Bool, px:Float, py:Float):Void {
+    public function setGravity(b:Bool, dx:Float, dy:Float):Void {
         _bGravity = b;
-        _gravityX = px;
-        _gravityY = py;
+        _gravityX = dx;
+        _gravityY = dy;
     }
 
     public function onUpdateAccelerometer(e:AccelerometerEvent):Void {
@@ -242,21 +242,7 @@ class Player extends FlxSprite {
 
         if(_bGravity) {
             // 重力アイテムが近くにある
-            var dy2 = _gravityY - y;
-            if(dy2 > 0) {
-                // 下方向にある
-                if(velocity.y < 0) {
-                    // 上には動けない
-                    velocity.y *= 0.01;
-                }
-            }
-            else {
-                // 上方向にある
-                if(velocity.y > 0) {
-                    // 下には動けない
-                    velocity.y *= 0.01;
-                }
-            }
+            velocity.y += _gravityY;
         }
 
         // ダメージタイマー
