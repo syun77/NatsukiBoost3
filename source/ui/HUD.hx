@@ -55,6 +55,9 @@ class HUD extends FlxGroup {
 
     private var _tLevel:Int = 60;
 
+    // スコア
+    private var _score:Int = 0;
+
     /**
      * コンストラクタ
      **/
@@ -95,7 +98,8 @@ class HUD extends FlxGroup {
 
         // スコア
         _txtScore = new FlxText(x, y2, 128);
-        setScore(0);
+        _score = 0;
+        _updateScoreText();
         y2 += dy;
 
         // コンボ数
@@ -139,9 +143,21 @@ class HUD extends FlxGroup {
     /**
      * スコアの設定
      **/
-    public function setScore(score:Int):Void {
+    private function _updateScoreText():Void {
         // スコアは8桁
-        _txtScore.text = "SCORE: " + TextUtil.fillZero(score, SCORE_DIGIT);
+        _txtScore.text = "SCORE: " + TextUtil.fillZero(_score, SCORE_DIGIT);
+    }
+    public function getScore():Int {
+        return _score;
+    }
+
+    /**
+     * スコアの加算
+     * @param v 加算するスコア
+     **/
+    public function addScore(v:Int):Void {
+        _score += v;
+        _updateScoreText();
     }
 
     override public function update():Void {
