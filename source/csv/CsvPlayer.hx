@@ -35,6 +35,7 @@ class CsvPlayer {
     public var item_shield_count:Int;     // シールドアイテムで防ぐことができるダメージの回数
     public var item_gravity_length:Float; // 重力アイテムが有効な距離
     public var item_gravity_power:Float;  // 重力アイテムにより引っ張られる力
+    public var combo_timer:Float;         // コンボが有効な時間（秒）
 
 
     public function new() {
@@ -70,5 +71,6 @@ class CsvPlayer {
         item_gravity_length = csv.searchItemFloat("key", "item_gravity_length", "value");
         item_gravity_power = csv.searchItemFloat("key", "item_gravity_power", "value");
 
+        combo_timer = csv.searchItemFloat("key", "combo_timer", "value");
     }
 }

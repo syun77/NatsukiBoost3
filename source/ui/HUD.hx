@@ -41,7 +41,7 @@ class HUD extends FlxGroup {
     private var _txtScore:FlxText;
 
     // 経過時間
-    private var _pastTime:Float = 0;
+    private var _pastTime:Float = 0; // 単位はミリ秒
     private var _bIncTime:Bool = false; // 経過時間の増加フラグ
 
     // ゲージ
@@ -135,6 +135,7 @@ class HUD extends FlxGroup {
 
     /**
      * 経過時間を取得
+     * @return 経過時間（単位はミリ秒）
      **/
     public function getPastTime():Int {
         return cast _pastTime;
@@ -158,6 +159,14 @@ class HUD extends FlxGroup {
     public function addScore(v:Int):Void {
         _score += v;
         _updateScoreText();
+    }
+
+    /**
+     * コンボ表示を点滅させる
+     **/
+    public function blinkCombo():Void {
+        _txtCombo.visible = _txtCombo.visible == false;
+        _txtCombo2.visible = _txtCombo2.visible == false;
     }
 
     override public function update():Void {
