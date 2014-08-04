@@ -1,4 +1,5 @@
 package ui;
+import flixel.text.FlxText;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.FlxObject;
@@ -17,16 +18,24 @@ class ResultHUD extends FlxGroup {
     private var _scores:Array<FlxSprite>;
     private var _timebonus:FlxSprite;
     private var _wafer:FlxSprite;
+    // テキスト
+    private var _txtRatio:FlxText;
+    private var _txtRank:FlxText;
 
     // 変数
     private var _score:Int;
+    private var _pasttime:Int; // ミリ秒
+    private var _ratio:Float; // タイムボーナス倍率
 
     /**
      * コンストラクタ
      **/
-    public function new(score:Int) {
+    public function new(score:Int, pasttime:Int) {
         super();
         _score = score;
+        _pasttime = pasttime;
+        _calcRatio(); // タイムボーナスを計算
+        _score = cast(_score * _ratio);
 
         _objs = new Array<FlxObject>();
 
@@ -70,6 +79,21 @@ class ResultHUD extends FlxGroup {
         _wafer.loadGraphic("assets/images/result/ueha-su.png");
         _objs.push(_wafer);
 
+        // タイムボーナス
+        _txtRatio = new FlxText(FlxG.width/2-16, FlxG.height/2+28, FlxG.width);
+        _txtRatio.size = 20;
+        _txtRatio.borderStyle = FlxText.BORDER_OUTLINE_FAST;
+        _txtRatio.text = "x " + _ratio;
+        _objs.push(_txtRatio);
+
+        // ランク
+        _txtRank = new FlxText(0, FlxG.height - 28, FlxG.width);
+        _txtRank.alignment = "center";
+        _txtRank.size = 20;
+        _txtRank.borderStyle = FlxText.BORDER_OUTLINE_FAST;
+        _txtRank.text = "Rank: A";
+        _objs.push(_txtRank);
+
         // スプライト登録
         for(obj in _objs) {
             obj.scrollFactor.set(0, 0);
@@ -89,6 +113,20 @@ class ResultHUD extends FlxGroup {
             var obj = _scores[i];
             obj.animation.play('${num}');
         }
+    }
+
+    /**
+     * タイムボーナスの倍率を計算する
+     **/
+    private function _calcRatio():Void {
+        var sec:Int = Math.floor(_pasttime / 1000);
+        var base:Float = 4; // 基本倍率
+        base -= 0.1 * Math.floor(sec / 6);
+        if(base < 1) {
+            // 1より小さくならない
+            base = 1;
+        }
+        _ratio = base;
     }
 
     /**

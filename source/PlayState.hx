@@ -641,7 +641,7 @@ class PlayState extends FlxState {
      **/
     private function _startResult():Void {
         var pasttime:Int = _hud.getPastTime();
-        _result = new ResultHUD(123456789);
+        _result = new ResultHUD(_hud.getScore(), _hud.getPastTime());
         this.add(_result);
         Snd.playMusic("gameover", false);
     }
