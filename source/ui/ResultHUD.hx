@@ -14,9 +14,12 @@ class ResultHUD extends FlxGroup {
     private var _objs:Array<FlxObject>;
     // ゲームオブジェクト
     private var _panel:FlxSprite;
-
-    private var _score:Int;
     private var _scores:Array<FlxSprite>;
+    private var _timebonus:FlxSprite;
+    private var _wafer:FlxSprite;
+
+    // 変数
+    private var _score:Int;
 
     /**
      * コンストラクタ
@@ -28,7 +31,7 @@ class ResultHUD extends FlxGroup {
         _objs = new Array<FlxObject>();
 
         // スコアパネルの生成
-        _panel = new FlxSprite(FlxG.width/2, FlxG.height/2+40);
+        _panel = new FlxSprite(FlxG.width/2-24, FlxG.height/2+60);
         _panel.loadGraphic("assets/images/result/scoer_fream.png");
         _panel.x -= _panel.width/2;
         _objs.push(_panel);
@@ -56,6 +59,16 @@ class ResultHUD extends FlxGroup {
             _objs.push(obj);
         }
         _setScore(_score);
+
+        // タイムボーナス
+        _timebonus = new FlxSprite();
+        _timebonus.loadGraphic("assets/images/result/timebonus.png");
+        _objs.push(_timebonus);
+
+        // ウェハース
+        _wafer = new FlxSprite();
+        _wafer.loadGraphic("assets/images/result/ueha-su.png");
+        _objs.push(_wafer);
 
         // スプライト登録
         for(obj in _objs) {
