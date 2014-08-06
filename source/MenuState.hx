@@ -32,17 +32,33 @@ class MenuState extends FlxState {
     private var _texts:Array<FlxText>;
     private var _natsuki:FlxSprite;
 
+    private var _bg:FlxSprite;
+    private var _charctor:FlxSprite;
+    private var _logo:FlxSprite;
+    private var _wafers:Array<FlxSprite>;
+
     /**
 	 * 生成
 	 */
     override public function create():Void {
         super.create();
 
-        _natsuki = new FlxSprite(FlxG.width, 0);
-        _natsuki.loadGraphic("assets/images/natsuki01.png");
-        this.add(_natsuki);
-        this.add(new FlxTrail(_natsuki));
-        FlxTween.tween(_natsuki, {x:0}, 1, {ease:FlxEase.expoOut});
+        _bg = new FlxSprite();
+        _bg.loadGraphic("assets/images/title/bg.png");
+        this.add(_bg);
+        _charctor = new FlxSprite();
+        _charctor.loadGraphic("assets/images/title/charctor.png");
+        this.add(_charctor);
+        _logo = new FlxSprite();
+        _logo.loadGraphic("assets/images/title/logo.png");
+        this.add(_logo);
+        _wafers = new Array<FlxSprite>();
+        for(i in 1...6) {
+            var wafer = new FlxSprite();
+            wafer.loadGraphic('assets/images/title/wafer${i}.png');
+            _wafers.push(wafer);
+            this.add(wafer);
+        }
 
         // テキスト
         var _txtTitle = new FlxText(0, 64, FlxG.width);
