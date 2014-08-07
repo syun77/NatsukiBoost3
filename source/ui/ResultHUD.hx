@@ -1,4 +1,6 @@
 package ui;
+import jp_2dgames.CsvLoader2;
+import jp_2dgames.CsvLoader;
 import flixel.text.FlxText;
 import flixel.FlxG;
 import flixel.FlxSprite;
@@ -36,6 +38,11 @@ class ResultHUD extends FlxGroup {
         _pasttime = pasttime;
         _calcRatio(); // タイムボーナスを計算
         _score = cast(_score * _ratio);
+        // 小数点第一位より下を切り捨て
+        {
+            var tmp = Math.floor(_ratio * 10);
+            _ratio = tmp / 10.0;
+        }
 
         _objs = new Array<FlxObject>();
 
@@ -109,7 +116,6 @@ class ResultHUD extends FlxGroup {
             var div = Math.pow(10, SCORE_DIGIT-i-1);
             var num = Math.floor(v / div);
             num %= 10;
-            trace('${i} ${num}');
             var obj = _scores[i];
             obj.animation.play('${num}');
         }
@@ -119,9 +125,26 @@ class ResultHUD extends FlxGroup {
      * タイムボーナスの倍率を計算する
      **/
     private function _calcRatio():Void {
+
+        var csvTb:CsvLoader2 = new CsvLoader2("assets/levels/timebonus.csv");
+        var mode = Reg.getModeString();
+        var level = "" + Reg.level;
+
+        var check = function(data:Map<String,String>) {
+            if(data["mode"] == mode && data["level"] == level) {
+                return true;
+            }
+            return false;
+        }
+        var id = csvTb.foreachSearchID(check);
+
         var sec:Int = Math.floor(_pasttime / 1000);
-        var base:Float = 4; // 基本倍率
-        base -= 0.1 * Math.floor(sec / 6);
+        var base:Float = csvTb.getFloat(id, "start"); // 基本倍率
+        var dRatio = base - 1;
+        var limit:Float = csvTb.getFloat(id, "sec"); // 1倍になるまでの時間（秒）
+        var dRatioPerSec = dRatio / limit; // 1秒ごとに減少する倍率
+        trace('base=${base} dRatio=${dRatio} limit=${limit} dRatioPerSec=${dRatioPerSec}');
+        base -= dRatioPerSec * (sec);
         if(base < 1) {
             // 1より小さくならない
             base = 1;

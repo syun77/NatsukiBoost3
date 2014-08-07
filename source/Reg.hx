@@ -3,6 +3,12 @@ package;
 import flash.Lib;
 import jp_2dgames.TextUtil;
 import flixel.util.FlxSave;
+
+enum GameMode {
+    Fix; // 固定ステージ
+    Random; // ランダムマップ
+    Endless; // エンドレス
+}
 /**
  * Handy, pre-built Registry class that can be used to store 
  * references to objects and other things for quick-access. Feel
@@ -205,6 +211,17 @@ class Reg {
     }
 
     /**
+     * ゲームモードを文字列として取得する
+     **/
+    public static function getModeString():String {
+        switch(mode) {
+        case GameMode.Fix: return "Fix";
+        case GameMode.Random: return "Random";
+        case GameMode.Endless: return "Endless";
+        }
+    }
+
+    /**
      * ゲームモードを設定
      **/
     public static function setMode(m:GameMode):Void {
@@ -240,8 +257,3 @@ class Reg {
     }
 }
 
-enum GameMode {
-    Fix; // 固定ステージ
-    Random; // ランダムマップ
-    Endless; // エンドレス
-}
