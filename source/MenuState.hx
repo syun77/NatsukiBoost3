@@ -23,7 +23,6 @@ private enum State {
  */
 class MenuState extends FlxState {
 
-    private var _txtPress:FlxText;
     private var _timer:Int = 0;
     private var _state:State = State.Main;
     private var _bDecide:Bool = false;
@@ -61,25 +60,9 @@ class MenuState extends FlxState {
         }
 
         // テキスト
-        var _txtTitle = new FlxText(0, 64, FlxG.width);
-        _txtTitle.size = 24;
-        _txtTitle.alignment = "center";
-        _txtTitle.text = "Natsuki Boost3";
-        _txtTitle.borderStyle = FlxText.BORDER_OUTLINE_FAST;
-        _txtPress = new FlxText(0, FlxG.height/2+36, FlxG.width);
-        _txtPress.size = 16;
-        _txtPress.alignment = "center";
-#if MOBILE
-        _txtPress.text = "tap to start";
-#else
-        _txtPress.text = "click to start";
-#end
         var _txtCopy = new FlxText(0, FlxG.height-16, FlxG.width);
         _txtCopy.text = "(c)2014 Alpha Secret Base";
         _txtCopy.alignment = "center";
-
-        this.add(_txtTitle);
-        this.add(_txtPress);
         this.add(_txtCopy);
 
         // ボタン
@@ -152,7 +135,6 @@ class MenuState extends FlxState {
         switch(_state) {
             case State.Main:
                 _timer++;
-                _txtPress.visible = _timer%64 < 48;
                 if(FlxG.mouse.justReleased) {
 
                     if(Reg.getLevelMax() == 0) {
@@ -167,8 +149,6 @@ class MenuState extends FlxState {
                     }
 
                     // ステージ選択へ
-                    _txtPress.text = "Please select level.";
-                    FlxTween.tween(_txtPress, {y:FlxG.height/2}, 1, {ease:FlxEase.expoOut});
                     var i = 0;
                     for(btn in _btnList) {
 //                        if(i <= Reg.getLevelMax()) {
@@ -191,7 +171,6 @@ class MenuState extends FlxState {
             case State.Select:
                 // 決定待ち
                 _timer++;
-                _txtPress.visible = _timer%64 < 48;
                 if(_bDecide) {
                     _state = State.Decide;
                     _timer = 0;
