@@ -134,8 +134,21 @@ class ResultHUD extends FlxGroup {
         super.update();
 
         switch(_state) {
-            case State.ScoreIn:
-            default:
+            case State.ScoreIn: // スコアパネル表示
+                _state = State.BowlIn;
+            case State.BowlIn: // お皿表示
+                _state = State.BowlMain;
+            case State.BowlMain: // お皿にウェハース投擲
+                _state = State.ScoreMain;
+            case State.ScoreMain: // スコア表示
+                _state = State.TimebonusIn;
+            case State.TimebonusIn: // タイムボーナス表示
+                _state = State.ScoreMain2;
+            case State.ScoreMain2: // タイムボーナスをスコアに加算
+                _state = State.CutIn;
+            case State.CutIn: // カットイン表示
+                _state = State.Standby;
+            case State.Standby: // 入力待ち
         }
     }
 
