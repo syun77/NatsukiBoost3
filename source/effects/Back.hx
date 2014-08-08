@@ -1,5 +1,5 @@
 package effects;
-import flixel.addons.display.FlxBackdrop;
+import flixel.FlxSprite;
 import flixel.util.FlxColor;
 import flixel.group.FlxGroup;
 
@@ -8,11 +8,14 @@ import flixel.group.FlxGroup;
  **/
 class Back extends FlxGroup {
 
-    private var _back:FlxBackdrop;
+//    private var _back:FlxBackdrop;
+    private var _back:FlxSprite;
 
     public function new() {
         super();
-        _back = new FlxBackdrop("assets/images/back.png", 0.1, 0, true, false);
+//        _back = new FlxBackdrop("assets/images/back.png", 0.1, 0, true, false);
+        _back = new FlxSprite("assets/images/bg.png");
+        _back.scrollFactor.set();
         this.add(_back);
     }
 
