@@ -1,11 +1,24 @@
 package ui;
 import jp_2dgames.CsvLoader2;
-import jp_2dgames.CsvLoader;
 import flixel.text.FlxText;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.FlxObject;
 import flixel.group.FlxGroup;
+
+/**
+ * 状態
+ **/
+enum State {
+    ScoreIn; // スコアパネル表示
+    BowlIn; // お皿表示
+    BowlMain; // お皿にウェハース投擲
+    ScoreMain; // スコア表示
+    TimebonusIn; // タイムボーナス表示
+    ScoreMain2; // タイムボーナスをスコアに加算
+    CutIn; // カットイン表示
+    Standby; // 入力待ち
+}
 
 /**
  * リザルトメニュー
@@ -25,9 +38,12 @@ class ResultHUD extends FlxGroup {
     private var _txtRank:FlxText;
 
     // 変数
-    private var _score:Int;
+    private var _score:Int; // 元のスコア
+    private var _score2:Int; // スコア（タイムボーナス加算後）
     private var _pasttime:Int; // ミリ秒
     private var _ratio:Float; // タイムボーナス倍率
+
+    private var _state:State; // 状態
 
     /**
      * コンストラクタ
@@ -37,7 +53,7 @@ class ResultHUD extends FlxGroup {
         _score = score;
         _pasttime = pasttime;
         _calcRatio(); // タイムボーナスを計算
-        _score = cast(_score * _ratio);
+        _score2 = cast(_score * _ratio);
         // 小数点第一位より下を切り捨て
         {
             var tmp = Math.floor(_ratio * 10);
@@ -105,6 +121,21 @@ class ResultHUD extends FlxGroup {
         for(obj in _objs) {
             obj.scrollFactor.set(0, 0);
             this.add(obj);
+        }
+
+        // 変数初期化
+        _state = State.ScoreIn;
+    }
+
+    /**
+     * 更新
+     **/
+    override public function update():Void {
+        super.update();
+
+        switch(_state) {
+            case State.ScoreIn:
+            default:
         }
     }
 
