@@ -1,4 +1,7 @@
 package ui;
+import flixel.util.FlxTimer;
+import flixel.tweens.FlxEase;
+import flixel.tweens.FlxTween;
 import jp_2dgames.CsvLoader2;
 import flixel.text.FlxText;
 import flixel.FlxG;
@@ -39,8 +42,9 @@ class ResultHUD extends FlxGroup {
     private var _txtRank:FlxText;
 
     // 変数
-    private var _score:Int; // 元のスコア
-    private var _score2:Int; // スコア（タイムボーナス加算後）
+    private var _scoreDraw:Int; // スコア（描画用）
+    private var _score:Int;     // 元のスコア
+    private var _score2:Int;    // スコア（タイムボーナス加算後）
     private var _pasttime:Int; // ミリ秒
     private var _ratio:Float; // タイムボーナス倍率
 
@@ -91,7 +95,8 @@ class ResultHUD extends FlxGroup {
             _scores.push(obj);
             _objs.push(obj);
         }
-        _setScore(_score);
+        _scoreDraw = 0;
+        _setScore(_scoreDraw);
 
         // タイムボーナス
         _timebonus = new FlxSprite();
@@ -157,6 +162,24 @@ class ResultHUD extends FlxGroup {
 
     private function _updateScoreIn():Void {
         // TODO:
+        _panel.visible = true;
+        for(s in _scores) {
+            s.visible = true;
+        }
+        _wafer.visible = true;
+
+        var py = _panel.y;
+        _panel.y = FlxG.height;
+        FlxTween.tween(_panel, {y:py}, 1, {ease:FlxEase.expoOut});
+        for(s in _scores) {
+            var py3 = s.y;
+            s.y = FlxG.height;
+            FlxTween.tween(s, {y:py3}, 1, {ease:FlxEase.expoOut});
+        }
+        var py2 = _wafer.y;
+        _wafer.y = FlxG.height;
+        FlxTween.tween(_wafer, {y:py2}, 1, {ease:FlxEase.expoOut});
+
         _state = State.BowlIn;
     }
     private function _updateBowlIn():Void {
@@ -165,14 +188,21 @@ class ResultHUD extends FlxGroup {
     }
     private function _updateBowlMain():Void {
         // TODO:
+        FlxTween.tween(this, {_scoreDraw:_score}, 1, {ease:FlxEase.expoOut, complete:_cb_ScoreMain});
         _state = State.ScoreMain;
     }
-    private function _updateScoreMain():Void {
-        // TODO:
+
+    private function _cb_ScoreMain(tween:FlxTween):Void {
+        // タイムボーナス演出へ
         _state = State.TimebonusIn;
+    }
+    private function _updateScoreMain():Void {
+        _setScore(_scoreDraw);
     }
     private function _updateTimebonusIn():Void {
         // TODO:
+        _txtRatio.visible = true;
+        _timebonus.visible = true;
         _state = State.ScoreMain2;
     }
     private function _updateScoreMain2():Void {
@@ -181,6 +211,7 @@ class ResultHUD extends FlxGroup {
     }
     private function _updateCutIn():Void {
         // TODO:
+        _txtRank.visible = true;
         _state = State.Standby;
     }
     private function _updateStandby():Void {
