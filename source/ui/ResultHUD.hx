@@ -18,6 +18,7 @@ enum State {
     ScoreMain2; // タイムボーナスをスコアに加算
     CutIn; // カットイン表示
     Standby; // 入力待ち
+    End; // 終了
 }
 
 /**
@@ -135,20 +136,56 @@ class ResultHUD extends FlxGroup {
 
         switch(_state) {
             case State.ScoreIn: // スコアパネル表示
-                _state = State.BowlIn;
+                _updateScoreIn();
             case State.BowlIn: // お皿表示
-                _state = State.BowlMain;
+                _updateBowlIn();
             case State.BowlMain: // お皿にウェハース投擲
-                _state = State.ScoreMain;
+                _updateBowlMain();
             case State.ScoreMain: // スコア表示
-                _state = State.TimebonusIn;
+                _updateScoreMain();
             case State.TimebonusIn: // タイムボーナス表示
-                _state = State.ScoreMain2;
+                _updateTimebonusIn();
             case State.ScoreMain2: // タイムボーナスをスコアに加算
-                _state = State.CutIn;
+                _updateScoreMain2();
             case State.CutIn: // カットイン表示
-                _state = State.Standby;
+                _updateCutIn();
             case State.Standby: // 入力待ち
+                _updateStandby();
+            case State.End:
+        }
+    }
+
+    private function _updateScoreIn():Void {
+        // TODO:
+        _state = State.BowlIn;
+    }
+    private function _updateBowlIn():Void {
+        // TODO:
+        _state = State.BowlMain;
+    }
+    private function _updateBowlMain():Void {
+        // TODO:
+        _state = State.ScoreMain;
+    }
+    private function _updateScoreMain():Void {
+        // TODO:
+        _state = State.TimebonusIn;
+    }
+    private function _updateTimebonusIn():Void {
+        // TODO:
+        _state = State.ScoreMain2;
+    }
+    private function _updateScoreMain2():Void {
+        // TODO:
+        _state = State.CutIn;
+    }
+    private function _updateCutIn():Void {
+        // TODO:
+        _state = State.Standby;
+    }
+    private function _updateStandby():Void {
+        if(FlxG.mouse.justPressed) {
+            _state = State.End;
         }
     }
 
@@ -200,6 +237,6 @@ class ResultHUD extends FlxGroup {
      * 終了したかどうか
      **/
     public function isEnd():Bool {
-        return true;
+        return _state == State.End;
     }
 }

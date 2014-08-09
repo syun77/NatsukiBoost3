@@ -611,7 +611,7 @@ class PlayState extends FlxState {
         if(_player.x > _field.getRealWidth()) {
             _player.active = false;
         }
-        if(FlxG.mouse.justPressed && _result.isEnd()) {
+        if(_result.isEnd()) {
 //            if(_result.isNewLevel()) {
 //                // アンロックウィンドウをオープン
 //                _unlock = new DialogUnlock(Reg.level+1);
