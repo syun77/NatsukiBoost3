@@ -30,6 +30,7 @@ enum State {
 class ResultHUD extends FlxGroup {
 
     private var SCORE_DIGIT = 12;
+    private var TIMER_SCORE = 20;
 
     private var _objs:Array<FlxObject>;
     // ゲームオブジェクト
@@ -49,6 +50,9 @@ class ResultHUD extends FlxGroup {
     private var _ratio:Float; // タイムボーナス倍率
 
     private var _state:State; // 状態
+    private var _timer:Int;   // 汎用タイマー
+    private var _digit:Int;   // スコア演出の桁数
+    private var _digit2:Int;  // ボーナス演出の桁数
 
     /**
      * コンストラクタ
@@ -59,6 +63,7 @@ class ResultHUD extends FlxGroup {
         _pasttime = pasttime;
         _calcRatio(); // タイムボーナスを計算
         _score2 = cast(_score * _ratio);
+
         // 小数点第一位より下を切り捨て
         {
             var tmp = Math.floor(_ratio * 10);
@@ -188,22 +193,58 @@ class ResultHUD extends FlxGroup {
     }
     private function _updateBowlMain():Void {
         // TODO:
-        FlxTween.tween(this, {_scoreDraw:_score}, 1, {ease:FlxEase.expoOut, complete:_cb_ScoreMain});
         _state = State.ScoreMain;
+        _timer = 0;
+        _digit = 0;
     }
 
-    private function _cb_ScoreMain(tween:FlxTween):Void {
-        // タイムボーナス演出へ
-        _state = State.TimebonusIn;
-    }
     private function _updateScoreMain():Void {
         _setScore(_scoreDraw);
+        _timer++;
+        if(_timer > TIMER_SCORE) {
+            _timer = 0;
+            var pow:Int = cast Math.pow(10, _digit);
+            var tmp:Int = cast(Math.floor(_score / pow));
+            var tmp2 = tmp%10;
+            var d:Int = tmp2 * pow;
+            _scoreDraw += d;
+
+            _digit++;
+            if(_digit >= SCORE_DIGIT || _score == _scoreDraw) {
+                // タイムボーナス演出へ
+                _timer = 0;
+                _digit2 = 0;
+                _txtRatio.visible = true;
+                _timebonus.visible = true;
+                _state = State.TimebonusIn;
+            }
+        }
     }
     private function _updateTimebonusIn():Void {
         // TODO:
-        _txtRatio.visible = true;
-        _timebonus.visible = true;
-        _state = State.ScoreMain2;
+        _setScore(_scoreDraw);
+        _timer++;
+        if(_timer > TIMER_SCORE) {
+            _timer = 0;
+            {
+                var pow:Int = cast Math.pow(10, _digit2);
+                var tmp:Int = cast(Math.floor(_score / pow));
+                var tmp2 = tmp%10;
+                var d:Int = tmp2 * pow;
+                _scoreDraw -= d;
+            }
+            {
+                var pow:Int = cast Math.pow(10, _digit2);
+                var tmp:Int = cast(Math.floor(_score2 / pow));
+                var tmp2 = tmp%10;
+                var d:Int = tmp2 * pow;
+                _scoreDraw += d;
+            }
+            _digit2++;
+            if(_digit2 >= SCORE_DIGIT || _score2 == _scoreDraw) {
+                _state = State.ScoreMain2;
+            }
+        }
     }
     private function _updateScoreMain2():Void {
         // TODO:
