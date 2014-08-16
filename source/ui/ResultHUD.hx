@@ -53,6 +53,7 @@ class ResultHUD extends FlxGroup {
     private var _timer:Int;   // 汎用タイマー
     private var _digit:Int;   // スコア演出の桁数
     private var _digit2:Int;  // ボーナス演出の桁数
+    private var _tScore:Int;  // スコア演出用タイマー
 
     /**
      * コンストラクタ
@@ -131,11 +132,13 @@ class ResultHUD extends FlxGroup {
         // スプライト登録
         for(obj in _objs) {
             obj.scrollFactor.set(0, 0);
+            obj.visible = false;
             this.add(obj);
         }
 
         // 変数初期化
         _state = State.ScoreIn;
+        _tScore = 0;
     }
 
     /**
@@ -162,6 +165,20 @@ class ResultHUD extends FlxGroup {
             case State.Standby: // 入力待ち
                 _updateStandby();
             case State.End:
+        }
+
+        // スコア更新
+        _updateScore();
+    }
+
+    private function _updateScore():Void {
+        _tScore++;
+        for(i in 0...SCORE_DIGIT) {
+            if(i >= _digit) {
+                var str = if(_tScore%4 < 2) ':' else ';';
+                var obj = _scores[SCORE_DIGIT-i-1];
+                obj.animation.play(str);
+            }
         }
     }
 
@@ -212,6 +229,7 @@ class ResultHUD extends FlxGroup {
             _digit++;
             if(_digit >= SCORE_DIGIT || _score == _scoreDraw) {
                 // タイムボーナス演出へ
+                _digit = SCORE_DIGIT;
                 _timer = 0;
                 _digit2 = 0;
                 _txtRatio.visible = true;
