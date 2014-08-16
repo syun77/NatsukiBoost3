@@ -1,5 +1,4 @@
 package ui;
-import flixel.util.FlxTimer;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import jp_2dgames.CsvLoader2;
@@ -30,7 +29,7 @@ enum State {
 class ResultHUD extends FlxGroup {
 
     private var SCORE_DIGIT = 12;
-    private var TIMER_SCORE = 20;
+    private var TIMER_SCORE = 6;
 
     private var _objs:Array<FlxObject>;
     // ゲームオブジェクト
@@ -60,10 +59,13 @@ class ResultHUD extends FlxGroup {
      **/
     public function new(score:Int, pasttime:Int) {
         super();
+        score = 12345678;
         _score = score;
         _pasttime = pasttime;
         _calcRatio(); // タイムボーナスを計算
         _score2 = cast(_score * _ratio);
+
+        trace('score=${_score} score2=${_score2}');
 
         // 小数点第一位より下を切り捨て
         {
@@ -216,7 +218,6 @@ class ResultHUD extends FlxGroup {
     }
 
     private function _updateScoreMain():Void {
-        _setScore(_scoreDraw);
         _timer++;
         if(_timer > TIMER_SCORE) {
             _timer = 0;
@@ -227,20 +228,37 @@ class ResultHUD extends FlxGroup {
             _scoreDraw += d;
 
             _digit++;
-            if(_digit >= SCORE_DIGIT || _score == _scoreDraw) {
+            if(_digit > SCORE_DIGIT || _score == _scoreDraw) {
                 // タイムボーナス演出へ
                 _digit = SCORE_DIGIT;
+                _state = State.TimebonusIn;
                 _timer = 0;
-                _digit2 = 0;
+                {
+                    var py = _txtRatio.y;
+                    FlxTween.tween(_txtRatio, {y:py}, 1, {ease:FlxEase.expoOut});
+                }
+                {
+                    var py = _timebonus.y;
+                    FlxTween.tween(_timebonus, {y:py}, 1, {ease:FlxEase.expoOut, complete:_cb_timebonusin});
+                }
                 _txtRatio.visible = true;
                 _timebonus.visible = true;
-                _state = State.TimebonusIn;
             }
         }
+        _setScore(_scoreDraw);
     }
+
+    private function _cb_timebonusin(t:FlxTween):Void {
+        _digit2 = 0;
+        _state = State.ScoreMain2;
+        _timer = 0;
+    }
+
     private function _updateTimebonusIn():Void {
         // TODO:
-        _setScore(_scoreDraw);
+    }
+    private function _updateScoreMain2():Void {
+        // TODO:
         _timer++;
         if(_timer > TIMER_SCORE) {
             _timer = 0;
@@ -259,14 +277,11 @@ class ResultHUD extends FlxGroup {
                 _scoreDraw += d;
             }
             _digit2++;
-            if(_digit2 >= SCORE_DIGIT || _score2 == _scoreDraw) {
-                _state = State.ScoreMain2;
+            if(_digit2 > SCORE_DIGIT || _score2 == _scoreDraw) {
+                _state = State.CutIn;
             }
         }
-    }
-    private function _updateScoreMain2():Void {
-        // TODO:
-        _state = State.CutIn;
+        _setScore(_scoreDraw);
     }
     private function _updateCutIn():Void {
         // TODO:
@@ -286,6 +301,10 @@ class ResultHUD extends FlxGroup {
         for(i in 0...SCORE_DIGIT) {
             var div = Math.pow(10, SCORE_DIGIT-i-1);
             var num = Math.floor(v / div);
+            if(num < 0) {
+                trace('v=${v} div=${div} num=${num}');
+                throw "Error";
+            }
             num %= 10;
             var obj = _scores[i];
             obj.animation.play('${num}');
