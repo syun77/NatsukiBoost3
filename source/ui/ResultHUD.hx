@@ -1,4 +1,7 @@
 package ui;
+import StringTools;
+import flixel.util.FlxRandom;
+import flixel.util.FlxColor;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import jp_2dgames.CsvLoader2;
@@ -42,6 +45,7 @@ class ResultHUD extends FlxGroup {
     // テキスト
     private var _txtRatio:FlxText;
     private var _txtRank:FlxText;
+    private var _txtFukidashi:FlxText;
 
     // 変数
     private var _scoreDraw:Int; // スコア（描画用）
@@ -67,8 +71,6 @@ class ResultHUD extends FlxGroup {
         _calcRatio(); // タイムボーナスを計算
         _score2 = cast(_score * _ratio);
 
-        trace('score=${_score} score2=${_score2}');
-
         // 小数点第一位より下を切り捨て
         {
             var tmp = Math.floor(_ratio * 10);
@@ -77,6 +79,16 @@ class ResultHUD extends FlxGroup {
 
         _objs = new Array<FlxObject>();
 
+        // CSV読み込み
+        var csv2:CsvLoader2 = new CsvLoader2("assets/params/fukidashi.csv");
+        var fontpath = csv2.getString(0, "msg");
+        var fontsize = csv2.getInt(1, "msg");
+        var msgList = [];
+        for(i in 2...csv2.size()) {
+            msgList.push(csv2.getString(i, "msg"));
+        }
+        FlxRandom.shuffleArray(msgList, msgList.length);
+
         // カットイン
         _natsuki = new FlxSprite();
         _natsuki.loadGraphic("assets/images/result/natsuki02.png");
@@ -84,7 +96,12 @@ class ResultHUD extends FlxGroup {
         _fukidashi = new FlxSprite();
         _fukidashi.loadGraphic("assets/images/result/fukidashi.png");
         _objs.push(_fukidashi);
-        
+        _txtFukidashi = new FlxText(290, 74, 120, 24);
+        _txtFukidashi.setFormat(fontpath, fontsize, FlxColor.BLACK, "center", FlxText.BORDER_OUTLINE_FAST, FlxColor.WHITE);
+
+        _txtFukidashi.text = StringTools.replace(msgList[0], "#", "\n");
+        _objs.push(_txtFukidashi);
+
         // スコアパネルの生成
         _panel = new FlxSprite(FlxG.width/2-24, FlxG.height/2+60);
         _panel.loadGraphic("assets/images/result/scoer_fream.png");
@@ -319,6 +336,9 @@ class ResultHUD extends FlxGroup {
     private function _cb_cutin(t:FlxTween):Void {
         var px = _natsuki.x;
         _fukidashi.visible = true;
+    #if flash
+        _txtFukidashi.visible = true;
+    #end
         _txtRank.visible = true;
         var size = _txtRank.size;
         _txtRank.size *= 2;
@@ -372,7 +392,7 @@ class ResultHUD extends FlxGroup {
         var dRatio = base - 1;
         var limit:Float = csvTb.getFloat(id, "sec"); // 1倍になるまでの時間（秒）
         var dRatioPerSec = dRatio / limit; // 1秒ごとに減少する倍率
-        trace('base=${base} dRatio=${dRatio} limit=${limit} dRatioPerSec=${dRatioPerSec}');
+//        trace('base=${base} dRatio=${dRatio} limit=${limit} dRatioPerSec=${dRatioPerSec}');
         base -= dRatioPerSec * (sec);
         if(base < 1) {
             // 1より小さくならない

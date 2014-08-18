@@ -14,8 +14,8 @@ class Back extends FlxGroup {
     public function new() {
         super();
 //        _back = new FlxBackdrop("assets/images/back.png", 0.1, 0, true, false);
-        _back = new FlxSprite("assets/images/bg.png");
-        _back.scrollFactor.set();
+        _back = new FlxSprite(0, 0, "assets/images/bg.png");
+        _back.scrollFactor.set(0, 0);
         this.add(_back);
     }
 
