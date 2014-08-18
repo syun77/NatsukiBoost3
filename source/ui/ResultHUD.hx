@@ -37,6 +37,8 @@ class ResultHUD extends FlxGroup {
     private var _scores:Array<FlxSprite>;
     private var _timebonus:FlxSprite;
     private var _wafer:FlxSprite;
+    private var _natsuki:FlxSprite;
+    private var _fukidashi:FlxSprite;
     // テキスト
     private var _txtRatio:FlxText;
     private var _txtRank:FlxText;
@@ -75,6 +77,14 @@ class ResultHUD extends FlxGroup {
 
         _objs = new Array<FlxObject>();
 
+        // カットイン
+        _natsuki = new FlxSprite();
+        _natsuki.loadGraphic("assets/images/result/natsuki02.png");
+        _objs.push(_natsuki);
+        _fukidashi = new FlxSprite();
+        _fukidashi.loadGraphic("assets/images/result/fukidashi.png");
+        _objs.push(_fukidashi);
+        
         // スコアパネルの生成
         _panel = new FlxSprite(FlxG.width/2-24, FlxG.height/2+60);
         _panel.loadGraphic("assets/images/result/scoer_fream.png");
@@ -184,6 +194,7 @@ class ResultHUD extends FlxGroup {
         }
     }
 
+    // スコアパネル出現
     private function _updateScoreIn():Void {
         // TODO:
         _panel.visible = true;
@@ -206,10 +217,14 @@ class ResultHUD extends FlxGroup {
 
         _state = State.BowlIn;
     }
+
+    // お皿出現
     private function _updateBowlIn():Void {
         // TODO:
         _state = State.BowlMain;
     }
+
+    // お皿にウェハースを投げ込む
     private function _updateBowlMain():Void {
         // TODO:
         _state = State.ScoreMain;
@@ -217,6 +232,7 @@ class ResultHUD extends FlxGroup {
         _digit = 0;
     }
 
+    // スコアカウントアップ
     private function _updateScoreMain():Void {
         _timer++;
         if(_timer > TIMER_SCORE) {
@@ -256,9 +272,12 @@ class ResultHUD extends FlxGroup {
         _timer = 0;
     }
 
+    // タイムボーナス出現
     private function _updateTimebonusIn():Void {
         // TODO:
     }
+
+    // タイムボーナススコア加算
     private function _updateScoreMain2():Void {
         // TODO:
         _timer++;
@@ -280,16 +299,34 @@ class ResultHUD extends FlxGroup {
             }
             _digit2++;
             if(_digit2 > SCORE_DIGIT || _score2 == _scoreDraw) {
+                {
+                    var px = _natsuki.x;
+                    _natsuki.x = -FlxG.width;
+                    FlxTween.tween(_natsuki, {x:px}, 1, {ease:FlxEase.expoOut, complete:_cb_cutin});
+                }
+                _natsuki.visible = true;
                 _state = State.CutIn;
             }
         }
         _setScore(_scoreDraw);
     }
+
+    // カットイン出現
     private function _updateCutIn():Void {
         // TODO:
+    }
+
+    private function _cb_cutin(t:FlxTween):Void {
+        var px = _natsuki.x;
+        _fukidashi.visible = true;
         _txtRank.visible = true;
+        var size = _txtRank.size;
+        _txtRank.size *= 2;
+        FlxTween.tween(_txtRank, {size:size}, 1, {ease:FlxEase.expoOut});
         _state = State.Standby;
     }
+
+    // 待機
     private function _updateStandby():Void {
         if(FlxG.mouse.justPressed) {
             _state = State.End;
