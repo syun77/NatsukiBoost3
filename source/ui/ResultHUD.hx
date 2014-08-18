@@ -235,10 +235,12 @@ class ResultHUD extends FlxGroup {
                 _timer = 0;
                 {
                     var py = _txtRatio.y;
+                    _txtRatio.y = FlxG.height;
                     FlxTween.tween(_txtRatio, {y:py}, 1, {ease:FlxEase.expoOut});
                 }
                 {
                     var py = _timebonus.y;
+                    _timebonus.y = FlxG.height;
                     FlxTween.tween(_timebonus, {y:py}, 1, {ease:FlxEase.expoOut, complete:_cb_timebonusin});
                 }
                 _txtRatio.visible = true;
