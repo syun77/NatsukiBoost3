@@ -1,4 +1,6 @@
 package ui;
+import flixel.util.FlxGradient;
+import flixel.group.FlxTypedGroup;
 import StringTools;
 import flixel.util.FlxRandom;
 import flixel.util.FlxColor;
@@ -42,6 +44,11 @@ class ResultHUD extends FlxGroup {
     private var _wafer:FlxSprite;
     private var _natsuki:FlxSprite;
     private var _fukidashi:FlxSprite;
+    private var _bowl:FlxSprite;
+    private var _bowl2:FlxSprite;
+    private var _bowlHit:FlxSprite; // お皿当たり判定
+    private var _wafers:FlxGroup;
+
     // テキスト
     private var _txtRatio:FlxText;
     private var _txtRank:FlxText;
@@ -59,6 +66,7 @@ class ResultHUD extends FlxGroup {
     private var _digit:Int;   // スコア演出の桁数
     private var _digit2:Int;  // ボーナス演出の桁数
     private var _tScore:Int;  // スコア演出用タイマー
+    private var _tPast:Int = 0; // 経過時間
 
     /**
      * コンストラクタ
@@ -79,12 +87,34 @@ class ResultHUD extends FlxGroup {
 
         _objs = new Array<FlxObject>();
 
+        // お皿とウエハース
+        // お皿・後ろ
+        _bowl = new FlxSprite();
+        _bowl.loadGraphic("assets/images/result/boul_oku.png");
+        _bowl.scrollFactor.set(0, 0);
+        _bowl.visible = false;
+        this.add(_bowl);
+        // ウエハース
+        _wafers = new FlxGroup();
+        this.add(_wafers);
+        // お皿・手前
+        _bowl2 = new FlxSprite();
+        _bowl2.loadGraphic("assets/images/result/boul_mae.png");
+        _objs.push(_bowl2);
+        // お皿・当たり判定
+        _bowlHit = new FlxSprite(130, 191);
+        _bowlHit.makeGraphic(409 - cast _bowlHit.x, 207 - cast _bowlHit.y);
+        _bowlHit.visible = false;
+        _bowlHit.immovable = true; // 動かない
+        this.add(_bowlHit);
+
         // CSV読み込み
         var csv2:CsvLoader2 = new CsvLoader2("assets/params/fukidashi.csv");
         var fontpath = csv2.getString(0, "msg");
         var fontsize = csv2.getInt(1, "msg");
         var msgList = [];
         for(i in 2...csv2.size()) {
+            // 吹き出しセリフは2から開始する
             msgList.push(csv2.getString(i, "msg"));
         }
         FlxRandom.shuffleArray(msgList, msgList.length);
@@ -168,13 +198,23 @@ class ResultHUD extends FlxGroup {
         // 変数初期化
         _state = State.ScoreIn;
         _tScore = 0;
+
+        FlxG.watch.add(_wafers, "length");
     }
+
 
     /**
      * 更新
      **/
     override public function update():Void {
         super.update();
+
+        _tPast++;
+        if(_tPast%1 == 0) {
+        }
+
+        FlxG.collide(_wafers, _wafers);
+        FlxG.collide(_wafers, _bowlHit);
 
         switch(_state) {
             case State.ScoreIn: // スコアパネル表示
@@ -237,7 +277,18 @@ class ResultHUD extends FlxGroup {
 
     // お皿出現
     private function _updateBowlIn():Void {
-        // TODO:
+        {
+            var py = _bowl.y;
+            _bowl.y = FlxG.height;
+            FlxTween.tween(_bowl, {y:py}, 1, {ease:FlxEase.expoOut});
+        }
+        {
+            var py = _bowl2.y;
+            _bowl2.y = FlxG.height;
+            FlxTween.tween(_bowl2, {y:py}, 1, {ease:FlxEase.expoOut});
+        }
+        _bowl.visible = true;
+        _bowl2.visible = true;
         _state = State.BowlMain;
     }
 
@@ -249,8 +300,35 @@ class ResultHUD extends FlxGroup {
         _digit = 0;
     }
 
+    private function _appearWafers():Void {
+        for(i in 0...1) {
+            var spr = new FlxSprite(FlxG.width/5*3+FlxRandom.intRanged(-80, 80), 0);
+            if(FlxRandom.chanceRoll()) {
+                spr.loadGraphic("assets/images/bomb_red.png", true);
+            }
+            else {
+                spr.loadGraphic("assets/images/bomb_blue.png", true);
+            }
+            var scale = 2;
+            spr.scale.set(scale, scale);
+            spr.width *= scale;
+            spr.height *= scale;
+            spr.centerOffsets();
+            spr.velocity.set(FlxRandom.intRanged(-10, 10), FlxRandom.intRanged(50, 100));
+            spr.angularVelocity = FlxRandom.intRanged(-100, 100);
+            spr.angularDrag = 10;
+            spr.mass = 10;
+            spr.animation.add("play", [1], 30);
+            spr.animation.play("play");
+            spr.scrollFactor.set(0, 0);
+            spr.acceleration.y = 100;
+            _wafers.add(spr);
+        }
+    }
+
     // スコアカウントアップ
     private function _updateScoreMain():Void {
+        _appearWafers();
         _timer++;
         if(_timer > TIMER_SCORE) {
             _timer = 0;
