@@ -23,8 +23,12 @@ class Block extends FlxSprite {
 
     /**
      * 初期化
+     * @attr  属性
+     * @px    座標(X)
+     * @py    座標(Y)
+     * @bSame プレイヤーと同じ属性かどうか
      **/
-    public function init(attr:Attribute, px:Float, py:Float) {
+    public function init(attr:Attribute, px:Float, py:Float, bSame:Bool) {
         x = px;
         y = py;
         _attr = attr;
@@ -35,8 +39,27 @@ class Block extends FlxSprite {
         else {
             loadGraphic("assets/images/block_red.png", true);
         }
-        animation.add("play", [0, 1], FlxRandom.intRanged(3, 6));
-        animation.play("play");
+        var animSpeed = FlxRandom.intRanged(3, 6);
+        animation.add("play1", [0, 1], animSpeed);
+        animation.add("play2", [2, 3], animSpeed);
+
+        // 見た目を変える
+        change(bSame);
+    }
+
+    /**
+     * 見た目を変える
+     * @param bSame プレイヤーと同じ属性かどうか
+     **/
+    public function change(bSame:Bool):Void {
+        if(bSame) {
+            // 取得可能
+            animation.play("play2");
+        }
+        else {
+            // ダメージブロック
+            animation.play("play1");
+        }
     }
 
     /**

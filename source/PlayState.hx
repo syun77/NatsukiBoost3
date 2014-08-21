@@ -373,7 +373,8 @@ class PlayState extends FlxState {
             var x = _field.toRealX(i);
             var y = _field.toRealY(j);
             var b:Block = _blocks.recycle();
-            b.init(type, x, y);
+            var bSame = (type == _player.getAttribute());
+            b.init(type, x, y, bSame);
         }
         // アイテムの生成
         var createItem = function(i, j, id:Int) {
@@ -667,6 +668,7 @@ class PlayState extends FlxState {
 
         switch(item.getID()) {
         case ItemID.Ring:
+            // 属性チェンジアイテム
             if(p.getAttribute() != item.getAttribute()) {
                 // 色変え実行
                 p.changeAttribute(item.getAttribute());
@@ -675,6 +677,13 @@ class PlayState extends FlxState {
 
             // 同じX座標にあるリングを削除
             _vanishRingX(item.x);
+
+            // ブロックの色を変える
+            var changeBlock = function(b:Block) {
+                var bSame = b.getAttribute() == p.getAttribute();
+                b.change(bSame);
+            }
+            _blocks.forEachAlive(changeBlock);
 
             Snd.playSe("kin");
 

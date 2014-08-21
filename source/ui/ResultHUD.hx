@@ -73,7 +73,7 @@ class ResultHUD extends FlxGroup {
      **/
     public function new(score:Int, pasttime:Int) {
         super();
-        score = 12345678;
+//        score = 12345678;
         _score = score;
         _pasttime = pasttime;
         _calcRatio(); // タイムボーナスを計算
