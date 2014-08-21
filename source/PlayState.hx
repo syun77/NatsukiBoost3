@@ -654,11 +654,10 @@ class PlayState extends FlxState {
         _timer--;
         if(_timer < 1) {
             _state = State.GameoverMain;
-            _startResult();
         }
     }
     private function _updateGameoverMain():Void {
-        if(FlxG.mouse.justPressed && _result.isEnd()) {
+        if(FlxG.mouse.justPressed) {
             FlxG.switchState(new MenuState());
         }
     }
