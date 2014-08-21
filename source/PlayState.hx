@@ -553,10 +553,6 @@ class PlayState extends FlxState {
             _follow.kill();
             _state = State.GameoverInit;
             _timer = TIMER_GAMEOVER_INIT;
-            // 画面を1秒間、白フラッシュします
-            FlxG.camera.flash(0xffFFFFFF, 1);
-            // 画面を5%の揺れ幅で0.35秒間、揺らします
-            FlxG.camera.shake(0.05, 0.35);
             // エフェクト生成
             _emitterPlayer.explode(_player.x, _player.y);
             // メッセージ表示
@@ -567,7 +563,6 @@ class PlayState extends FlxState {
 
             // サウンド再生
             Snd.playSe("kya");
-            Snd.playSe("dead");
             if(FlxG.sound.music != null) {
                 FlxG.sound.music.stop();
             }

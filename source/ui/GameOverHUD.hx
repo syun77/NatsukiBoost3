@@ -1,4 +1,5 @@
 package ui;
+import util.Snd;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import flixel.FlxG;
@@ -65,6 +66,11 @@ class GameOverHUD extends FlxGroup {
         if(_bMunen == false) {
             if(_player.y > FlxG.height) {
                 // 無念画像の表示
+                Snd.playSe("dead");
+                // 画面を1秒間、白フラッシュします
+                FlxG.camera.flash(0xffFFFFFF, 1);
+                // 画面を5%の揺れ幅で0.35秒間、揺らします
+                FlxG.camera.shake(0.05, 0.35);
                 _munen.x = _player.x;// + _munen.width/2;
                 var py = FlxG.height - _munen.height - 16;
                 _munen.y = FlxG.height;
