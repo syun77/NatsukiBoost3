@@ -51,8 +51,8 @@ class MenuState extends FlxState {
 
         _charctor = new FlxSprite();
         _charctor.loadGraphic("assets/images/title/charctor.png");
-        _charctor.x = FlxG.width;//-_charctor.width;
-        FlxTween.tween(_charctor, {x:0}, 1, {ease:FlxEase.expoOut});
+        _charctor.alpha = 0;
+        FlxTween.tween(_charctor, {alpha:1}, 2, {ease:FlxEase.expoOut, startDelay:0.25});
         this.add(_charctor);
 
         // ロゴ
