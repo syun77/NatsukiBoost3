@@ -1,5 +1,6 @@
 package;
 
+import ui.GameOverHUD;
 import flixel.util.FlxAngle;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
@@ -95,6 +96,9 @@ class PlayState extends FlxState {
 
     // リザルト
     private var _result:ResultHUD;
+
+    // ゲームオーバー演出
+    private var _gameoverHUD:GameOverHUD;
 
     // アンロックウィンドウ
     private var _unlock:DialogUnlock;
@@ -235,13 +239,9 @@ class PlayState extends FlxState {
 
         // デバッグ用
         FlxG.debugger.toggleKeys = ["ALT"];
-        FlxG.watch.add(this, "_state");
-        FlxG.watch.add(this, "_timer");
 
-        FlxG.watch.add(this, "_cntRing");
-        FlxG.watch.add(this, "_cntBlock");
-        FlxG.watch.add(this, "_comboMax");
-        FlxG.watch.add(_player, "_hp");
+        // リザルトをすぐに表示する
+//        _startResult();
     }
 
     /**
@@ -547,6 +547,8 @@ class PlayState extends FlxState {
         }
         if(_speedCtrl.getTop() <= _csvPlayer.speedtop_deadline) {
             // プレイヤー死亡
+            _gameoverHUD = new GameOverHUD(_player);
+            this.add(_gameoverHUD);
             _player.vanish();
             _follow.kill();
             _state = State.GameoverInit;
@@ -657,7 +659,7 @@ class PlayState extends FlxState {
         }
     }
     private function _updateGameoverMain():Void {
-        if(FlxG.mouse.justPressed) {
+        if(FlxG.mouse.justPressed && _gameoverHUD.isEnd()) {
             FlxG.switchState(new MenuState());
         }
     }
