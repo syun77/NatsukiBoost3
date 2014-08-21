@@ -1,4 +1,7 @@
 package ui;
+import flixel.tweens.FlxEase;
+import flixel.tweens.FlxTween;
+import flixel.FlxG;
 import flixel.util.loaders.TexturePackerData;
 import flixel.group.FlxGroup;
 import flixel.util.FlxRandom;
@@ -13,6 +16,10 @@ class GameOverHUD extends FlxGroup {
     // ゲームオブジェクト
     private var _player:FlxSprite; // プレイヤー
     private var _munen:FlxSprite; // 無念
+
+    // 変数
+    private var _bMunen:Bool = false;
+
     public function new(player:Player) {
         super();
 
@@ -31,14 +38,22 @@ class GameOverHUD extends FlxGroup {
             _player.animation.play("red");
         }
 
-        _player.velocity.set(FlxRandom.floatRanged(-100, 100), -200);
+        _player.velocity.set(FlxRandom.float()*100, -200);
         _player.acceleration.y = 400;
-        _player.angularVelocity = FlxRandom.floatRanged(-90, 90);
+        _player.angularVelocity = 480;
+        if(FlxRandom.chanceRoll()) { _player.angularVelocity *= -1; }
+        _player.angularDrag = 360;
         this.add(_player);
+
+        // 吹き出し
+        _munen = new FlxSprite();
+        _munen.loadGraphic("assets/images/munen.png");
+        _munen.visible = false;
+        this.add(_munen);
     }
 
     public function isEnd():Bool {
-        return true;
+        return _player.y > FlxG.height;
     }
 
     /**
@@ -46,5 +61,17 @@ class GameOverHUD extends FlxGroup {
      **/
     override public function update():Void {
         super.update();
+
+        if(_bMunen == false) {
+            if(_player.y > FlxG.height) {
+                // 無念画像の表示
+                _munen.x = _player.x;// + _munen.width/2;
+                var py = FlxG.height - _munen.height - 16;
+                _munen.y = FlxG.height;
+                FlxTween.tween(_munen, {y:py}, 1, {ease:FlxEase.expoOut});
+                _munen.visible = true;
+                _bMunen = true;
+            }
+        }
     }
 }
