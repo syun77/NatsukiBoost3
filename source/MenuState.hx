@@ -2,7 +2,6 @@ package;
 
 import Reg.GameMode;
 import util.Snd;
-import flixel.addons.effects.FlxTrail;
 import flixel.FlxSprite;
 import flixel.util.FlxStringUtil;
 import flixel.util.FlxColor;
@@ -44,18 +43,33 @@ class MenuState extends FlxState {
 
         _bg = new FlxSprite();
         _bg.loadGraphic("assets/images/title/bg.png");
+        _bg.x = -FlxG.width*2/3;
+        FlxTween.tween(_bg, {x:0}, 15, {ease:FlxEase.sineOut});
+        _bg.alpha = 0.25;
+        FlxTween.tween(_bg, {alpha:1}, 3, {ease:FlxEase.sineOut, startDelay:2});
         this.add(_bg);
+
         _charctor = new FlxSprite();
         _charctor.loadGraphic("assets/images/title/charctor.png");
+        _charctor.x = FlxG.width;//-_charctor.width;
+        FlxTween.tween(_charctor, {x:0}, 1, {ease:FlxEase.expoOut});
         this.add(_charctor);
+
+        // ロゴ
         _logo = new FlxSprite();
         _logo.loadGraphic("assets/images/title/logo.png");
+        _logo.x = FlxG.width/2 - _logo.width/2;
+        _logo.y = 8;
+        _logo.scale.set(5, 0);
+        var delay = 0;
+        FlxTween.tween(_logo.scale, {x:1, y:1}, 1, {ease:FlxEase.expoOut, startDelay:delay});
         this.add(_logo);
+
+        // ウエハース
         _wafers = new Array<FlxSprite>();
         for(i in 1...6) {
-            var wafer = new FlxSprite();
-            wafer.loadGraphic('assets/images/title/wafer${i}.png');
-            _wafers.push(wafer);
+            var index = 6 - i;
+            var wafer = new Wafer(index);
             this.add(wafer);
         }
 
@@ -88,12 +102,17 @@ class MenuState extends FlxState {
         _btnList.push(_btn5);
         _btnList.push(_btn6);
 
+        var i = 0;
         for(btn in _btnList) {
             btn.color = FlxColor.AZURE;
             btn.label.color = FlxColor.AQUAMARINE;
 
             this.add(btn);
-            btn.visible = false;
+            var px = btn.x;
+            btn.x = -btn.width;
+            var delay2 = i * 0.125;
+            FlxTween.tween(btn, {x:px}, 1, {ease:FlxEase.expoOut, startDelay:delay2});
+            i++;
         }
 
         // ハイスコア表示
@@ -135,38 +154,7 @@ class MenuState extends FlxState {
         switch(_state) {
             case State.Main:
                 _timer++;
-                if(FlxG.mouse.justReleased) {
-
-                    if(Reg.getLevelMax() == 0) {
-                        // ステージ1のみの場合は、ステージ選択なしで開始
-                        _state = State.Decide;
-                        _timer = 0;
-                        Snd.playSe("push");
-                        if(FlxG.sound.music != null) {
-                            FlxG.sound.music.stop();
-                        }
-                        return;
-                    }
-
-                    // ステージ選択へ
-                    var i = 0;
-                    for(btn in _btnList) {
-//                        if(i <= Reg.getLevelMax()) {
-                            // クリアしたステージ+1のみ選択可能
-                            btn.visible = true;
-//                        }
-                        i++;
-                    }
-                    i = 0;
-                    for(txt in _texts) {
-//                        if(i <= Reg.getLevelMax()) {
-                            // クリアしたステージ+1のみ選択可能
-                            txt.visible = true;
-//                        }
-                        i++;
-                    }
-                    _state = State.Select;
-                }
+                _state = State.Select;
 
             case State.Select:
                 // 決定待ち
@@ -194,6 +182,7 @@ class MenuState extends FlxState {
                 }
         }
 
+        // やり直し
 //        if(FlxG.keys.justPressed.R) {
 //            FlxG.resetState();
 //        }
@@ -230,4 +219,25 @@ class MenuState extends FlxState {
         Reg.setMode(GameMode.Random);
         _bDecide = true;
     }
+}
+
+class Wafer extends FlxSprite {
+    private var _timer:Float;
+    public function new(index:Int) {
+        super();
+        loadGraphic('assets/images/title/wafer${index}.png');
+        alpha = 0;
+        var delay = 1 + (5 - index) * 0.25;
+        FlxTween.tween(this, {alpha:1}, 1, {ease:FlxEase.expoOut, startDelay:delay});
+        var dy = 20 - index * 3;
+        _timer = 1 + 0.25 * index;
+        FlxTween.tween(velocity, {y:dy}, _timer, {ease:FlxEase.expoOut, complete:_cbEnd});
+    }
+
+    private function _cbEnd(tween:FlxTween):Void {
+        var dy = velocity.y * -1;
+        velocity.y = 0;
+        FlxTween.tween(velocity, {y:dy}, _timer, {ease:FlxEase.expoOut, complete:_cbEnd});
+    }
+
 }

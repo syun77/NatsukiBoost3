@@ -71,7 +71,7 @@ class GameOverHUD extends FlxGroup {
                 FlxG.camera.flash(0xffFFFFFF, 1);
                 // 画面を5%の揺れ幅で0.35秒間、揺らします
                 FlxG.camera.shake(0.05, 0.35);
-                _munen.x = _player.x;// + _munen.width/2;
+                _munen.x = _player.x;
                 var py = FlxG.height - _munen.height - 16;
                 _munen.y = FlxG.height;
                 FlxTween.tween(_munen, {y:py}, 1, {ease:FlxEase.expoOut});
