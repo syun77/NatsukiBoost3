@@ -51,6 +51,6 @@ class LogoState extends FlxState {
     private function _cbEnd(tween:FlxTween):Void {
         // ロゴ表示待ちの代わりにキャッシュする
         Snd.cache();
-        FlxG.switchState(new MenuState());
+        FlxG.switchState(new Logo2State());
     }
  }
