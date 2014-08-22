@@ -40,6 +40,7 @@ class OpenningState extends FlxState {
         if(FlxG.mouse.pressed) {
             // スキップ
             FlxG.switchState(new MenuState());
+            return;
         }
 
         if(_sprites == null || _sprites.isStop()) {
@@ -49,6 +50,11 @@ class OpenningState extends FlxState {
             }
             if(_texs != null) {
                 _texs.destroy();
+            }
+            
+            if(_step > 4) {
+                FlxG.switchState(new MenuState());
+                return;
             }
 
             var ss = "assets/ss/openning/scene" + _step + "_anime_1.json";
@@ -63,9 +69,6 @@ class OpenningState extends FlxState {
             _sprites.play(1);
 
             _step++;
-            if(_step > 4) {
-                FlxG.switchState(new MenuState());
-            }
         }
 
     }
