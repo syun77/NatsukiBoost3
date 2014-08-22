@@ -1,4 +1,5 @@
 package ;
+import OpenningState;
 import flixel.FlxG;
 import flixel.FlxState;
 import ss.FlxSSPlayerMgr;
@@ -28,7 +29,7 @@ class Logo2State extends FlxState {
         super.update();
         if(_sprites.isStop()) {
 //            FlxG.switchState(new Logo2State());
-            FlxG.switchState(new MenuState());
+            FlxG.switchState(new OpenningState());
         }
     }
 }
