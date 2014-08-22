@@ -32,9 +32,10 @@ class Back extends FlxGroup {
         super.update();
 
         _timer++;
-        if(_timer%30 == 0) {
+        if(_timer%3 == 0) {
+            // 流れ星出現
             var meteor:Meteor = _meteors.recycle();
-            meteor.init(0, FlxG.height);
+            meteor.init();
         }
     }
 
