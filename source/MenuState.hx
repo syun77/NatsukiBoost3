@@ -102,12 +102,16 @@ class MenuState extends FlxState {
         y += dy;
         var _btn3 = new FlxButton( x, y, "HARD", _btnHard);
         var _btn6 = new FlxButton( x2, y, "HARD", _btnHardRandom);
+
+        // チュートリアルボタン
+        var _btn99 = new FlxButton( FlxG.width-80, FlxG.height-24, "TUTORIAL", _btnTutorial);
         _btnList.push(_btn1);
         _btnList.push(_btn2);
         _btnList.push(_btn3);
         _btnList.push(_btn4);
         _btnList.push(_btn5);
         _btnList.push(_btn6);
+        _btnList.push(_btn99);
 
         var i = 0;
         for(btn in _btnList) {
@@ -249,6 +253,10 @@ class MenuState extends FlxState {
         Reg.setMode(GameMode.Random);
         _bDecide = true;
         _idxDecide = 5;
+    }
+    private function _btnTutorial():Void {
+        // チュートリアル画面呼び出し
+        FlxG.switchState(new TutorialState());
     }
 }
 
