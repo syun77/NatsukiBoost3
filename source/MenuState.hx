@@ -90,33 +90,53 @@ class MenuState extends FlxState {
         _btnList = new Array<FlxButton>();
 
 //        var x = FlxG.width/2-40;
-        var x = FlxG.width/2-80;
+//        var x = FlxG.width/2-80;
+        var x = FlxG.width/2-120;
         var x2 = x + 80;
+        var x3 = x + 80 * 2;
         var y = FlxG.height/2+24;
         var dy = 24;
-        var _btn1 = new FlxButton( x, y, "EASY", _btnEasy);
-        var _btn4 = new FlxButton( x2, y, "EASY", _btnEasyRandom);
+        var _btn0 = new FlxButton( x, y, "EASY", _btnEasy);
+        var _btn3 = new FlxButton( x2, y, "EASY", _btnEasyRandom);
+        var _btn6 = new FlxButton( x3, y, "ENDLESS", _btnEndless);
         y += dy;
-        var _btn2 = new FlxButton( x, y, "NORMAL", _btnNormal);
-        var _btn5 = new FlxButton( x2, y, "NORMAL", _btnNormalRandom);
+        var _btn1 = new FlxButton( x, y, "NORMAL", _btnNormal);
+        var _btn4 = new FlxButton( x2, y, "NORMAL", _btnNormalRandom);
         y += dy;
-        var _btn3 = new FlxButton( x, y, "HARD", _btnHard);
-        var _btn6 = new FlxButton( x2, y, "HARD", _btnHardRandom);
+        var _btn2 = new FlxButton( x, y, "HARD", _btnHard);
+        var _btn5 = new FlxButton( x2, y, "HARD", _btnHardRandom);
 
         // チュートリアルボタン
-        var _btn99 = new FlxButton( FlxG.width-80, FlxG.height-24, "TUTORIAL", _btnTutorial);
+        var _btn7 = new FlxButton( FlxG.width-80, FlxG.height-24, "TUTORIAL", _btnTutorial);
+        _btnList.push(_btn0);
         _btnList.push(_btn1);
         _btnList.push(_btn2);
         _btnList.push(_btn3);
         _btnList.push(_btn4);
         _btnList.push(_btn5);
         _btnList.push(_btn6);
-        _btnList.push(_btn99);
+        _btnList.push(_btn7);
 
         var i = 0;
         for(btn in _btnList) {
-            btn.color = FlxColor.AZURE;
-            btn.label.color = FlxColor.AQUAMARINE;
+            switch(i) {
+                case 0, 1, 2:
+                    // 固定ステージ
+                    btn.color = FlxColor.AZURE;
+                    btn.label.color = FlxColor.AQUAMARINE;
+                case 3, 4, 5:
+                    // ランダムステージ
+                    btn.color = FlxColor.BROWN;
+                    btn.label.color = FlxColor.WHITE;
+                case 6:
+                    // エンドレスステージ
+                    btn.color = FlxColor.CRIMSON;
+                    btn.label.color = FlxColor.PINK;
+                case 7:
+                    // チュートリアル
+//                    btn.color = FlxColor.AZURE;
+//                    btn.label.color = FlxColor.AQUAMARINE;
+            }
 
             this.add(btn);
             var px = btn.x;
@@ -254,9 +274,16 @@ class MenuState extends FlxState {
         _bDecide = true;
         _idxDecide = 5;
     }
+    private function _btnEndless():Void {
+        Reg.setLevel(3);
+        Reg.setMode(GameMode.Endless);
+        _bDecide = true;
+        _idxDecide = 6;
+    }
     private function _btnTutorial():Void {
         // チュートリアル画面呼び出し
         FlxG.switchState(new TutorialState());
+        _idxDecide = 7;
     }
 }
 
