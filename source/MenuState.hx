@@ -25,6 +25,7 @@ class MenuState extends FlxState {
     private var _timer:Int = 0;
     private var _state:State = State.Main;
     private var _bDecide:Bool = false;
+    private var _idxDecide:Int = -1;
     private var _btnList:Array<FlxButton>;
 
     private var _texts:Array<FlxText>;
@@ -168,7 +169,7 @@ class MenuState extends FlxState {
                     }
                     var i = 0;
                     for(btn in _btnList) {
-                        if(i + 1 != Reg.level) {
+                        if(i != _idxDecide) {
                             btn.visible = false;
                         }
                         i++;
@@ -193,31 +194,37 @@ class MenuState extends FlxState {
         Reg.setLevel(1);
         Reg.setMode(GameMode.Fix);
         _bDecide = true;
+        _idxDecide = 0;
     }
     private function _btnNormal():Void {
         Reg.setLevel(2);
         Reg.setMode(GameMode.Fix);
         _bDecide = true;
+        _idxDecide = 1;
     }
     private function _btnHard():Void {
         Reg.setLevel(3);
         Reg.setMode(GameMode.Fix);
         _bDecide = true;
+        _idxDecide = 2;
     }
     private function _btnEasyRandom():Void {
         Reg.setLevel(1);
         Reg.setMode(GameMode.Random);
         _bDecide = true;
+        _idxDecide = 3;
     }
     private function _btnNormalRandom():Void {
         Reg.setLevel(2);
         Reg.setMode(GameMode.Random);
         _bDecide = true;
+        _idxDecide = 4;
     }
     private function _btnHardRandom():Void {
         Reg.setLevel(3);
         Reg.setMode(GameMode.Random);
         _bDecide = true;
+        _idxDecide = 5;
     }
 }
 
