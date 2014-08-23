@@ -22,6 +22,8 @@ private enum State {
  */
 class MenuState extends FlxState {
 
+    private static inline var TIMER_TO_LOGO = 15; // 15秒間放置でロゴ画面へ戻る
+
     private var _timer:Int = 0;
     private var _state:State = State.Main;
     private var _bDecide:Bool = false;
@@ -35,6 +37,10 @@ class MenuState extends FlxState {
     private var _charctor:FlxSprite;
     private var _logo:FlxSprite;
     private var _wafers:Array<FlxSprite>;
+
+    private var _tPast:Float = 0; // 経過時間
+    private var _mouseX:Float = 0;
+    private var _mouseY:Float = 0;
 
     /**
 	 * 生成
@@ -137,6 +143,7 @@ class MenuState extends FlxState {
 
         // タイトル画面BGM再生
         Snd.playMusic("title");
+
     }
 
     /**
@@ -146,11 +153,28 @@ class MenuState extends FlxState {
         super.destroy();
     }
 
+    private function _updateElapsed():Void {
+        _tPast += FlxG.elapsed;
+        if(FlxG.mouse.x != _mouseX || FlxG.mouse.y != _mouseY) {
+            // 何らかの入力があるので経過時間をリセット
+            _tPast = 0;
+        }
+        _mouseX = FlxG.mouse.x;
+        _mouseY = FlxG.mouse.y;
+    }
     /**
 	 * 更新
 	 */
     override public function update():Void {
         super.update();
+
+        // 経過時間を計算する
+        _updateElapsed();
+        if(_tPast > TIMER_TO_LOGO) {
+            // 一定時間放置したのでロゴへ戻る
+            FlxG.switchState(new LogoState());
+            return;
+        }
 
         switch(_state) {
             case State.Main:
