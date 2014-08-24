@@ -61,7 +61,7 @@ class HUD extends FlxGroup {
     /**
      * コンストラクタ
      **/
-    public function new(p:Player, speedCtrl:SpeedController, goal:Int) {
+    public function new(p:Player, speedCtrl:SpeedController, goal:Int=0) {
         SPEEDTXT_POS_X = SPEEDBAR_POS_X + SPEEDBAR_WIDTH;
 
         super();

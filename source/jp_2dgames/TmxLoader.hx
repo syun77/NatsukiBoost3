@@ -102,10 +102,6 @@ class TmxLoader {
         return _layers[idx];
     }
 
-    public function getProperty(name:String):String {
-        return _properties.get(name);
-    }
-
     private function get_width() {
         return _width;
     }

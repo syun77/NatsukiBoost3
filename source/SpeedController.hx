@@ -66,7 +66,6 @@ class SpeedController {
      **/
     public function recordKasokuInit():Void {
         _kasokuInit = _top + _item_dash_addspeed;
-        trace('recordKasokuInit() ${_kasokuInit}');
     }
 
     // 加速アイテムを有効にする

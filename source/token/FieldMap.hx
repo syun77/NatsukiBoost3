@@ -1,5 +1,6 @@
 package token;
 
+import flixel.util.FlxStringUtil;
 import flixel.util.FlxRandom;
 import jp_2dgames.CsvLoader;
 import jp_2dgames.TmxLoader;
@@ -39,17 +40,51 @@ class FieldMap {
         switch(Reg.mode) {
             case GameMode.Fix:
                 // 固定マップをロード
-                _tmx = new TmxLoader();
-                var fTmx = "assets/levels/" + Reg.getLevelString() + ".tmx";
-                _tmx.load(fTmx);
-                _width = _tmx.width;
-                _height = _tmx.height;
-
+                _loadFix();
             case GameMode.Random:
                 _loadRandom();
             case GameMode.Endless:
+                _loadEndless();
         }
 
+    }
+
+    /**
+     * エンドレスステージ用の追加読み込み
+     **/
+    public function addEndless(ofsX:Int):Void {
+        _tmx = new TmxLoader();
+        var rnd = FlxRandom.intRanged(1, 40);
+        var str = TextUtil.fillZero(rnd, 3);
+        var fTmx = 'assets/levels/random/${str}.tmx';
+        _tmx.load(fTmx);
+        _width  = _tmx.width;
+        _height = _tmx.height;
+    }
+
+    /**
+     * エンドレスステージ読み込み
+     **/
+    private function _loadEndless():Void {
+        _tmx = new TmxLoader();
+        var rnd = FlxRandom.intRanged(1, 40);
+        var str = TextUtil.fillZero(rnd, 3);
+        var fTmx = 'assets/levels/random/${str}.tmx';
+        _tmx.load(fTmx);
+        _width = _tmx.width;
+        _height = _tmx.height;
+
+    }
+
+    /**
+     * 固定ステージの読み込み
+     **/
+    private function _loadFix():Void {
+        _tmx = new TmxLoader();
+        var fTmx = "assets/levels/" + Reg.getLevelString() + ".tmx";
+        _tmx.load(fTmx);
+        _width = _tmx.width;
+        _height = _tmx.height;
     }
 
     /**
@@ -153,6 +188,7 @@ class FieldMap {
             case GameMode.Random:
                 return _layer;
             case GameMode.Endless:
+                return _tmx.getLayer(idx);
                 return null;
         }
     }
