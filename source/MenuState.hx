@@ -1,5 +1,6 @@
 package;
 
+import flixel.util.FlxSpriteUtil;
 import Reg.GameMode;
 import util.Snd;
 import flixel.FlxSprite;
@@ -22,7 +23,7 @@ private enum State {
  */
 class MenuState extends FlxState {
 
-    private static inline var TIMER_TO_LOGO = 15; // 15秒間放置でロゴ画面へ戻る
+    private static inline var TIMER_TO_LOGO = 30; // 30秒間放置でロゴ画面へ戻る
 
     private var _timer:Int = 0;
     private var _state:State = State.Main;
@@ -41,6 +42,11 @@ class MenuState extends FlxState {
     private var _tPast:Float = 0; // 経過時間
     private var _mouseX:Float = 0;
     private var _mouseY:Float = 0;
+
+    // テキスト
+    private var _txtFix:FlxText; // 固定ステージ
+    private var _txtRandom:FlxText; // ランダムステージ
+    private var _txtEndless:FlxText; // エンドレス
 
     /**
 	 * 生成
@@ -96,6 +102,42 @@ class MenuState extends FlxState {
         var x3 = x + 80 * 2;
         var y = FlxG.height/2+24;
         var dy = 24;
+        {
+            // カテゴリ枠
+            var spr1 = new FlxSprite(x, y-16);
+            spr1.makeGraphic(80, 16+dy*3, FlxColor.AZURE);
+            spr1.alpha = 0;
+            FlxTween.tween(spr1, {alpha:0.5}, 1, {ease:FlxEase.expoOut, startDelay:1});
+            this.add(spr1);
+            var spr2 = new FlxSprite(x2, y-16);
+            spr2.makeGraphic(80, 16+dy*3, FlxColor.BROWN);
+            spr2.alpha = 0;
+            FlxTween.tween(spr2, {alpha:0.5}, 1, {ease:FlxEase.expoOut, startDelay:1.25});
+            this.add(spr2);
+            var spr3 = new FlxSprite(x3, y-16);
+            spr3.makeGraphic(80, 16+dy*3, FlxColor.CRIMSON);
+            spr3.alpha = 0;
+            FlxTween.tween(spr3, {alpha:0.5}, 1, {ease:FlxEase.expoOut, startDelay:1.5});
+            this.add(spr3);
+
+            // カテゴリテキスト
+            var texts = [];
+            var py = y - 16;
+            _txtFix = new FlxText(x, py);
+            _txtFix.text = "Fix";
+            _txtRandom = new FlxText(x2, py);
+            _txtRandom.text = "RANDOM";
+            _txtEndless = new FlxText(x3, py);
+            _txtEndless.text = "ENDLESS";
+            texts.push(_txtFix);
+            texts.push(_txtRandom);
+            texts.push(_txtEndless);
+            for(txt in texts) {
+                txt.x += 8;
+                txt.borderStyle = FlxText.BORDER_OUTLINE_FAST;
+                this.add(txt);
+            }
+        }
         var _btn0 = new FlxButton( x, y, "EASY", _btnEasy);
         var _btn3 = new FlxButton( x2, y, "EASY", _btnEasyRandom);
         var _btn6 = new FlxButton( x3, y, "ENDLESS", _btnEndless);
