@@ -1,5 +1,6 @@
 package token;
 
+import flixel.util.FlxStringUtil;
 import flixel.util.FlxRandom;
 import jp_2dgames.CsvLoader;
 import jp_2dgames.TmxLoader;
@@ -26,6 +27,7 @@ class FieldMap {
     private var _height:Int = 0;
     private var _tmx:TmxLoader;
     private var _layer:Layer2D;
+    private var _offsetX:Int = 0;
 
     /**
      * 固定マップをロード
@@ -39,17 +41,54 @@ class FieldMap {
         switch(Reg.mode) {
             case GameMode.Fix:
                 // 固定マップをロード
-                _tmx = new TmxLoader();
-                var fTmx = "assets/levels/" + Reg.getLevelString() + ".tmx";
-                _tmx.load(fTmx);
-                _width = _tmx.width;
-                _height = _tmx.height;
-
+                _loadFix();
             case GameMode.Random:
                 _loadRandom();
             case GameMode.Endless:
+                _loadEndless();
         }
 
+    }
+
+    /**
+     * エンドレスステージ用の追加読み込み
+     **/
+    public function addEndless(ofsX:Int):Void {
+        // オフセット用にずらすサイズを保持
+        _offsetX += _width;
+
+        _tmx = new TmxLoader();
+        var rnd = FlxRandom.intRanged(1, 40+1);
+        var str = TextUtil.fillZero(rnd, 3);
+        var fTmx = 'assets/levels/random/${str}.tmx';
+        _tmx.load(fTmx);
+        _width += _tmx.width;
+        _height += _tmx.height;
+    }
+
+    /**
+     * エンドレスステージ読み込み
+     **/
+    private function _loadEndless():Void {
+        _tmx = new TmxLoader();
+        var rnd = FlxRandom.intRanged(1, 40+1);
+        var str = TextUtil.fillZero(rnd, 3);
+        var fTmx = 'assets/levels/random/${str}.tmx';
+        _tmx.load(fTmx);
+        _width = _tmx.width;
+        _height = _tmx.height;
+
+    }
+
+    /**
+     * 固定ステージの読み込み
+     **/
+    private function _loadFix():Void {
+        _tmx = new TmxLoader();
+        var fTmx = "assets/levels/" + Reg.getLevelString() + ".tmx";
+        _tmx.load(fTmx);
+        _width = _tmx.width;
+        _height = _tmx.height;
     }
 
     /**
@@ -127,7 +166,7 @@ class FieldMap {
 
     }
 
-    public function getRealWidth():Int { return width * tileWidth; }
+    public function getRealWidth():Int { return _offsetX + width * tileWidth; }
     public function getRealHeight():Int { return height * tileHeight; }
     public function toRealX(i:Float, ofsW:Int=0):Float {
         if(ofsW == 0) {
@@ -153,8 +192,20 @@ class FieldMap {
             case GameMode.Random:
                 return _layer;
             case GameMode.Endless:
+                return _tmx.getLayer(idx);
                 return null;
         }
+    }
+    public function getValue(x:Int, y:Int):Int {
+        var i = x-_offsetX;
+        if(i < 0) {
+            return 0;
+        }
+        return getLayer(0).get(i, y);
+    }
+    public function setValue(x:Int, y:Int, v:Int):Void {
+        var i = x-_offsetX;
+        getLayer(0).set(i, y, v);
     }
 
     private function get_width():Int { return _width; }
