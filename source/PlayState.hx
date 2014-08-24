@@ -116,6 +116,7 @@ class PlayState extends FlxState {
     private var _combo:Int     = 0; // コンボ数
     private var _tChangeWait:Int = TIMER_CHANGE_WAIT; // リング獲得時の停止タイマー
     private var _cntSameBlock  = 0; // 同属性のブロックを破壊した数
+    private var _offsetFieldX  = 0; // マップ情報のオフセット座標(X) ※Endlessモードのみ使用
 
     // リザルト用変数
     private var _cntBlock:Int   = 0; // ブロック破壊数
@@ -393,29 +394,55 @@ class PlayState extends FlxState {
         var px = Math.floor(FlxG.camera.scroll.x / _field.tileWidth);
         var w = Math.floor(FlxG.width / _field.tileWidth);
         w += 8; // 検索範囲を広めに取る
-          for(j in 0..._field.height) {
-            for(i in px...(px+w)) {
-                var id = _field.getValue(i, j);
-                switch(id) {
-                    case 1: // 青ブロック
-                        createBlock(i, j, Attribute.Blue);
-                        _field.setValue(i, j, 0);
-                    case 2: // 赤ブロック
-                        createBlock(i, j, Attribute.Red);
-                        _field.setValue(i, j, 0);
-                    case 3,4,17,18,19,20,21,33,34,35,36: // アイテム
-                        createItem(i, j, id);
-                        _field.setValue(i, j, 0);
+        if(Reg.mode == GameMode.Endless) {
+            // エンドレスステージ用ステージ読み込みチェック
+            if(px + w > _field.width+_offsetFieldX) {
+                // 追加読み込みが必要
+                _offsetFieldX += _field.width;
+                _field.addEndless(_offsetFieldX);
+                // カメラを広げる
+                FlxG.camera.bounds.width += _field.getRealWidth();
+                FlxG.worldBounds.width += _field.getRealWidth();
+            }
+            px -= _offsetFieldX;
+            var layer = _field.getLayer(0);
+            for(j in 0..._field.height) {
+                for(i in px...(px+w)) {
+                    var id = layer.get(i, j);
+                    var i2 = i + _offsetFieldX;
+                    switch(id) {
+                        case 1: // 青ブロック
+                            createBlock(i2, j, Attribute.Blue);
+                            layer.set(i, j, 0);
+                        case 2: // 赤ブロック
+                            createBlock(i2, j, Attribute.Red);
+                            layer.set(i, j, 0);
+                        case 3,4,17,18,19,20,21,33,34,35,36: // アイテム
+                            createItem(i2, j, id);
+                            layer.set(i, j, 0);
+                    }
                 }
             }
         }
-
-        // エンドレスステージ用ステージ読み込みチェック
-        if(Reg.mode == GameMode.Endless) {
-            if(px + w > _field.width) {
-                // 追加読み込みが必要
-                _field.addEndless(px + w);
+        else {
+            var layer = _field.getLayer(0);
+            for(j in 0..._field.height) {
+                for(i in px...(px+w)) {
+                    var id = layer.get(i, j);
+                    switch(id) {
+                        case 1: // 青ブロック
+                            createBlock(i, j, Attribute.Blue);
+                            layer.set(i, j, 0);
+                        case 2: // 赤ブロック
+                            createBlock(i, j, Attribute.Red);
+                            layer.set(i, j, 0);
+                        case 3,4,17,18,19,20,21,33,34,35,36: // アイテム
+                            createItem(i, j, id);
+                            layer.set(i, j, 0);
+                    }
+                }
             }
+
         }
     }
 
@@ -448,7 +475,6 @@ class PlayState extends FlxState {
                     var power = _csvPlayer.item_gravity_power;
                     dx += power * Math.cos(rad);
                     dy += power * Math.sin(rad);
-                    trace('_checkGravity() rad=${rad} power=${power} dx=${dx} dy=${dy}');
                 }
             }
         }
@@ -510,6 +536,25 @@ class PlayState extends FlxState {
     }
 
     /**
+     * クリア判定
+     * @return クリアしていたらtrue
+     **/
+    private function _checkClear():Bool {
+
+        if(Reg.mode == GameMode.Endless) {
+            // エンドレスモードにクリアはない
+            return false;
+        }
+
+        if(FlxG.camera.scroll.x >= _field.getRealWidth() - FlxG.width) {
+            // クリアした
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
      * 更新・メイン
      **/
     private function _updateMain():Void {
@@ -542,7 +587,7 @@ class PlayState extends FlxState {
         // ボムの処理
         _updateBomb();
         // クリア判定
-        if(FlxG.camera.scroll.x >= _field.getRealWidth() - FlxG.width) {
+        if(_checkClear()) {
             // クリア
             _state = State.StageClearInit;
             _timer = TIMER_STAGE_CLEAR_INIT;
