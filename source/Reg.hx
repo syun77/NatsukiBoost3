@@ -186,6 +186,36 @@ class Reg {
     }
 
     /**
+     * ランク数値を文字列に変換する
+     **/
+    public static function getRankToString(rank:Int):String {
+        switch(rank) {
+            case 5: return "S";
+            case 4: return "A";
+            case 3: return "B";
+            case 2: return "C";
+            case 1: return "D";
+            case 0: return "E";
+            default: return "E";
+        }
+    }
+
+    /**
+     * ランク文字列を数値に変換する
+     **/
+    public static function getRankToInt(rank:String):Int {
+        switch(rank) {
+            case "S": return 5;
+            case "A": return 4;
+            case "B": return 3;
+            case "C": return 2;
+            case "D": return 1;
+            case "E": return 0;
+            default: return 0;
+        }
+    }
+
+    /**
      * 難易度に対応する名前を取得する
      **/
     public static function getLevelName(lv:Int=-1):String {
@@ -220,6 +250,16 @@ class Reg {
         case GameMode.Random: return "Random";
         case GameMode.Endless: return "Endless";
         }
+    }
+
+    /**
+     * ランク判定用CSVのファイル名を取得する
+     **/
+    public static function getRankCsvName():String {
+        var modeName = getModeString();
+        var levelName = getLevelString();
+
+        return 'assets/levels/rank_${modeName}_${levelName}.csv';
     }
 
     /**

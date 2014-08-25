@@ -79,6 +79,21 @@ class ResultHUD extends FlxGroup {
         _calcRatio(); // タイムボーナスを計算
         _score2 = cast(_score * _ratio);
 
+        // ランクCSVロード
+        var csv2:CsvLoader2 = new CsvLoader2();
+        csv2.load(Reg.getRankCsvName());
+
+        var rank = 5;
+        // ランク判定
+        for(i in 0...5) {
+            var a = csv2.getInt(i, "score");
+            if(_score2 < a) {
+                // ランク決定
+                rank = csv2.getInt(i, "rank");
+                break;
+            }
+        }
+
         // 小数点第一位より下を切り捨て
         {
             var tmp = Math.floor(_ratio * 10);
@@ -185,7 +200,7 @@ class ResultHUD extends FlxGroup {
         _txtRank.alignment = "center";
         _txtRank.size = 20;
         _txtRank.borderStyle = FlxText.BORDER_OUTLINE_FAST;
-        _txtRank.text = "Rank: A";
+        _txtRank.text = "Rank: " + Reg.getRankToString(rank);
         _objs.push(_txtRank);
 
         // スプライト登録
