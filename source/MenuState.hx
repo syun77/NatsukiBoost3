@@ -1,6 +1,5 @@
 package;
 
-import flixel.util.FlxSpriteUtil;
 import Reg.GameMode;
 import util.Snd;
 import flixel.FlxSprite;
@@ -29,7 +28,7 @@ class MenuState extends FlxState {
     private var _state:State = State.Main;
     private var _bDecide:Bool = false;
     private var _idxDecide:Int = -1;
-    private var _btnList:Array<FlxButton>;
+    private var _btnList:Array<MyButton>;
 
     private var _texts:Array<FlxText>;
     private var _natsuki:FlxSprite;
@@ -47,6 +46,9 @@ class MenuState extends FlxState {
     private var _txtFix:FlxText; // 固定ステージ
     private var _txtRandom:FlxText; // ランダムステージ
     private var _txtEndless:FlxText; // エンドレス
+
+    private var _txtScore:FlxText; // スコア
+    private var _txtRank:FlxText; // ランク
 
     /**
 	 * 生成
@@ -93,14 +95,14 @@ class MenuState extends FlxState {
         this.add(_txtCopy);
 
         // ボタン
-        _btnList = new Array<FlxButton>();
+        _btnList = new Array<MyButton>();
 
 //        var x = FlxG.width/2-40;
 //        var x = FlxG.width/2-80;
         var x = FlxG.width/2-120;
         var x2 = x + 80;
         var x3 = x + 80 * 2;
-        var y = FlxG.height/2+24;
+        var y = FlxG.height/2+8;
         var dy = 24;
         {
             // カテゴリ枠
@@ -138,18 +140,18 @@ class MenuState extends FlxState {
                 this.add(txt);
             }
         }
-        var _btn0 = new FlxButton( x, y, "EASY", _btnEasy);
-        var _btn3 = new FlxButton( x2, y, "EASY", _btnEasyRandom);
-        var _btn6 = new FlxButton( x3, y, "ENDLESS", _btnEndless);
+        var _btn0 = new MyButton( 0, x, y, "EASY", _btnEasy);
+        var _btn3 = new MyButton( 3, x2, y, "EASY", _btnEasyRandom);
+        var _btn6 = new MyButton( 6, x3, y, "ENDLESS", _btnEndless);
         y += dy;
-        var _btn1 = new FlxButton( x, y, "NORMAL", _btnNormal);
-        var _btn4 = new FlxButton( x2, y, "NORMAL", _btnNormalRandom);
+        var _btn1 = new MyButton( 1, x, y, "NORMAL", _btnNormal);
+        var _btn4 = new MyButton( 4, x2, y, "NORMAL", _btnNormalRandom);
         y += dy;
-        var _btn2 = new FlxButton( x, y, "HARD", _btnHard);
-        var _btn5 = new FlxButton( x2, y, "HARD", _btnHardRandom);
+        var _btn2 = new MyButton( 2, x, y, "HARD", _btnHard);
+        var _btn5 = new MyButton( 5, x2, y, "HARD", _btnHardRandom);
 
         // チュートリアルボタン
-        var _btn7 = new FlxButton( FlxG.width-80, FlxG.height-24, "TUTORIAL", _btnTutorial);
+        var _btn7 = new MyButton( 7, FlxG.width-80, FlxG.height-24, "TUTORIAL", _btnTutorial);
         _btnList.push(_btn0);
         _btnList.push(_btn1);
         _btnList.push(_btn2);
@@ -188,24 +190,10 @@ class MenuState extends FlxState {
             i++;
         }
 
-        // ハイスコア表示
-        x += 80 + 4;
-        y = FlxG.height/2+24+4;
-        _texts = new Array<FlxText>();
-        for(i in 1...4) {
-            var hiscore = Reg.getHiScore(i);
-            var hitime = Reg.getTime(i);
-            var rank = Reg.getRank(i);
-
-            var txt:FlxText = new FlxText(x, y, FlxG.width);
-            txt.text = "(" + rank + ") " + hiscore + " - TIME: " + FlxStringUtil.formatTime(hitime/1000, true);
-            txt.color = FlxColor.SILVER;
-            y += dy;
-
-            txt.visible = false;
-//            this.add(txt);
-            _texts.push(txt);
-        }
+        // スコア
+        _txtScore = new FlxText(0, FlxG.height-36, FlxG.width);
+        _txtScore.alignment = "center";
+        this.add(_txtScore);
 
         // タイトル画面BGM再生
         Snd.playMusic("title");
@@ -228,11 +216,25 @@ class MenuState extends FlxState {
         _mouseX = FlxG.mouse.x;
         _mouseY = FlxG.mouse.y;
     }
+
+    /**
+     * 表示スコアのチェック
+     **/
+    private function _checkDisplayScore():Void {
+        for(btn in _btnList) {
+            if(btn.status == FlxButton.HIGHLIGHT) {
+                // カーソルが乗っている
+                _txtScore.text = "SCORE: " + btn.btnID + " Rank: A";
+            }
+        }
+    }
+
     /**
 	 * 更新
 	 */
     override public function update():Void {
         super.update();
+
 
         // 経過時間を計算する
         _updateElapsed();
@@ -249,6 +251,8 @@ class MenuState extends FlxState {
 
             case State.Select:
                 // 決定待ち
+                // 表示スコアのチェック
+                _checkDisplayScore();
                 _timer++;
                 if(_bDecide) {
                     _state = State.Decide;
@@ -329,6 +333,20 @@ class MenuState extends FlxState {
     }
 }
 
+/**
+ * タイトル画面用ボタン
+ **/
+class MyButton extends FlxButton {
+    public var btnID:Int = 0; // ボタンID
+    public function new(btnID:Int, X:Float = 0, Y:Float = 0, ?Text:String, ?OnClick:Void->Void) {
+        this.btnID = btnID;
+        super(X, Y, Text, OnClick);
+    }
+}
+
+/**
+ * ウエハース
+ **/
 class Wafer extends FlxSprite {
     private var _timer:Float;
     public function new(index:Int) {
