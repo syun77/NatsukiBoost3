@@ -10,6 +10,7 @@ class Snd {
 
     // BGM無効フラグ
     private static var _bBgmDisable = true;
+//    private static var _bBgmDisable = false;
 
     // SEワンショット再生用テーブル
     private static var _oneShotTable = new Map<String, SoundInfo>();
