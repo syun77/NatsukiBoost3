@@ -1,5 +1,6 @@
 package;
 
+import Reg.GameMode;
 import flash.Lib;
 import jp_2dgames.TextUtil;
 import flixel.util.FlxSave;
@@ -17,12 +18,14 @@ enum GameMode {
 class Reg {
 
     // 初期タイム
-    public static var TIME_INIT = (59 * 60 * 1000) + (59 * 1000) + 999;
+    public static var TIME_INIT:Int = (59 * 60 * 1000) + (59 * 1000) + 999;
+    // セーブデータのバージョン番号
+    private static var SAVE_VERSION:Int = 106;
 
     // ゲームモード
-//    private static var _mode:GameMode = GameMode.Fix;
+    private static var _mode:GameMode = GameMode.Fix;
 //    private static var _mode:GameMode = GameMode.Random;
-    private static var _mode:GameMode = GameMode.Endless;
+//    private static var _mode:GameMode = GameMode.Endless;
     public static var mode(get, null):GameMode;
 
     // レベルの最大
@@ -43,8 +46,8 @@ class Reg {
             _save = new FlxSave();
             _save.bind("SAVEDATA");
         }
-        if(_save.data == null || _save.data.scores == null || _save.data.levelMax == null) {
-            // データがなければ初期化
+        if(_save.data.version == null || _save.data.version != SAVE_VERSION) {
+            // バージョンが違っていれば初期化
             clear(_save);
         }
 
@@ -59,24 +62,17 @@ class Reg {
             s = _save;
         }
 
+        s.data.version = SAVE_VERSION;
         s.data.scores = new Array<Int>();
         s.data.times = new Array<Int>();
-        s.data.ranks = new Array<String>();
-        for(i in 0...LEVEL_MAX) {
+        s.data.ranks = new Array<Int>();
+        for(i in 0...7) {
             s.data.scores.push(0);
             s.data.times.push(TIME_INIT);
-            s.data.ranks.push("E");
+            s.data.ranks.push(0);
         }
-        _save.data.levelMax = 0;
-        s.flush();
-    }
 
-    /**
-     * 最大レベルクリア数を取得する
-     * @return 最大レベルクリア数
-     **/
-    public static function getLevelMax():Int {
-        return _save.data.levelMax;
+        s.flush();
     }
 
     /**
@@ -84,13 +80,18 @@ class Reg {
      * @param lv レベル。指定がなければ現在のレベルで取得する
      * @return ハイスコア
      **/
-    public static function getHiScore(lv:Int = -1):Int {
+    public static function getHiScore(?m:GameMode, lv:Int = -1):Int {
         var s = _getSave();
+        if(m == null) {
+            m = mode;
+        }
         if(lv < 0) {
             lv = _level;
         }
 
-        return s.data.scores[lv];
+        var key = getModeLevelInt(m, lv);
+
+        return s.data.scores[key];
     }
 
     /**
@@ -98,13 +99,18 @@ class Reg {
      * @param lv レベル。指定がなければ現在のレベルで取得する
      * @return 最短タイム
      **/
-    public static function getTime(lv:Int = -1):Int {
+    public static function getTime(?m:GameMode, lv:Int = -1):Int {
         var s = _getSave();
+        if(m == null) {
+            m = mode;
+        }
         if(lv < 0) {
             lv = _level;
         }
 
-        return s.data.times[lv];
+        var key = getModeLevelInt(m, lv);
+
+        return s.data.times[key];
     }
 
     /**
@@ -112,13 +118,18 @@ class Reg {
      * @param lv レベル。指定がなければ現在のレベルで取得する
      * @return ランク
      **/
-    public static function getRank(lv:Int = -1):String {
+    public static function getRank(?m:GameMode, lv:Int = -1):Int {
         var s = _getSave();
+        if(m == null) {
+            m = mode;
+        }
         if(lv < 0) {
             lv = _level;
         }
 
-        return s.data.ranks[lv];
+        var key = getModeLevelInt(m, lv);
+
+        return s.data.ranks[key];
     }
 
     /**
@@ -129,7 +140,7 @@ class Reg {
      * @param bClear クリアしたかどうか
      * @return レベル更新したらtrue
      **/
-    public static function save(score:Int, time:Int, rank:String, bClear:Bool):Bool {
+    public static function save(score:Int, time:Int, rank:Int, bClear:Bool):Bool {
 
         var s = _getSave();
 
@@ -137,52 +148,42 @@ class Reg {
         var hitime = getTime();
         var hirank = getRank();
 
+        var key = getModeLevelInt(mode, level);
+
         if(score > hiscore) {
             // ハイスコア更新
-            s.data.scores[_level] = score;
+            s.data.scores[key] = score;
         }
         if(time < hitime) {
             // 最短タイム更新
-            s.data.times[_level] = time;
+            s.data.times[key] = time;
         }
 
-        // ランクを数値に変換
-        var rankToInt = function(rank:String) {
-            switch(rank) {
-                case "S": return 5;
-                case "A": return 4;
-                case "B": return 3;
-                case "C": return 2;
-                case "D": return 1;
-                case "E": return 0;
-                default: return 0;
-            }
-        }
-        var rankA = rankToInt(rank);
-        var rankB = rankToInt(hirank);
-        if(rankA > rankB) {
+        if(rank > hirank) {
             // ランク更新
-            s.data.ranks[_level] = rank;
+            s.data.ranks[key] = rank;
         }
 
         var ret:Bool = false; // 新しいレベルをクリアしたかどうか
 
-        if(bClear) {
-            // クリアしていたら最大レベルチェック
-            if(_level > getLevelMax()) {
-                // クリアしたレベルを更新
-                s.data.levelMax = _level;
-
-                if(_level < LEVEL_MAX - 1) {
-                    // アンロック・ウィンドウ表示
-                    ret = true;
-                }
-            }
-        }
-
         s.flush();
 
         return ret;
+    }
+
+    /**
+     * 指定のゲームモードとレベルを組み合わせて数字を返す
+     * @note セーブデータのキーとして使用する
+     **/
+    public static function getModeLevelInt(m:GameMode, lv:Int):Int {
+        switch(m) {
+            case GameMode.Fix:
+                return 0 + lv - 1;
+            case GameMode.Random:
+                return 3 + lv - 1;
+            case GameMode.Endless:
+                return 6;
+        }
     }
 
     /**

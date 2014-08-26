@@ -1,9 +1,9 @@
 package;
 
+import flixel.util.FlxStringUtil;
 import Reg.GameMode;
 import util.Snd;
 import flixel.FlxSprite;
-import flixel.util.FlxStringUtil;
 import flixel.util.FlxColor;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
@@ -217,6 +217,25 @@ class MenuState extends FlxState {
         _mouseY = FlxG.mouse.y;
     }
 
+    // ボタンIDからゲームモードを取得
+    private function _btnIDtoGameMode(btnID:Int):GameMode {
+        switch(btnID) {
+            case 0, 1, 2: return GameMode.Fix;
+            case 3, 4, 5: return GameMode.Random;
+            case 6: return GameMode.Endless;
+            default: return GameMode.Fix;
+        }
+    }
+    // ボタンIDからレベルを取得
+    private function _btnIDtoLevel(btnID:Int):Int {
+        switch(btnID) {
+            case 0, 3, 6: return 1;
+            case 1, 4: return 2;
+            case 2, 5: return 3;
+            default: return 1;
+        }
+    }
+
     /**
      * 表示スコアのチェック
      **/
@@ -224,7 +243,19 @@ class MenuState extends FlxState {
         for(btn in _btnList) {
             if(btn.status == FlxButton.HIGHLIGHT) {
                 // カーソルが乗っている
-                _txtScore.text = "SCORE: " + btn.btnID + " Rank: A";
+                if(btn.btnID == 7) {
+                    // 7はチュートリアルなので判定しない
+                    break;
+                }
+                var mode = _btnIDtoGameMode(btn.btnID);
+                var level = _btnIDtoLevel(btn.btnID);
+                var hiscore = Reg.getHiScore(mode, level);
+                var hirank = Reg.getRank(mode, level);
+                var hitime = Reg.getTime(mode, level);
+                var hirank2 = Reg.getRankToString(hirank);
+                var hitime2 = FlxStringUtil.formatTime(hitime/1000, true);
+                _txtScore.text = 'SCORE: ${hiscore} Rank: ${hirank2} Time: ${hitime2}';
+                break;
             }
         }
     }

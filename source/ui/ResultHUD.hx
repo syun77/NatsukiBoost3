@@ -77,7 +77,7 @@ class ResultHUD extends FlxGroup {
         _score = score;
         _pasttime = pasttime;
         _calcRatio(); // タイムボーナスを計算
-        _score2 = cast(_score * _ratio);
+        _score2 = Math.floor(_score * _ratio);
 
         // ランクCSVロード
         var csv2:CsvLoader2 = new CsvLoader2();
@@ -214,7 +214,8 @@ class ResultHUD extends FlxGroup {
         _state = State.ScoreIn;
         _tScore = 0;
 
-        FlxG.watch.add(_wafers, "length");
+        // セーブ
+        Reg.save(_score2, pasttime, rank, true);
     }
 
 
