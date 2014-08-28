@@ -1,5 +1,6 @@
 package;
 
+import token.Trophy;
 import flixel.util.FlxStringUtil;
 import Reg.GameMode;
 import util.Snd;
@@ -99,9 +100,11 @@ class MenuState extends FlxState {
 
 //        var x = FlxG.width/2-40;
 //        var x = FlxG.width/2-80;
-        var x = FlxG.width/2-120;
-        var x2 = x + 80;
-        var x3 = x + 80 * 2;
+        var xTrophy = 24;
+        var dx = 80 + xTrophy;
+        var x = FlxG.width/2-120-(xTrophy*3/2);
+        var x2 = x + dx;
+        var x3 = x + dx * 2;
         var y = FlxG.height/2+8;
         var dy = 24;
         {
@@ -186,7 +189,11 @@ class MenuState extends FlxState {
             var px = btn.x;
             btn.x = -btn.width;
             var delay2 = i * 0.125;
-            FlxTween.tween(btn, {x:px}, 1, {ease:FlxEase.expoOut, startDelay:delay2});
+            var cbFunc:FlxTween->Void = null;
+            if(i == 6) {
+                cbFunc = _cb_trophy;
+            }
+            FlxTween.tween(btn, {x:px}, 1, {ease:FlxEase.expoOut, startDelay:delay2, complete:cbFunc});
             i++;
         }
 
@@ -198,6 +205,24 @@ class MenuState extends FlxState {
         // タイトル画面BGM再生
         Snd.playMusic("title");
 
+    }
+
+    /**
+     * トロフィー表示用のコールバック
+     **/
+    private function _cb_trophy(tween:FlxTween):Void {
+        for(i in 0...6+1) {
+            var mode = _btnIDtoGameMode(i);
+            var level = _btnIDtoLevel(i);
+            var hirank = Reg.getRank(mode, level);
+            if(hirank < 3) {
+                continue;
+            }
+            var x = _btnList[i].x + 80;
+            var y = _btnList[i].y;
+            var trophy = new Trophy(x, y, hirank);
+            this.add(trophy);
+        }
     }
 
     /**
