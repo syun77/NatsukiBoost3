@@ -63,19 +63,22 @@ class ResultHUD extends FlxGroup {
 
     private var _state:State; // 状態
     private var _timer:Int;   // 汎用タイマー
-    private var _digit:Int;   // スコア演出の桁数
+    private var _digit:Int = 0; // スコア演出の桁数
     private var _digit2:Int;  // ボーナス演出の桁数
     private var _tScore:Int;  // スコア演出用タイマー
     private var _tPast:Int = 0; // 経過時間
 
+    private var _bEndless:Bool = true; // エンドレスモードから起動
+
     /**
      * コンストラクタ
      **/
-    public function new(score:Int, pasttime:Int) {
+    public function new(score:Int, pasttime:Int, bEndless:Bool) {
         super();
 //        score = 12345678;
         _score = score;
         _pasttime = pasttime;
+        _pasttime = 100;
         _calcRatio(); // タイムボーナスを計算
         _score2 = Math.floor(_score * _ratio);
 
@@ -269,26 +272,34 @@ class ResultHUD extends FlxGroup {
 
     // スコアパネル出現
     private function _updateScoreIn():Void {
-        // TODO:
         _panel.visible = true;
         for(s in _scores) {
             s.visible = true;
         }
-        _wafer.visible = true;
 
-        var py = _panel.y;
-        _panel.y = FlxG.height;
-        FlxTween.tween(_panel, {y:py}, 1, {ease:FlxEase.expoOut});
-        for(s in _scores) {
-            var py3 = s.y;
-            s.y = FlxG.height;
-            FlxTween.tween(s, {y:py3}, 1, {ease:FlxEase.expoOut});
+        if(_bEndless) {
+            // エンドレスモードはお皿を表示しない
+            _state = State.ScoreMain;
         }
-        var py2 = _wafer.y;
-        _wafer.y = FlxG.height;
-        FlxTween.tween(_wafer, {y:py2}, 1, {ease:FlxEase.expoOut});
+        else {
 
-        _state = State.BowlIn;
+            _wafer.visible = true;
+
+            var py = _panel.y;
+            _panel.y = FlxG.height;
+            FlxTween.tween(_panel, {y:py}, 1, {ease:FlxEase.expoOut});
+            for(s in _scores) {
+                var py3 = s.y;
+                s.y = FlxG.height;
+                FlxTween.tween(s, {y:py3}, 1, {ease:FlxEase.expoOut});
+            }
+            var py2 = _wafer.y;
+            _wafer.y = FlxG.height;
+            FlxTween.tween(_wafer, {y:py2}, 1, {ease:FlxEase.expoOut});
+
+            _state = State.BowlIn;
+        }
+
     }
 
     // お皿出現
@@ -344,7 +355,13 @@ class ResultHUD extends FlxGroup {
 
     // スコアカウントアップ
     private function _updateScoreMain():Void {
-        _appearWafers();
+
+        if(_bEndless) {
+            _timer = TIMER_SCORE;
+        }
+        else {
+            _appearWafers();
+        }
         _timer++;
         if(_timer > TIMER_SCORE) {
             _timer = 0;
@@ -356,22 +373,33 @@ class ResultHUD extends FlxGroup {
 
             _digit++;
             if(_digit > SCORE_DIGIT || _score == _scoreDraw) {
-                // タイムボーナス演出へ
+                // スコアを表示
                 _digit = SCORE_DIGIT;
-                _state = State.TimebonusIn;
-                _timer = 0;
-                {
-                    var py = _txtRatio.y;
-                    _txtRatio.y = FlxG.height;
-                    FlxTween.tween(_txtRatio, {y:py}, 1, {ease:FlxEase.expoOut});
+                if(_bEndless) {
+
+                    // エンドレスモードはタイムボーナス不要
+                    // ランク表示
+                    _appearRank();
+                    _state = State.Standby;
                 }
-                {
-                    var py = _timebonus.y;
-                    _timebonus.y = FlxG.height;
-                    FlxTween.tween(_timebonus, {y:py}, 1, {ease:FlxEase.expoOut, complete:_cb_timebonusin});
+                else {
+
+                    // タイムボーナス演出へ
+                    _state = State.TimebonusIn;
+                    _timer = 0;
+                    {
+                        var py = _txtRatio.y;
+                        _txtRatio.y = FlxG.height;
+                        FlxTween.tween(_txtRatio, {y:py}, 1, {ease:FlxEase.expoOut});
+                    }
+                    {
+                        var py = _timebonus.y;
+                        _timebonus.y = FlxG.height;
+                        FlxTween.tween(_timebonus, {y:py}, 1, {ease:FlxEase.expoOut, complete:_cb_timebonusin});
+                    }
+                    _txtRatio.visible = true;
+                    _timebonus.visible = true;
                 }
-                _txtRatio.visible = true;
-                _timebonus.visible = true;
             }
         }
         _setScore(_scoreDraw);
@@ -430,6 +458,12 @@ class ResultHUD extends FlxGroup {
     private function _cb_cutin(t:FlxTween):Void {
         var px = _natsuki.x;
         _fukidashi.visible = true;
+        _appearRank();
+        _state = State.Standby;
+    }
+
+    // ランク表示
+    private function _appearRank():Void {
     #if flash
         _txtFukidashi.visible = true;
     #end
@@ -437,7 +471,7 @@ class ResultHUD extends FlxGroup {
         var size = _txtRank.size;
         _txtRank.size *= 2;
         FlxTween.tween(_txtRank, {size:size}, 1, {ease:FlxEase.expoOut});
-        _state = State.Standby;
+
     }
 
     // 待機
@@ -468,6 +502,12 @@ class ResultHUD extends FlxGroup {
      * タイムボーナスの倍率を計算する
      **/
     private function _calcRatio():Void {
+
+        if(_bEndless) {
+            // エンドレスモードの時はタイムボーナスなし
+            _ratio = 1;
+            return;
+        }
 
         var csvTb:CsvLoader2 = new CsvLoader2("assets/levels/timebonus.csv");
         var mode = Reg.getModeString();

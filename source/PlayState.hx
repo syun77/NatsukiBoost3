@@ -243,7 +243,7 @@ class PlayState extends FlxState {
         FlxG.debugger.toggleKeys = ["ALT"];
 
         // リザルトをすぐに表示する
-//        _startResult();
+        //_startResult();
     }
 
     /**
@@ -618,6 +618,12 @@ class PlayState extends FlxState {
             if(FlxG.sound.music != null) {
                 FlxG.sound.music.stop();
             }
+
+            if(Reg.mode == GameMode.Endless) {
+                // エンドレスモードはリザルトを表示する
+                _startResult();
+            }
+
             return;
         }
 
@@ -691,7 +697,8 @@ class PlayState extends FlxState {
      **/
     private function _startResult():Void {
         var pasttime:Int = _hud.getPastTime();
-        _result = new ResultHUD(_hud.getScore(), _hud.getPastTime());
+        var bEndless:Bool = Reg.mode == GameMode.Endless;
+        _result = new ResultHUD(_hud.getScore(), pasttime, bEndless);
         this.add(_result);
         Snd.playMusic("gameover", false);
     }

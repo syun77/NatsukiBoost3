@@ -1,4 +1,5 @@
 package ui;
+import Reg.GameMode;
 import jp_2dgames.TextUtil;
 import SpeedController;
 import token.Player;
@@ -84,11 +85,20 @@ class HUD extends FlxGroup {
         _txtSpeed = new FlxText(SPEEDTXT_POS_X, _barSpeed.getY(), width);
         _txtDistance = new FlxText(x, y2, width);
         _txtLevel = new FlxText(-8, y1-24, width);
-        _txtLevel.text = Reg.getLevelName();
+        var txtLevel = Reg.getModeString();
+        if(Reg.mode != GameMode.Endless) {
+            txtLevel += ":" + Reg.getLevelName();
+        }
+        _txtLevel.text = txtLevel;
         y2 += dy;
 
         // 残り距離
         _barDistance = new FlxBar(x, y2-2, FlxBar.FILL_LEFT_TO_RIGHT, cast FlxG.width/3, 2);
+        if(Reg.mode == GameMode.Endless) {
+            // エンドレスモードは非表示
+            _barDistance.visible = false;
+            _txtDistance.visible = false;
+        }
         _txtTime = new FlxText(x, y2, width);
         _txtTime.text = "Time: " + FlxStringUtil.formatTime(0, true);
         y2 += dy;
