@@ -742,35 +742,43 @@ class PlayState extends FlxState {
 
         case ItemID.Big:
             _player.startBig();
+            Snd.playSe("big");
             item.vanish();
 
         case ItemID.Small:
             _player.startSmall();
+            Snd.playSe("big");
             item.vanish();
 
         case ItemID.Star:
             _player.startStar();
+            Snd.playSe("muteki");
             item.vanish();
 
         case ItemID.Damage:
             _damage(_csvPlayer.item_damage_val);
+            Snd.playSe("damage");
             item.vanish();
 
         case ItemID.Shield:
             _player.startShield();
+            Snd.playSe("shield");
             item.vanish();
 
         case ItemID.Bomb:
             _startBomb();
+            Snd.playSe("bomb");
             item.vanish();
 
         case ItemID.Warp:
             _startWarpWait(item);
+            Snd.playSe("warp");
 
         case ItemID.Dash:
             // 開始速度を記録しておく
             _speedCtrl.recordKasokuInit();
             _player.startDash();
+            Snd.playSe("kasoku");
             item.vanish();
 
         default:
