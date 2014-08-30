@@ -24,8 +24,8 @@ class Reg {
 
     // ゲームモード
 //    private static var _mode:GameMode = GameMode.Fix;
-//    private static var _mode:GameMode = GameMode.Random;
-    private static var _mode:GameMode = GameMode.Endless;
+    private static var _mode:GameMode = GameMode.Random;
+//    private static var _mode:GameMode = GameMode.Endless;
     public static var mode(get, null):GameMode;
 
     // レベルの最大
