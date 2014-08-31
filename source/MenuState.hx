@@ -377,7 +377,7 @@ class MenuState extends FlxState {
         _idxDecide = 5;
     }
     private function _btnEndless():Void {
-        Reg.setLevel(3);
+        Reg.setLevel(1);
         Reg.setMode(GameMode.Endless);
         _bDecide = true;
         _idxDecide = 6;

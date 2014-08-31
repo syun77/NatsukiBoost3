@@ -49,6 +49,7 @@ private enum State {
     Main;           // メイン
     ChangeWait;     // 色変え演出中
     WarpWait;       // ワープ演出中
+    ItemWait;       // アイテム取得の共通ウェイト
     StageClearInit; // ステージクリア・初期化
     StageClearMain; // ステージクリア・メイン
     UnlockWait;     // ステージアンロック・ウィンドウ表示中
@@ -243,7 +244,7 @@ class PlayState extends FlxState {
         FlxG.debugger.toggleKeys = ["ALT"];
 
         // リザルトをすぐに表示する
-//        _startResult();
+        //_startResult();
     }
 
     /**
@@ -286,6 +287,7 @@ class PlayState extends FlxState {
             case State.Main: _updateMain();
             case State.ChangeWait: _updateChangeWait();
             case State.WarpWait: _updateWarpWait();
+            case State.ItemWait: _updateItemWait();
             case State.StageClearInit: _updateStageClearInit();
             case State.StageClearMain: _updateStageClearMain();
             case State.UnlockWait: _updateUnlockWait();
@@ -312,8 +314,6 @@ class PlayState extends FlxState {
      * 色変えエフェクト再生開始
      **/
     private function _startChangeWait():Void {
-        _state = State.ChangeWait;
-        _timer = _tChangeWait;
 
         // 停止タイマーを減らす
         _tChangeWait -= TIMER_CHANGE_WAIT_DEC;
@@ -324,9 +324,33 @@ class PlayState extends FlxState {
 
         _eftPlayer.start(_player.getAttribute(), _player.x, _player.y, _timer);
 
+        _startWait();
+    }
+
+    private function _startWait(tWait:Int = 0):Void {
         _setActiveForChangeWait(false);
         // プレイヤーだけ止めずに速度だけ0にする
         _player.velocity.x = 0;
+
+        _state = State.ChangeWait;
+
+        if(tWait == 0) {
+            tWait = _tChangeWait;
+        }
+        _timer = tWait;
+    }
+
+    private function _startItemWait(tWait:Int = 0):Void {
+        _setActiveForChangeWait(false);
+        // プレイヤーだけ止めずに速度だけ0にする
+        _player.velocity.x = 0;
+
+        _state = State.ItemWait;
+
+        if(tWait == 0) {
+            tWait = _tChangeWait;
+        }
+        _timer = tWait;
     }
 
     /**
@@ -618,6 +642,12 @@ class PlayState extends FlxState {
             if(FlxG.sound.music != null) {
                 FlxG.sound.music.stop();
             }
+
+            if(Reg.mode == GameMode.Endless) {
+                // エンドレスモードはリザルトを表示する
+                _startResult();
+            }
+
             return;
         }
 
@@ -645,6 +675,17 @@ class PlayState extends FlxState {
      **/
     private function _updateWarpWait():Void {
         // 特に何もしない
+    }
+
+    /**
+     * 更新・共通のアイテムウェイト
+     **/
+    private function _updateItemWait():Void {
+        _timer--;
+        if(_timer < 1) {
+            _setActiveForChangeWait(true);
+            _state = State.Main;
+        }
     }
 
     /**
@@ -691,7 +732,8 @@ class PlayState extends FlxState {
      **/
     private function _startResult():Void {
         var pasttime:Int = _hud.getPastTime();
-        _result = new ResultHUD(_hud.getScore(), _hud.getPastTime());
+        var bEndless:Bool = Reg.mode == GameMode.Endless;
+        _result = new ResultHUD(_hud.getScore(), pasttime, bEndless);
         this.add(_result);
         Snd.playMusic("gameover", false);
     }
@@ -742,35 +784,47 @@ class PlayState extends FlxState {
 
         case ItemID.Big:
             _player.startBig();
+            Snd.playSe("big");
             item.vanish();
+            // 動きを止める
+            _startItemWait(cast _tChangeWait/2);
 
         case ItemID.Small:
             _player.startSmall();
+            Snd.playSe("big");
             item.vanish();
+            // 動きを止める
+            _startItemWait(cast _tChangeWait/2);
 
         case ItemID.Star:
             _player.startStar();
+            Snd.playSe("muteki");
             item.vanish();
 
         case ItemID.Damage:
             _damage(_csvPlayer.item_damage_val);
+            Snd.playSe("damage");
             item.vanish();
 
         case ItemID.Shield:
             _player.startShield();
+            Snd.playSe("shield");
             item.vanish();
 
         case ItemID.Bomb:
             _startBomb();
+            Snd.playSe("bomb");
             item.vanish();
 
         case ItemID.Warp:
             _startWarpWait(item);
+            Snd.playSe("warp");
 
         case ItemID.Dash:
             // 開始速度を記録しておく
             _speedCtrl.recordKasokuInit();
             _player.startDash();
+            Snd.playSe("kasoku");
             item.vanish();
 
         default:
