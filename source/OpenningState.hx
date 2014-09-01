@@ -1,5 +1,6 @@
 package;
 
+import util.Snd;
 import ss.FlxSSPlayerMgr;
 import ss.SSTexturePackerDataMgr;
 import flixel.FlxG;
@@ -20,6 +21,9 @@ class OpenningState extends FlxState {
 
     override public function create():Void {
         super.create();
+
+        // BGM再生
+        Snd.playMusic("001");
 
     }
 
