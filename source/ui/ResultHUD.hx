@@ -78,9 +78,9 @@ class ResultHUD extends FlxGroup {
 //        score = 12345678;
         _score = score;
         _pasttime = pasttime;
-        _pasttime = 100;
         _calcRatio(); // タイムボーナスを計算
         _score2 = Math.floor(_score * _ratio);
+        _bEndless = bEndless;
 
         // ランクCSVロード
         var csv2:CsvLoader2 = new CsvLoader2();
