@@ -121,7 +121,7 @@ class HUD extends FlxGroup {
         _txtCombo2.visible = false;
 
         // コンボタイマーゲージ
-        _barCombo = new FlxBar(FlxG.width-56, y2+36, FlxBar.FILL_LEFT_TO_RIGHT, 48, 2);
+        _barCombo = new FlxBar(FlxG.width-56, y2+36, FlxBar.FILL_LEFT_TO_RIGHT, 40, 2);
         _barCombo.visible = false;
 
         _objs.push(_barDistance);

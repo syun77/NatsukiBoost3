@@ -55,7 +55,11 @@ class OpenningState extends FlxState {
             if(_texs != null) {
                 _texs.destroy();
             }
-            
+
+            if(_step == 4) {
+                // フェードアウト
+                FlxG.sound.music.fadeOut(7);
+            }
             if(_step > 4) {
                 FlxG.switchState(new MenuState());
                 return;

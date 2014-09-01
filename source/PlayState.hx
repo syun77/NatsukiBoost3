@@ -681,10 +681,6 @@ class PlayState extends FlxState {
             // ハイスコアのみ保存
             Reg.saveScore(_hud.getScore());
 
-            if(FlxG.sound.music != null) {
-                FlxG.sound.music.stop();
-            }
-
             if(Reg.mode == GameMode.Endless) {
                 // エンドレスモードはリザルトを表示する
                 _startResult();
