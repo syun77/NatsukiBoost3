@@ -589,11 +589,16 @@ class PlayState extends FlxState {
 
         if(_combo > 0) {
             _tCombo += FlxG.elapsed;
-            if(_tCombo > _csvPlayer.combo_timer * 0.666) {
+
+            var max:Float = _csvPlayer.combo_timer;
+            var percent:Float = (max - _tCombo) / max;
+            _hud.setComboBar(percent);
+
+            if(_tCombo > max * 0.666) {
                 // 点滅開始
                 _hud.blinkCombo();
             }
-            if(_tCombo > _csvPlayer.combo_timer) {
+            if(_tCombo > max) {
                 // 一定時間経過したのでコンボ終了
                 _resetCombo();
             }
@@ -896,7 +901,8 @@ class PlayState extends FlxState {
         _speedCtrl.setWaitTimer(_csvPlayer.damage_timer);
 
         // コンボ終了
-        _resetCombo();
+        // ダメージで終了しないようにする
+        //_resetCombo();
 
         Snd.playSe("block", true, 0.05);
     }

@@ -48,6 +48,7 @@ class HUD extends FlxGroup {
     // ゲージ
     private var _barDistance:FlxBar;
     private var _barSpeed:SpeedBar;
+    private var _barCombo:FlxBar; // コンボタイマーゲージ
 
     private var _objs:Array<FlxObject>;
 
@@ -119,6 +120,9 @@ class HUD extends FlxGroup {
         _txtCombo2.text = "combo";
         _txtCombo2.visible = false;
 
+        // コンボタイマーゲージ
+        _barCombo = new FlxBar(FlxG.width-56, y2+36, FlxBar.FILL_LEFT_TO_RIGHT, 48, 2);
+        _barCombo.visible = false;
 
         _objs.push(_barDistance);
         _objs.push(_txtTime);
@@ -127,6 +131,7 @@ class HUD extends FlxGroup {
         _objs.push(_txtLevel);
         _objs.push(_txtCombo);
         _objs.push(_txtCombo2);
+        _objs.push(_barCombo);
         _objs.push(_txtScore);
 
         for(o in _objs) {
@@ -203,12 +208,26 @@ class HUD extends FlxGroup {
         if(v == 0) {
             _txtCombo.visible = false;
             _txtCombo2.visible = false;
+            _barCombo.visible = false;
         }
         else {
             _txtCombo.visible = true;
             _txtCombo.text = "" + v;
             _txtCombo.size = 24;
             _txtCombo2.visible = true;
+        }
+    }
+
+    /**
+     * コンボ残り時間のパーセンテージを設定
+     **/
+    public function setComboBar(per:Float):Void {
+        if(per == 0) {
+            _barCombo.visible = false;
+        }
+        else {
+            _barCombo.percent = 100 * per;
+            _barCombo.visible = true;
         }
     }
 
