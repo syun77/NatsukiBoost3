@@ -465,7 +465,9 @@ class ResultHUD extends FlxGroup {
     // ランク表示
     private function _appearRank():Void {
     #if flash
-        _txtFukidashi.visible = true;
+        if(_bEndless == false) {
+            _txtFukidashi.visible = true;
+        }
     #end
         _txtRank.visible = true;
         var size = _txtRank.size;
