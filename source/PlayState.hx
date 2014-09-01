@@ -318,6 +318,12 @@ class PlayState extends FlxState {
      * 色変えエフェクト再生開始
      **/
     private function _startChangeWait():Void {
+        _state = State.ChangeWait;
+        _timer = _tChangeWait;
+
+        _setActiveForChangeWait(false);
+        // プレイヤーだけ止めずに速度だけ0にする
+        _player.velocity.x = 0;
 
         // 停止タイマーを減らす
         _tChangeWait -= TIMER_CHANGE_WAIT_DEC;
@@ -328,20 +334,6 @@ class PlayState extends FlxState {
 
         _eftPlayer.start(_player.getAttribute(), _player.x, _player.y, _timer);
 
-        _startWait();
-    }
-
-    private function _startWait(tWait:Int = 0):Void {
-        _setActiveForChangeWait(false);
-        // プレイヤーだけ止めずに速度だけ0にする
-        _player.velocity.x = 0;
-
-        _state = State.ChangeWait;
-
-        if(tWait == 0) {
-            tWait = _tChangeWait;
-        }
-        _timer = tWait;
     }
 
     private function _startItemWait(tWait:Int = 0):Void {
