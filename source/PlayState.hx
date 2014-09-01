@@ -115,6 +115,7 @@ class PlayState extends FlxState {
     private var _state:State; // 状態
     private var _timer:Int;   // 汎用タイマー
     private var _combo:Int     = 0; // コンボ数
+    private var _tCombo:Float  = 0; // コンボタイマー
     private var _tChangeWait:Int = TIMER_CHANGE_WAIT; // リング獲得時の停止タイマー
     private var _cntSameBlock  = 0; // 同属性のブロックを破壊した数
     private var _offsetFieldX  = 0; // マップ情報のオフセット座標(X) ※Endlessモードのみ使用
@@ -258,6 +259,9 @@ class PlayState extends FlxState {
             // コンボ最大数更新
             _comboMax = _combo;
         }
+
+        // コンボタイマー初期化
+        _tCombo = 0;
     }
 
     /**
@@ -579,6 +583,24 @@ class PlayState extends FlxState {
     }
 
     /**
+     * コンボ終了チェック
+     **/
+    private function _checkComboEnd():Void {
+
+        if(_combo > 0) {
+            _tCombo += FlxG.elapsed;
+            if(_tCombo > _csvPlayer.combo_timer * 0.666) {
+                // 点滅開始
+                _hud.blinkCombo();
+            }
+            if(_tCombo > _csvPlayer.combo_timer) {
+                // 一定時間経過したのでコンボ終了
+                _resetCombo();
+            }
+        }
+    }
+
+    /**
      * 更新・メイン
      **/
     private function _updateMain():Void {
@@ -610,6 +632,10 @@ class PlayState extends FlxState {
 
         // ボムの処理
         _updateBomb();
+
+        // コンボ終了チェック
+        _checkComboEnd();
+
         // クリア判定
         if(_checkClear()) {
             // クリア
