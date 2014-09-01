@@ -648,6 +648,7 @@ class PlayState extends FlxState {
             return;
         }
         if(_speedCtrl.getTop() <= _csvPlayer.speedtop_deadline) {
+
             // プレイヤー死亡
             _gameoverHUD = new GameOverHUD(_player);
             this.add(_gameoverHUD);
@@ -655,16 +656,26 @@ class PlayState extends FlxState {
             _follow.kill();
             _state = State.GameoverInit;
             _timer = TIMER_GAMEOVER_INIT;
+
             // エフェクト生成
             _emitterPlayer.explode(_player.x, _player.y);
+
             // メッセージ表示
             _txtMessage.text = "Game Over...";
             _txtMessage.visible = true;
+
             // 時間計測停止
             _hud.setIncTime(false);
 
             // サウンド再生
             Snd.playSe("kya");
+
+            // 終了BGM
+            Snd.playMusic("gameover", false);
+
+            // ハイスコアのみ保存
+            Reg.saveScore(_hud.getScore());
+
             if(FlxG.sound.music != null) {
                 FlxG.sound.music.stop();
             }
@@ -761,6 +772,8 @@ class PlayState extends FlxState {
         var bEndless:Bool = Reg.mode == GameMode.Endless;
         _result = new ResultHUD(_hud.getScore(), pasttime, bEndless);
         this.add(_result);
+
+        // 終了BGM
         Snd.playMusic("gameover", false);
     }
 
@@ -769,6 +782,7 @@ class PlayState extends FlxState {
      **/
     private function _updateGameoverInit():Void {
         _timer--;
+
         if(_timer < 1) {
             _state = State.GameoverMain;
         }
