@@ -220,6 +220,10 @@ class Player extends FlxSprite {
 
         if(_bStop) {
             // 動かせない
+            // 特定位置に近づける
+            var targetX = FlxG.camera.scroll.x + 32;
+            var dx = targetX - x;
+            x += dx * 0.05;
             return;
         }
 
