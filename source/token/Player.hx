@@ -47,6 +47,7 @@ class Player extends FlxSprite {
     private var _tSmall:FlxTimer = null;
     private var _tStar:FlxTimer = null;
     private var _tDash:FlxTimer = null;
+    private var _bStop:Bool = false; // 動かせないフラグ
 
     // 重力アイテム
     private var _bGravity:Bool = false; // 近くに重力アイテムがあるかどうか
@@ -82,6 +83,8 @@ class Player extends FlxSprite {
 
         animation.add("blue", [0]);
         animation.add("red", [1]);
+        animation.add("blue2", [ 2, 4, 6, 4, 2], 16);
+        animation.add("red2", [ 3, 5, 7, 5, 3], 16);
 
         _eftAttribute = new FlxSprite();
         _eftAttribute.loadGraphic("assets/images/attribute.png", true);
@@ -203,6 +206,7 @@ class Player extends FlxSprite {
      **/
     override public function update():Void {
         super.update();
+
         _eftAttribute.x = x;
         _eftAttribute.y = y;
         _star.x = x;
@@ -213,6 +217,11 @@ class Player extends FlxSprite {
         // 画面外に出ないようする
         if(y < 0) { y = 0; _accelerometerY *= 0.8; }
         if(y > FlxG.height-16) { y = FlxG.height-16; _accelerometerY *= 0.8; }
+
+        if(_bStop) {
+            // 動かせない
+            return;
+        }
 
 #if FLX_NO_TOUCH
         // マウスの座標に向かって移動する
@@ -455,5 +464,31 @@ class Player extends FlxSprite {
         if(_bDash == false) { return; }
 
         _bDash = false;
+    }
+
+    public function startResult():Void {
+
+        // 移動しないようにする
+        velocity.set(0, 0);
+        _bStop = true;
+    }
+
+    public function playResult():Void {
+
+        if(getAttribute() == Attribute.Red) {
+            animation.play("red2");
+        }
+        else {
+            animation.play("blue2");
+        }
+    }
+
+    public function endResult():Void {
+        if(getAttribute() == Attribute.Red) {
+            animation.play("red");
+        }
+        else {
+            animation.play("blue");
+        }
     }
 }

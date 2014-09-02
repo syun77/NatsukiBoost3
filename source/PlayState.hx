@@ -763,7 +763,7 @@ class PlayState extends FlxState {
     private function _startResult():Void {
         var pasttime:Int = _hud.getPastTime();
         var bEndless:Bool = Reg.mode == GameMode.Endless;
-        _result = new ResultHUD(_hud.getScore(), pasttime, bEndless);
+        _result = new ResultHUD(_hud.getScore(), pasttime, bEndless, _player);
         this.add(_result);
 
         // 終了BGM
