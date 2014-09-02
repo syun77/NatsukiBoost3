@@ -83,6 +83,8 @@ class HUD extends FlxGroup {
         // スピードゲージ
         _barSpeed = new SpeedBar(SPEEDBAR_POS_X, SPEEDBAR_POS_Y2, cast SPEEDBAR_WIDTH, SPEEDBAR_HEIGHT);
         this.add(_barSpeed);
+        _barSpeed.updateAll(_player, _speedCtrl);
+        
         _txtSpeed = new FlxText(SPEEDTXT_POS_X, _barSpeed.getY(), width);
         _txtDistance = new FlxText(x, y2, width);
         _txtLevel = new FlxText(-8, y1-24, width);
@@ -197,8 +199,10 @@ class HUD extends FlxGroup {
             _txtTime.text = "Time: " + FlxStringUtil.formatTime(_pastTime/1000.0, true);
         }
 
-        // スピードゲージの更新
-        _barSpeed.updateAll(_player, _speedCtrl);
+        if(_player.velocity.x > 0) {
+            // スピードゲージの更新
+            _barSpeed.updateAll(_player, _speedCtrl);
+        }
     }
 
     /**
@@ -235,7 +239,9 @@ class HUD extends FlxGroup {
      * 更新
      **/
     public function updateAll():Void {
-        _txtSpeed.text = "Speed: " + Math.ceil(_player.velocity.x);
+        if(_player.velocity.x > 0) {
+            _txtSpeed.text = "Speed: " + Math.ceil(_player.velocity.x);
+        }
         _txtDistance.text = "Distance: " + Math.floor(_player.x/10) + "/" + Math.floor(_goal/10);
 
         _barDistance.percent = 100*_player.x / _goal;
