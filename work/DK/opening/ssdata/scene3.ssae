@@ -434,7 +434,7 @@
 							</key>
 							<key time="170" ipType="bezier">
 								<curve syncStartEnd="0">0 0 0 0</curve>
-								<value>-5</value>
+								<value>0</value>
 							</key>
 							<key time="179" ipType="linear">
 								<value>0</value>

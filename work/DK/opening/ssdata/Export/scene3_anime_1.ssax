@@ -297,7 +297,7 @@
 						<Value>-10</Value>
 					</Key>
 					<Key Time="170" CurveType="3" CurveStartT="0.000" CurveStartV="0.000" CurveEndT="0.000" CurveEndV="0.000">
-						<Value>5</Value>
+						<Value>0</Value>
 					</Key>
 					<Key Time="179" CurveType="1">
 						<Value>0</Value>
