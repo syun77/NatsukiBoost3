@@ -42,12 +42,13 @@ class HUD extends FlxGroup {
     private var _txtScore:FlxText;
 
     // 経過時間
-    private var _pastTime:Float = 0;
+    private var _pastTime:Float = 0;    // 単位はミリ秒
     private var _bIncTime:Bool = false; // 経過時間の増加フラグ
 
     // ゲージ
     private var _barDistance:FlxBar;
     private var _barSpeed:SpeedBar;
+    private var _barCombo:FlxBar; // コンボタイマーゲージ
 
     private var _objs:Array<FlxObject>;
 
@@ -82,6 +83,8 @@ class HUD extends FlxGroup {
         // スピードゲージ
         _barSpeed = new SpeedBar(SPEEDBAR_POS_X, SPEEDBAR_POS_Y2, cast SPEEDBAR_WIDTH, SPEEDBAR_HEIGHT);
         this.add(_barSpeed);
+        _barSpeed.updateAll(_player, _speedCtrl);
+        
         _txtSpeed = new FlxText(SPEEDTXT_POS_X, _barSpeed.getY(), width);
         _txtDistance = new FlxText(x, y2, width);
         _txtLevel = new FlxText(-8, y1-24, width);
@@ -119,6 +122,9 @@ class HUD extends FlxGroup {
         _txtCombo2.text = "combo";
         _txtCombo2.visible = false;
 
+        // コンボタイマーゲージ
+        _barCombo = new FlxBar(FlxG.width-56, y2+36, FlxBar.FILL_LEFT_TO_RIGHT, 40, 2);
+        _barCombo.visible = false;
 
         _objs.push(_barDistance);
         _objs.push(_txtTime);
@@ -127,6 +133,7 @@ class HUD extends FlxGroup {
         _objs.push(_txtLevel);
         _objs.push(_txtCombo);
         _objs.push(_txtCombo2);
+        _objs.push(_barCombo);
         _objs.push(_txtScore);
 
         for(o in _objs) {
@@ -145,6 +152,7 @@ class HUD extends FlxGroup {
 
     /**
      * 経過時間を取得
+     * @param 経過時間（単位はミリ秒）
      **/
     public function getPastTime():Int {
         return cast _pastTime;
@@ -170,6 +178,14 @@ class HUD extends FlxGroup {
         _updateScoreText();
     }
 
+    /**
+     * コンボ表示を点滅させる
+     **/
+    public function blinkCombo():Void {
+        _txtCombo.visible = _txtCombo.visible == false;
+        _txtCombo2.visible = _txtCombo2.visible == false;
+    }
+
     override public function update():Void {
 
         if(_tLevel > 0) {
@@ -183,8 +199,10 @@ class HUD extends FlxGroup {
             _txtTime.text = "Time: " + FlxStringUtil.formatTime(_pastTime/1000.0, true);
         }
 
-        // スピードゲージの更新
-        _barSpeed.updateAll(_player, _speedCtrl);
+        if(_player.velocity.x > 0) {
+            // スピードゲージの更新
+            _barSpeed.updateAll(_player, _speedCtrl);
+        }
     }
 
     /**
@@ -194,6 +212,7 @@ class HUD extends FlxGroup {
         if(v == 0) {
             _txtCombo.visible = false;
             _txtCombo2.visible = false;
+            _barCombo.visible = false;
         }
         else {
             _txtCombo.visible = true;
@@ -204,10 +223,25 @@ class HUD extends FlxGroup {
     }
 
     /**
+     * コンボ残り時間のパーセンテージを設定
+     **/
+    public function setComboBar(per:Float):Void {
+        if(per == 0) {
+            _barCombo.visible = false;
+        }
+        else {
+            _barCombo.percent = 100 * per;
+            _barCombo.visible = true;
+        }
+    }
+
+    /**
      * 更新
      **/
     public function updateAll():Void {
-        _txtSpeed.text = "Speed: " + Math.ceil(_player.velocity.x);
+        if(_player.velocity.x > 0) {
+            _txtSpeed.text = "Speed: " + Math.ceil(_player.velocity.x);
+        }
         _txtDistance.text = "Distance: " + Math.floor(_player.x/10) + "/" + Math.floor(_goal/10);
 
         _barDistance.percent = 100*_player.x / _goal;

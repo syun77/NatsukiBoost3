@@ -35,40 +35,43 @@ class CsvPlayer {
     public var item_shield_count:Int;     // シールドアイテムで防ぐことができるダメージの回数
     public var item_gravity_length:Float; // 重力アイテムが有効な距離
     public var item_gravity_power:Float;  // 重力アイテムにより引っ張られる力
+    public var combo_timer:Float;         // コンボが有効な時間（秒）
 
 
     public function new() {
-        var csv:CsvLoader = new CsvLoader("assets/params/player.csv");
+        var c:CsvLoader = new CsvLoader("assets/params/player.csv");
 
-        speed_start = csv.searchItemFloat("key", "speed_start", "value");
-        speed_top = csv.searchItemFloat("key", "speedtop_start", "value");
+        speed_start = c.searchItemFloat("key", "speed_start", "value");
+        speed_top = c.searchItemFloat("key", "speedtop_start", "value");
 
-        accel_ratio = csv.searchItemFloat("key", "speedtop_accel", "value");
-        deceleration_ratio = csv.searchItemFloat("key", "speedtop_deceleration", "value");
-        brake_ratio = csv.searchItemFloat("key", "brake_ratio", "value");
+        accel_ratio = c.searchItemFloat("key", "speedtop_accel", "value");
+        deceleration_ratio = c.searchItemFloat("key", "speedtop_deceleration", "value");
+        brake_ratio = c.searchItemFloat("key", "brake_ratio", "value");
 
-        speed_over_deceleration = csv.searchItemFloat("key", "speed_over_deceleration", "value");
+        speed_over_deceleration = c.searchItemFloat("key", "speed_over_deceleration", "value");
 
-        damage_timer = csv.searchItemInt("key", "damage_timer", "value");
-        damagetop_base = csv.searchItemFloat("key", "damagetop_base", "value");
-        damagetop_inc = csv.searchItemFloat("key", "damagetop_inc", "value");
+        damage_timer = c.searchItemInt("key", "damage_timer", "value");
+        damagetop_base = c.searchItemFloat("key", "damagetop_base", "value");
+        damagetop_inc = c.searchItemFloat("key", "damagetop_inc", "value");
 
-        speedtop_deadline = csv.searchItemFloat("key", "speedtop_deadline", "value");
-        speedtop_max = csv.searchItemFloat("key", "speedtop_max", "value");
+        speedtop_deadline = c.searchItemFloat("key", "speedtop_deadline", "value");
+        speedtop_max = c.searchItemFloat("key", "speedtop_max", "value");
 
-        eat_se_timer = csv.searchItemFloat("key", "eat_se_timer", "value");
+        eat_se_timer = c.searchItemFloat("key", "eat_se_timer", "value");
 
-        item_big_size = csv.searchItemFloat("key", "item_big_size", "value");
-        item_big_timer = csv.searchItemFloat("key", "item_big_timer", "value");
-        item_small_size = csv.searchItemFloat("key", "item_small_size", "value");
-        item_small_timer = csv.searchItemFloat("key", "item_small_timer", "value");
-        item_star_timer = csv.searchItemFloat("key", "item_star_timer", "value");
-        item_dash_addspeed = csv.searchItemFloat("key", "item_dash_addspeed", "value");
-        item_dash_timer = csv.searchItemFloat("key", "item_dash_timer", "value");
-        item_damage_val = csv.searchItemFloat("key", "item_damage_val", "value");
-        item_shield_count = csv.searchItemInt("key", "item_shield_count", "value");
-        item_gravity_length = csv.searchItemFloat("key", "item_gravity_length", "value");
-        item_gravity_power = csv.searchItemFloat("key", "item_gravity_power", "value");
+        item_big_size = c.searchItemFloat("key", "item_big_size", "value");
+        item_big_timer = c.searchItemFloat("key", "item_big_timer", "value");
+        item_small_size = c.searchItemFloat("key", "item_small_size", "value");
+        item_small_timer = c.searchItemFloat("key", "item_small_timer", "value");
+        item_star_timer = c.searchItemFloat("key", "item_star_timer", "value");
+        item_dash_addspeed = c.searchItemFloat("key", "item_dash_addspeed", "value");
+        item_dash_timer = c.searchItemFloat("key", "item_dash_timer", "value");
+        item_damage_val = c.searchItemFloat("key", "item_damage_val", "value");
+        item_shield_count = c.searchItemInt("key", "item_shield_count", "value");
+        item_gravity_length = c.searchItemFloat("key", "item_gravity_length", "value");
+        item_gravity_power = c.searchItemFloat("key", "item_gravity_power", "value");
+
+        combo_timer = c.searchItemFloat("key", "combo_timer", "value");
 
     }
 }

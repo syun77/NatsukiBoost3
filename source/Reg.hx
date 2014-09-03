@@ -59,7 +59,12 @@ class Reg {
      **/
     public static function clear(s:FlxSave=null):Void {
         if(s == null) {
-            s = _save;
+            if(_save == null) {
+                s = _getSave();
+            }
+            else {
+                s = _save;
+            }
         }
 
         s.data.version = SAVE_VERSION;
@@ -169,6 +174,21 @@ class Reg {
         s.flush();
 
         return ret;
+    }
+
+    /**
+     * スコアのみ保存する
+     **/
+    public static function saveScore(score:Int):Void {
+        var s = _getSave();
+        var hiscore = getHiScore();
+        var key = getModeLevelInt(mode, level);
+        if(score > hiscore) {
+            // ハイスコア更新
+            s.data.scores[key] = score;
+        }
+
+        s.flush();
     }
 
     /**

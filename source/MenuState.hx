@@ -38,6 +38,7 @@ class MenuState extends FlxState {
     private var _charctor:FlxSprite;
     private var _logo:FlxSprite;
     private var _wafers:Array<FlxSprite>;
+    private var _bgScore:FlxSprite; // スコア背景
 
     private var _tPast:Float = 0; // 経過時間
     private var _mouseX:Float = 0;
@@ -198,6 +199,13 @@ class MenuState extends FlxState {
         }
 
         // スコア
+        // スコア背景
+        _bgScore = new FlxSprite(0, FlxG.height-36);
+        _bgScore.makeGraphic(FlxG.width, 16, FlxColor.BLACK);
+        _bgScore.alpha = 0.5;
+        _bgScore.scale.y = 0;
+        this.add(_bgScore);
+        // スコアテキスト
         _txtScore = new FlxText(0, FlxG.height-36, FlxG.width);
         _txtScore.alignment = "center";
         this.add(_txtScore);
@@ -280,6 +288,8 @@ class MenuState extends FlxState {
                 var hirank2 = Reg.getRankToString(hirank);
                 var hitime2 = FlxStringUtil.formatTime(hitime/1000, true);
                 _txtScore.text = 'SCORE: ${hiscore} Rank: ${hirank2} Time: ${hitime2}';
+                // 枠表示
+                _bgScore.scale.y = 1;
                 break;
             }
         }

@@ -1,4 +1,5 @@
 package ui;
+import token.Player;
 import flixel.util.FlxGradient;
 import flixel.group.FlxTypedGroup;
 import StringTools;
@@ -47,7 +48,8 @@ class ResultHUD extends FlxGroup {
     private var _bowl:FlxSprite;
     private var _bowl2:FlxSprite;
     private var _bowlHit:FlxSprite; // お皿当たり判定
-    private var _wafers:FlxGroup;
+    private var _wafers:FlxTypedGroup<ResultWafer>;
+    private var _player:Player;
 
     // テキスト
     private var _txtRatio:FlxText;
@@ -73,14 +75,16 @@ class ResultHUD extends FlxGroup {
     /**
      * コンストラクタ
      **/
-    public function new(score:Int, pasttime:Int, bEndless:Bool) {
+    public function new(score:Int, pasttime:Int, bEndless:Bool, player:Player) {
         super();
 //        score = 12345678;
         _score = score;
         _pasttime = pasttime;
-        _pasttime = 100;
+        _bEndless = bEndless;
         _calcRatio(); // タイムボーナスを計算
         _score2 = Math.floor(_score * _ratio);
+        _player = player;
+        _player.startResult();
 
         // ランクCSVロード
         var csv2:CsvLoader2 = new CsvLoader2();
@@ -113,7 +117,7 @@ class ResultHUD extends FlxGroup {
         _bowl.visible = false;
         this.add(_bowl);
         // ウエハース
-        _wafers = new FlxGroup();
+        _wafers = new FlxTypedGroup<ResultWafer>();
         this.add(_wafers);
         // お皿・手前
         _bowl2 = new FlxSprite();
@@ -321,7 +325,7 @@ class ResultHUD extends FlxGroup {
 
     // お皿にウェハースを投げ込む
     private function _updateBowlMain():Void {
-        // TODO:
+        _player.playResult();
         _state = State.ScoreMain;
         _timer = 0;
         _digit = 0;
@@ -329,26 +333,11 @@ class ResultHUD extends FlxGroup {
 
     private function _appearWafers():Void {
         for(i in 0...1) {
-            var spr = new FlxSprite(FlxG.width/5*3+FlxRandom.intRanged(-80, 80), 0);
-            if(FlxRandom.chanceRoll()) {
-                spr.loadGraphic("assets/images/bomb_red.png", true);
-            }
-            else {
-                spr.loadGraphic("assets/images/bomb_blue.png", true);
-            }
-            var scale = 2;
-            spr.scale.set(scale, scale);
-            spr.width *= scale;
-            spr.height *= scale;
-            spr.centerOffsets();
-            spr.velocity.set(FlxRandom.intRanged(-10, 10), FlxRandom.intRanged(50, 100));
-            spr.angularVelocity = FlxRandom.intRanged(-100, 100);
-            spr.angularDrag = 10;
-            spr.mass = 10;
-            spr.animation.add("play", [1], 30);
-            spr.animation.play("play");
-            spr.scrollFactor.set(0, 0);
-            spr.acceleration.y = 100;
+            var px = _player.x;
+            var py = _player.y;
+            px -= FlxG.camera.scroll.x;
+            py -= FlxG.camera.scroll.y;
+            var spr = new ResultWafer(px, py);
             _wafers.add(spr);
         }
     }
@@ -385,6 +374,7 @@ class ResultHUD extends FlxGroup {
                 else {
 
                     // タイムボーナス演出へ
+                    _player.endResult();
                     _state = State.TimebonusIn;
                     _timer = 0;
                     {
@@ -465,7 +455,9 @@ class ResultHUD extends FlxGroup {
     // ランク表示
     private function _appearRank():Void {
     #if flash
-        _txtFukidashi.visible = true;
+        if(_bEndless == false) {
+            _txtFukidashi.visible = true;
+        }
     #end
         _txtRank.visible = true;
         var size = _txtRank.size;
@@ -540,5 +532,37 @@ class ResultHUD extends FlxGroup {
      **/
     public function isEnd():Bool {
         return _state == State.End;
+    }
+}
+
+class ResultWafer extends FlxSprite {
+
+    public function new(X:Float, Y:Float) {
+        super(X, Y);
+        if(FlxRandom.chanceRoll()) {
+            loadGraphic("assets/images/bomb_red.png", true);
+        }
+        else {
+            loadGraphic("assets/images/bomb_blue.png", true);
+        }
+        var sc:Int = 2;
+        scale.set(sc, sc);
+        width *= sc;
+        height *= sc;
+        centerOffsets();
+        velocity.set(FlxRandom.intRanged(50, 200), -FlxRandom.intRanged(150, 300));
+        angularVelocity = FlxRandom.intRanged(-100, 100);
+        angularDrag = 10;
+        mass = 10;
+        animation.add("play", [1], 30);
+        animation.play("play");
+        scrollFactor.set(0, 0);
+        acceleration.y = 100*3;
+    }
+
+    override public function update():Void {
+        super.update();
+        // 減衰
+        velocity.x *= 0.99;
     }
 }
