@@ -1,5 +1,6 @@
 package ;
 
+import Reg.GameMode;
 import csv.CsvPlayer;
 import flixel.util.FlxAngle;
 
@@ -34,6 +35,9 @@ class SpeedController {
     // タイマー
     private var _tBrake:Int = 0;    // ブレーキする時間
     private var _tWait:Int = 0;     // 速度が上がらない時間
+
+    private var _distance:Float = 0; // 移動した距離
+    private var _damageUpDistance:Float = 0; // ダメージ量増加の距離
 
     /**
      * コンストラクタ
@@ -229,6 +233,29 @@ class SpeedController {
                 // 初回ダメージ以外は死なない
                 _top = _speedtop_deadline+1;
             }
+        }
+    }
+
+    /**
+     * 移動距離を設定
+     **/
+    public function setDistance(distance:Float):Void {
+
+        if(Reg.mode == GameMode.Endless) {
+            // 差分を求める
+            var d = distance - _distance;
+            _distance = distance;
+            _damageUpDistance += d;
+
+            var size:Int = 200 * 8; // マップ1つぶんでダメージ量アップ
+            if(cast(_damageUpDistance, Int) > size) {
+                // ダメージ量アップ
+                _damagetop_inc += 1;
+                _damageUpDistance -= size;
+                // ブレーキ性能低下
+                _brake_ratio *= 0.95;
+            }
+
         }
     }
 }
