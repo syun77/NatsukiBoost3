@@ -80,9 +80,9 @@ class ResultHUD extends FlxGroup {
 //        score = 12345678;
         _score = score;
         _pasttime = pasttime;
+        _bEndless = bEndless;
         _calcRatio(); // タイムボーナスを計算
         _score2 = Math.floor(_score * _ratio);
-        _bEndless = bEndless;
         _player = player;
         _player.startResult();
 
