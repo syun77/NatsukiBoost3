@@ -23,4 +23,5 @@ int,str,int,str
 21,item_shield_count,20,シールドアイテムで防ぐことができるダメージの回数
 22,item_gravity_length,240,重力アイテムの影響範囲
 23,item_gravity_power,400,重力アイテムにより引っ張られる力
-24,combo_timer,3,コンボが有効な時間（秒）
+,,,
+24,combo_timer,1,コンボが有効な時間（秒）
