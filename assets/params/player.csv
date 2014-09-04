@@ -9,7 +9,7 @@ int,str,int,str
 7,eat_se_timer,0.4,同属性ブロック取得したときのSE再生ウェイト時間(秒)
 8,damagetop_base,20,異なる属性ブロックに衝突したときのトップスピードの減少値（基本値）
 9,damagetop_inc,5,異なる属性ブロックに衝突したときのトップスピードの減少値（累積値）
-10,speedtop_deadline,40,ゲームオーバーとなる速度
+10,speedtop_deadline,59,ゲームオーバーとなる速度
 11,speedtop_max,500,トップスピードの限界速度
 12,speed_over_deceleration,0.01,トップスピードを超えていた際の減速度
 13,item_big_size,2,拡大アイテムによるサイズの倍率
@@ -21,7 +21,7 @@ int,str,int,str
 19,item_dash_timer,4,加速アイテムが有効な時間（秒）
 20,item_damage_val,200,ダメージアイテムによるトップスピードの減少量
 21,item_shield_count,20,シールドアイテムで防ぐことができるダメージの回数
-22,item_gravity_length,240,重力アイテムの影響範囲
-23,item_gravity_power,400,重力アイテムにより引っ張られる力
+22,item_gravity_length,160,重力アイテムの影響範囲
+23,item_gravity_power,160,重力アイテムにより引っ張られる力
 ,,,
 24,combo_timer,1,コンボが有効な時間（秒）
