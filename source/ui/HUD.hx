@@ -116,7 +116,7 @@ class HUD extends FlxGroup {
         y2 += dy;
 
         // コンボ数
-        _txtCombo = new FlxText(FlxG.width-72, y2, 64);
+        _txtCombo = new FlxText(FlxG.width-88, y2, 96);
         _txtCombo.alignment = "center";
         _txtCombo2 = new FlxText(FlxG.width-56, y2+24, 80);
         _txtCombo2.text = "combo";
