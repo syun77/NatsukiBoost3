@@ -3,5 +3,5 @@ id,mode,level,start,sec
 1,Fix,2,5,80
 2,Fix,3,6,100
 3,Random,1,4,60
-4,Random,2,5,80
-5,Random,3,6,100
+4,Random,2,8,120
+5,Random,3,12,180
