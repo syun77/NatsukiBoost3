@@ -36,6 +36,7 @@ class Player extends FlxSprite {
     private var _star:FlxSprite; // 無敵エフェクト
     private var _width:Float; // 元の幅
     private var _height:Float; // 元の高さ
+    private var _mousePrevY:Float = 0; // マウス座標(Y)
 
     // 状態フラグ
     private var _bBig:Bool   = false; // 拡大フラグ
@@ -238,6 +239,12 @@ class Player extends FlxSprite {
 #elseif FLASH
         // マウスの座標に向かって移動する
         var p = FlxG.mouse.getWorldPosition();
+        if(p.y == 0) {
+            p.y = _mousePrevY;
+        }
+        else {
+            _mousePrevY = p.y;
+        }
 
         var dx = p.x - (x + width/2);
         var dy = p.y - (y + height/2);
