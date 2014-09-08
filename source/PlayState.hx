@@ -1030,7 +1030,7 @@ class PlayState extends FlxState {
      **/
     private function _updateDebug():Void {
 
-//    #if !FLX_NO_DEBUG
+    #if !FLX_NO_DEBUG
         if(FlxG.keys.justPressed.ESCAPE) {
             throw "Terminate.";
         }
@@ -1081,6 +1081,6 @@ class PlayState extends FlxState {
             _speedCtrl.recordKasokuInit();
             _player.startDash();
         }
-//    #end
+    #end
     }
 }
