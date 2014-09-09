@@ -46,3 +46,5 @@ SkipRestFrames=0
 [Animation_Other]
 UseImageFlip=1
 
+[Env_Layout]
+UseDirectX=0

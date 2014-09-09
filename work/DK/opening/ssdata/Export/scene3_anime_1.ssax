@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <SpriteStudioMotion xmlns="http://www.webtech.co.jp/SpriteStudio/XML/Motion" version="4.00.02">
-	<!-- This data was created by OPTPiX SpriteStudio 5.3.0.5260 -->
+	<!-- This data was created by OPTPiX SpriteStudio 5.3.5.5059 -->
 	<Header>
 		<EndFrame>179</EndFrame>
 		<BaseTickTime>30</BaseTickTime>
@@ -13,6 +13,7 @@
 			</ScreenSize>
 			<BgColor>0xFF323232</BgColor>
 			<hvFlipForImageOnly>1</hvFlipForImageOnly>
+			<NotInvertedAngleValueSign>0</NotInvertedAngleValueSign>
 		</OptionState>
 	</Header>
 	<ImageList>
