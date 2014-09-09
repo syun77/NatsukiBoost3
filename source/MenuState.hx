@@ -58,8 +58,9 @@ class MenuState extends FlxState {
     override public function create():Void {
         super.create();
 
+        // 背景
         _bg = new FlxSprite();
-        _bg.loadGraphic("assets/images/title/bg.png");
+        _bg.loadGraphic("assets/images/title/titlebg.png");
         _bg.x = -FlxG.width*2/3;
         FlxTween.tween(_bg, {x:0}, 15, {ease:FlxEase.sineOut});
         _bg.alpha = 0.25;
