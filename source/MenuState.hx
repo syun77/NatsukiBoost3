@@ -307,6 +307,7 @@ class MenuState extends FlxState {
         if(_tPast > TIMER_TO_LOGO) {
             // 一定時間放置したのでロゴへ戻る
             FlxG.switchState(new LogoState());
+            FlxG.sound.music.stop();
             return;
         }
 
