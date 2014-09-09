@@ -33,6 +33,8 @@ class LogoState extends FlxState {
 
         FlxTween.tween(_glitch, {strength:0}, 1.5, {ease:FlxEase.bounceOut, complete:_cbEnd});
         FlxTween.tween(_glitch, {alpha:1}, 1, {ease:FlxEase.expoOut});
+
+        Snd.playSe("alpha");
     }
     /**
 	 * 破棄

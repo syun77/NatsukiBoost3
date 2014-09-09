@@ -1,4 +1,5 @@
 package ;
+import util.Snd;
 import OpenningState;
 import flixel.FlxG;
 import flixel.FlxState;
@@ -23,6 +24,8 @@ class Logo2State extends FlxState {
         }
         this.add(_sprites);
         _sprites.play(1);
+
+        Snd.playSe("ss");
     }
 
     override public function update():Void {
