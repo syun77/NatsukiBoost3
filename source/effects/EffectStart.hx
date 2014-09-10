@@ -1,4 +1,6 @@
 package effects;
+import flixel.util.FlxRandom;
+import Reg.GameMode;
 import util.Snd;
 import jp_2dgames.TextUtil;
 import flixel.FlxG;
@@ -43,7 +45,12 @@ class EffectStart extends FlxSprite {
                 _tStart++;
             case 2:
                 Snd.playSe("go");
-                Snd.playMusic(TextUtil.fillZero(Reg.level, 3));
+                var level = Reg.level;
+                if(Reg.mode == GameMode.Endless) {
+                    // エンドレスモードの時のBGMはランダムで1〜3
+                    level = FlxRandom.intRanged(1, 3);
+                }
+                Snd.playMusic(TextUtil.fillZero(level, 3));
                 scale.set(2, 2);
                 loadGraphic("assets/images/start/go.png");
                 x -= 16;
