@@ -143,6 +143,13 @@ class HUD extends FlxGroup {
         }
     }
 
+    public function getSpeedBarX():Float {
+        return _barSpeed.getTopX();
+    }
+    public function getSpeedBarY():Float {
+        return _barSpeed.getTopY();
+    }
+
     /**
      * タイマー開始フラグを設定
      **/

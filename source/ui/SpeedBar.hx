@@ -79,6 +79,12 @@ class SpeedBar extends FlxGroup {
         _meter.scale.x = per;
         _meter.x = _x - (1 - per) * _width/2;
     }
+    public function getTopX():Float {
+        return _top.x;
+    }
+    public function getTopY():Float {
+        return _top.y;
+    }
 
     public function updateAll(player:Player, ctrl:SpeedController):Void {
 

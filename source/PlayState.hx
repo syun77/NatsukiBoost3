@@ -1,5 +1,6 @@
 package;
 
+import effects.EffectCross;
 import Reg.GameMode;
 import ui.GameOverHUD;
 import flixel.util.FlxAngle;
@@ -89,6 +90,7 @@ class PlayState extends FlxState {
     private var _eftStart:EffectStart;
     private var _eftRings:FlxTypedGroup<EffectRing>;
     private var _eftBombs:FlxTypedGroup<EffectBomb>;
+    private var _eftCross:FlxTypedGroup<EffectCross>;
 
     // メッセージ
     private var _txtMessage:FlxText;
@@ -198,6 +200,12 @@ class PlayState extends FlxState {
         }
         this.add(_eftBombs);
 
+        // 加速エフェクト
+        _eftCross = new FlxTypedGroup<EffectCross>(32);
+        for(i in 0..._eftCross.maxSize) {
+            _eftCross.add(new EffectCross());
+        }
+
         // パーティクル
         _emitterBlockBlue = new EmitterBlockBlue();
         _emitterBlockRed = new EmitterBlockRed();
@@ -237,6 +245,7 @@ class PlayState extends FlxState {
         // HUD
         _hud = new HUD(_player, _speedCtrl, width);
         this.add(_hud);
+        this.add(_eftCross);
 
         // 各種オブジェクト生成
         _putObjects();
@@ -912,6 +921,11 @@ class PlayState extends FlxState {
 
         // コンボ数をそのままスコアとする
         _hud.addScore(_combo);
+
+        var px = _hud.getSpeedBarX();
+        var py = _hud.getSpeedBarY()-16;
+        var cross:EffectCross = _eftCross.recycle();
+        cross.start(px, py);
 
         Snd.playSe("eat", true, _csvPlayer.eat_se_timer);
 
