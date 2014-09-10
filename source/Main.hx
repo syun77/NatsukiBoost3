@@ -10,14 +10,14 @@ class Main extends Sprite
 {
 	var gameWidth:Int = 320; // 画面の幅
 	var gameHeight:Int = 240; // 画面の高さ
-	var initialState:Class<FlxState> = LogoState; // ロゴから起動する
-//  var initialState:Class<FlxState> = MenuState; // タイトル画面から起動する
+//	var initialState:Class<FlxState> = LogoState; // ロゴから起動する
+  var initialState:Class<FlxState> = MenuState; // タイトル画面から起動する
 //    var initialState:Class<FlxState> = PlayState; // メインゲームから起動する
 	var zoom:Float = -1; // If -1, zoom is automatically calculated to fit the window dimensions.
 	var framerate:Int = 60; // How many frames per second the game should run at.
 	var skipSplash:Bool = true; // Whether to skip the flixel splash screen that appears in release mode.
-//	var startFullscreen:Bool = false; // Whether to start the game in fullscreen on desktop targets
-	var startFullscreen:Bool = true; // Whether to start the game in fullscreen on desktop targets
+	var startFullscreen:Bool = false; // Whether to start the game in fullscreen on desktop targets
+//	var startFullscreen:Bool = true; // Whether to start the game in fullscreen on desktop targets
 	
 	// You can pretty much ignore everything from here on - your code should go in your states.
 	

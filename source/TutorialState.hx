@@ -1,4 +1,5 @@
 package ;
+import util.Snd;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
@@ -64,6 +65,8 @@ class TutorialState extends FlxState {
         _spr.loadGraphic(path);
         _spr.x = _spr.width;
         this.add(_spr);
+
+        Snd.playSe("read");
     }
 
     override public function update():Void {

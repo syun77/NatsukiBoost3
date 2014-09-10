@@ -66,6 +66,8 @@
         <sound path="scratch5.mp3" id="warp" />
         <sound path="alpha_secret_base.mp3" id="alpha" />
         <sound path="ss.mp3" id="ss" />
+        <sound path="pi.mp3" id="pi" />
+        <sound path="read.mp3" id="read" />
     </assets>
 
     <assets path="assets/music" unless="flash">
@@ -97,6 +99,8 @@
         <sound path="scratch5.ogg" id="warp" />
         <sound path="alpha_secret_base.ogg" id="alpha" />
         <sound path="ss.ogg" id="ss" />
+        <sound path="pi.ogg" id="pi" />
+        <sound path="read.ogg" id="read" />
     </assets>
 
 

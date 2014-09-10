@@ -30,6 +30,7 @@ class MenuState extends FlxState {
     private var _bDecide:Bool = false;
     private var _idxDecide:Int = -1;
     private var _btnList:Array<MyButton>;
+    private var _btnPrev:Int = -1; // 選択しているボタンの状態
 
     private var _texts:Array<FlxText>;
     private var _natsuki:FlxSprite;
@@ -274,9 +275,20 @@ class MenuState extends FlxState {
      * 表示スコアのチェック
      **/
     private function _checkDisplayScore():Void {
+
+        // 何らかのボタンを選んでいるかどうか
+        var bHighLight:Bool = false;
+
         for(btn in _btnList) {
             if(btn.status == FlxButton.HIGHLIGHT) {
                 // カーソルが乗っている
+                bHighLight = true;
+                var bPlaySe:Bool = false;
+                if(_btnPrev != FlxButton.HIGHLIGHT) {
+                    Snd.playSe("pi");
+                    bPlaySe = true;
+                }
+                _btnPrev = FlxButton.HIGHLIGHT;
                 if(btn.btnID == 7) {
                     // 7はチュートリアルなので判定しない
                     break;
@@ -289,10 +301,17 @@ class MenuState extends FlxState {
                 var hirank2 = Reg.getRankToString(hirank);
                 var hitime2 = FlxStringUtil.formatTime(hitime/1000, true);
                 _txtScore.text = 'SCORE: ${hiscore} Rank: ${hirank2} Time: ${hitime2}';
+                if(bPlaySe) {
+                    _txtScore.x = FlxG.width;
+                }
                 // 枠表示
                 _bgScore.scale.y = 1;
                 break;
             }
+        }
+
+        if(bHighLight == false) {
+            _btnPrev = -1;
         }
     }
 
@@ -311,6 +330,7 @@ class MenuState extends FlxState {
             FlxG.sound.music.stop();
             return;
         }
+        _txtScore.x *= 0.5;
 
         switch(_state) {
             case State.Main:
