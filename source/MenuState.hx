@@ -61,7 +61,7 @@ class MenuState extends FlxState {
         // 背景
         _bg = new FlxSprite();
         _bg.loadGraphic("assets/images/title/titlebg.png");
-        _bg.x = -FlxG.width*2/3;
+        _bg.x = -(_bg.width - FlxG.width);
         FlxTween.tween(_bg, {x:0}, 15, {ease:FlxEase.sineOut});
         _bg.alpha = 0.25;
         FlxTween.tween(_bg, {alpha:1}, 3, {ease:FlxEase.sineOut, startDelay:2});
