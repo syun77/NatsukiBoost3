@@ -1,5 +1,8 @@
-package;
+package ;
 
+import jp.seconddgames.natsukiboost3.PlayState;
+import jp.seconddgames.natsukiboost3.MenuState;
+import jp.seconddgames.natsukiboost3.LogoState;
 import flash.display.Sprite;
 import flash.events.Event;
 import flash.Lib;
@@ -8,7 +11,7 @@ import flixel.FlxState;
 
 class Main extends Sprite 
 {
-	var gameWidth:Int = 320; // 画面の幅
+	var gameWidth:Int = 426; // 画面の幅
 	var gameHeight:Int = 240; // 画面の高さ
 	var initialState:Class<FlxState> = LogoState; // ロゴから起動する
 //  var initialState:Class<FlxState> = MenuState; // タイトル画面から起動する
