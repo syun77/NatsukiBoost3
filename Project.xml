@@ -9,9 +9,11 @@
     <ios linker-flags="" prerendered-icon="false" />
     <window hardware="true" allow-shaders="true" require-shaders="true" if="cpp"/>
     <window vsync="true" antialiasing="4" if="cpp" />
+    <android target-sdk-version="16" />
 
-	<!--The flixel preloader is not accurate in Chrome. You can use it regularly if you embed the swf into a html file
-	<!--or you can set the actual size of your file manually at "FlxPreloaderBase-onUpdate-bytesTotal"!-->
+
+    <!--The flixel preloader is not accurate in Chrome. You can use it regularly if you embed the swf into a html file
+    <!--or you can set the actual size of your file manually at "FlxPreloaderBase-onUpdate-bytesTotal"!-->
 	<app preloader="flixel.system.FlxPreloader" />
 
 	<!--Minimum without FLX_NO_GAMEPAD: 11.8, without FLX_NO_NATIVE_CURSOR: 11.2 -->
@@ -175,5 +177,14 @@
     <icon path="icon/Icon-76@2x.png" size="152" />
     <icon path="icon/Icon.png" size="57" />
     <icon path="icon/Icon@2x.png" size="114" />
+
+    <!-- For Android. -->
+    <!--icon path="Icon/36.png" size="36" if="android" /-->
+    <icon path="Icon/48.png" size="48" if="android" />
+    <icon path="Icon/72.png" size="72" if="android" />
+    <icon path="Icon/96.png" size="96" if="android" />
+    <icon path="Icon/144.png" size="144" if="android" />
+    <icon path="Icon/192.png" size="192" if="android" />
+
 
 </project>
