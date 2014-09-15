@@ -1,5 +1,9 @@
 package;
 
+import jp_2dgames.CsvLoader2;
+import flash.Lib;
+import flash.net.URLRequest;
+import flixel.ui.FlxButton;
 import effects.EffectCross;
 import Reg.GameMode;
 import ui.GameOverHUD;
@@ -56,6 +60,7 @@ private enum State {
     UnlockWait;     // ステージアンロック・ウィンドウ表示中
     GameoverInit;   // ゲームオーバー・初期化
     GameoverMain;   // ゲームオーバー・メイン
+    End;            // ボタン入力待ち
 }
 /**
  * メインゲーム
@@ -131,6 +136,11 @@ class PlayState extends FlxState {
     // 各種パラメータ
     private var _csvTopSpeed:CsvTopSpeed;
     private var _csvPlayer:CsvPlayer;
+
+    // ボタン
+    private var _btnBackToTitle:FlxButton; // タイトルへ戻る
+    private var _iconTweet:FlxSprite; // ツイートアイコン
+    private var _btnTweet:FlxButton; // ツイートボタン
 
     /**
 	 * 生成
@@ -229,6 +239,13 @@ class PlayState extends FlxState {
         _csvPlayer = new CsvPlayer();
         _player.setCsvPlayer(_csvPlayer);
 
+        // ボタン生成
+        _btnTweet = new FlxButton(8+16, FlxG.height-40-24, "      Tweet", _cbTweet);
+        _btnTweet.color = 0xFF55ACEE;
+        _btnTweet.label.color = 0xFF77CEFF;
+        _iconTweet = new FlxSprite(8+16+3, FlxG.height-40-24+4).loadGraphic("assets/images/twitter.png");
+        _btnBackToTitle = new FlxButton(8+16, FlxG.height-40, "Back to title", _cbBackToTitle);
+
         // 変数初期化
         _state = State.Start;
         _timer = 0;
@@ -255,6 +272,62 @@ class PlayState extends FlxState {
 
         // リザルトをすぐに表示する
         //_startResult();
+    }
+
+    public function setButtons():Void {
+        _iconTweet.scrollFactor.set(0, 0);
+        this.add(_btnBackToTitle);
+        this.add(_btnTweet);
+        this.add(_iconTweet);
+    }
+
+    /**
+     * タイトル画面へ戻る
+     **/
+    private function _cbBackToTitle():Void {
+        FlxG.switchState(new MenuState());
+    }
+
+    /**
+     * ツイートボタンを押した
+     **/
+    private function _cbTweet():Void {
+        var urlString = "https://twitter.com/intent/tweet";
+
+        var txtMode = Reg.getModeString();
+        var txtLevel = Reg.getLevelName(Reg.level)+"ステージ";
+        if(Reg.mode == GameMode.Endless) {
+            // エンドレスモード時はレベル不要
+            txtLevel = "";
+        }
+        var score = _hud.getScore();
+        var rank = "E";
+        if(_result != null ) {
+            score = _result.getScore();
+            rank = _result.getRank();
+        }
+        // ランクメッセージ取得
+        var txtRank = "";
+        {
+            var csvTweet = new CsvLoader2("assets/params/tweet.csv");
+            txtRank = csvTweet.searchItem("id", rank, "value");
+        }
+
+        // 本文
+        var text = StringTools.urlEncode('[菜月ブースト3]: ${txtMode} ${txtLevel}で${score}ウエハースを獲得！ ${txtRank}' );
+        // ゲームのURL(誘導用)
+        var url  = "http://bit.ly/1oNhxFv";
+        // ハッシュタグ
+        var tags = "natsukiboost3";
+
+        // URL文字列連結
+        urlString += "?text="     + text;
+        urlString += "&hashtags=" + tags;
+        urlString += "&url="      + url;
+
+        var request = new URLRequest(urlString);
+        // "_blank"で開く
+        flash.Lib.getURL(request, "_blank");
     }
 
     /**
@@ -306,6 +379,7 @@ class PlayState extends FlxState {
             case State.UnlockWait: _updateUnlockWait();
             case State.GameoverInit: _updateGameoverInit();
             case State.GameoverMain: _updateGameoverMain();
+            case State.End: // 何もしない
         }
 
         // デバッグ処理
@@ -742,15 +816,9 @@ class PlayState extends FlxState {
             _player.active = false;
         }
         if(_result.isEnd()) {
-//            if(_result.isNewLevel()) {
-//                // アンロックウィンドウをオープン
-//                _unlock = new DialogUnlock(Reg.level+1);
-//                this.add(_unlock);
-//                _state = State.UnlockWait;
-//            }
-//            else {
-                FlxG.switchState(new MenuState());
-//            }
+            // ボタン配置
+            setButtons();
+            _state = State.End;
         }
     }
 
@@ -790,8 +858,9 @@ class PlayState extends FlxState {
         }
     }
     private function _updateGameoverMain():Void {
-        if(FlxG.mouse.justPressed && _gameoverHUD.isEnd()) {
-            FlxG.switchState(new MenuState());
+        if(_gameoverHUD.isEnd()) {
+            setButtons();
+            _state = State.End;
         }
     }
 

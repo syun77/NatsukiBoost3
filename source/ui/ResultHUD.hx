@@ -50,6 +50,7 @@ class ResultHUD extends FlxGroup {
     private var _bowlHit:FlxSprite; // お皿当たり判定
     private var _wafers:FlxTypedGroup<ResultWafer>;
     private var _player:Player;
+    private var _rank:String;
 
     // テキスト
     private var _txtRatio:FlxText;
@@ -207,7 +208,8 @@ class ResultHUD extends FlxGroup {
         _txtRank.alignment = "center";
         _txtRank.size = 20;
         _txtRank.borderStyle = FlxText.BORDER_OUTLINE_FAST;
-        _txtRank.text = "Rank: " + Reg.getRankToString(rank);
+        _rank = Reg.getRankToString(rank);
+        _txtRank.text = "Rank: " + _rank;
         _objs.push(_txtRank);
 
         // スプライト登録
@@ -225,6 +227,13 @@ class ResultHUD extends FlxGroup {
         Reg.save(_score2, pasttime, rank, true);
     }
 
+    public function getScore():Int {
+        return _score2;
+    }
+
+    public function getRank():String {
+        return _rank;
+    }
 
     /**
      * 更新
@@ -468,9 +477,9 @@ class ResultHUD extends FlxGroup {
 
     // 待機
     private function _updateStandby():Void {
-        if(FlxG.mouse.justPressed) {
+//        if(FlxG.mouse.justPressed) {
             _state = State.End;
-        }
+//        }
     }
 
     /**

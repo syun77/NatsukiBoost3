@@ -40,7 +40,6 @@ class CsvLoader2 {
             case 0:
                 _header = line.split(",");
             default:
-                var nId = 0;
                 var col = 0;
                 var data:Map<String, String> = new Map<String, String>();
                 for(k in _header) {
@@ -48,9 +47,6 @@ class CsvLoader2 {
                     if(v == null) {
                         // データがなければ空文字にしておく
                         v = "";
-                    }
-                    if(k == "id") {
-                        nId = Std.parseInt(v);
                     }
                     data.set(k, v);
                     col++;
