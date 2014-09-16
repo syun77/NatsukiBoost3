@@ -279,16 +279,21 @@ class MenuState extends FlxState {
         // 何らかのボタンを選んでいるかどうか
         var bHighLight:Bool = false;
 
+        var checkStatus = FlxButton.HIGHLIGHT;
+#if mobile
+        checkStatus = FlxButton.PRESSED;
+#end
+
         for(btn in _btnList) {
-            if(btn.status == FlxButton.HIGHLIGHT) {
+            if(btn.status == checkStatus) {
                 // カーソルが乗っている
                 bHighLight = true;
                 var bPlaySe:Bool = false;
-                if(_btnPrev != FlxButton.HIGHLIGHT) {
+                if(_btnPrev != checkStatus) {
                     Snd.playSe("pi");
                     bPlaySe = true;
                 }
-                _btnPrev = FlxButton.HIGHLIGHT;
+                _btnPrev = checkStatus;
                 if(btn.btnID == 7) {
                     // 7はチュートリアルなので判定しない
                     break;
