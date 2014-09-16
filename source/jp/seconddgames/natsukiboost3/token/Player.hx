@@ -60,6 +60,7 @@ class Player extends FlxSprite {
     private var _touchId:Int; // 現在のタッチID
     private var _touchStartX:Float; // タッチ開始X座標
     private var _touchStartY:Float; // タッチ開始Y座標
+    private var _touchCount:Int = 0; // タッチ数（マルチタッチのみ）
 
     // 加速度センサー
     private var _accelerometer:Accelerometer;
@@ -192,9 +193,17 @@ class Player extends FlxSprite {
     public function isDanger():Bool { return getSpeedRatio() < DANGER_RATIO; }
     // ブレーキボタンを押しているかどうかチェック
     public function isOnBrake():Bool {
+
+#if mobile
+        if(_touchCount >= 2) {
+            // 2点タッチでブレーキ有効
+            return true;
+        }
+#else
         if(FlxG.mouse.pressed) {
             return true;
         }
+#end
 
         return false;
     }
@@ -229,15 +238,47 @@ class Player extends FlxSprite {
             return;
         }
 
-#if FLX_NO_TOUCH
-        // マウスの座標に向かって移動する
-        var p = FlxG.mouse.getWorldPosition();
+#if mobile
+        // タッチ数をカウント
+        _touchCount = 0;
+        for(touch in FlxG.touches.list) {
+            if(touch.pressed) {
+                _touchCount++;
+            }
+        }
 
-        var dx = p.x - (x + width/2);
-        var dy = p.y - (y + height/2);
-        dx *= MOVE_DECAY * MOVE_REVISE;
-        dy *= MOVE_DECAY * MOVE_REVISE;
-#elseif FLASH
+        var dx:Float = 0;
+        var dy:Float = 0;
+
+        // シングルタッチのみ
+        if(FlxG.mouse.justPressed) {
+            // タッチ開始座標を保存する
+            var p = FlxG.mouse.getWorldPosition();
+            _touchStartX = p.x;
+            _touchStartY = p.y;
+        }
+        else if(FlxG.mouse.pressed) {
+            var p = FlxG.mouse.getWorldPosition();
+            var dx2 = p.x - _touchStartX;
+            var dy2 = p.y - _touchStartY;
+            dx2 *= FlxG.updateFramerate * 0.2;
+            dy2 *= FlxG.updateFramerate * 0.2;
+            dx = velocity.x + dx2;
+            dy = velocity.y + dy2;
+            dx *= 0.9;
+            dy *= 0.9;
+
+            _touchStartX = p.x;
+            _touchStartY = p.y;
+        }
+        // シングルタッチ処理はここまで
+
+//        var dx:Float = 0;
+//        var dy:Float = 0;
+//
+//        // 加速度センサーを使う
+//        var dy = _accelerometerY;
+#else
         // マウスの座標に向かって移動する
         var p = FlxG.mouse.getWorldPosition();
         if(p.y == 0) {
@@ -251,12 +292,6 @@ class Player extends FlxSprite {
         var dy = p.y - (y + height/2);
         dx *= MOVE_DECAY * MOVE_REVISE;
         dy *= MOVE_DECAY * MOVE_REVISE;
-#else
-        var dx:Float = 0;
-        var dy:Float = 0;
-
-        // 加速度センサーを使う
-        var dy = _accelerometerY;
 #end
 //        velocity.set(dx, dy);
         velocity.y = dy;
