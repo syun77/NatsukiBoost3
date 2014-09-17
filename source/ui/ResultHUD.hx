@@ -378,6 +378,8 @@ class ResultHUD extends FlxGroup {
                     // エンドレスモードはタイムボーナス不要
                     // ランク表示
                     _appearRank();
+                    // ウェハース文字表示
+                    _wafer.visible = true;
                     _state = State.Standby;
                 }
                 else {
