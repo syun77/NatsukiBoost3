@@ -1,5 +1,8 @@
 package;
 
+import flixel.ui.FlxBar;
+import flixel.util.FlxColor;
+import flixel.FlxG;
 import jp_2dgames.CsvLoader2;
 import flash.Lib;
 import flash.net.URLRequest;
@@ -141,6 +144,9 @@ class PlayState extends FlxState {
     private var _btnBackToTitle:FlxButton; // タイトルへ戻る
     private var _iconTweet:FlxSprite; // ツイートアイコン
     private var _btnTweet:FlxButton; // ツイートボタン
+    private var _txtTweet:FlxText; // ツイートポップアップ
+    private var _strTweet:String; // ツイートメッセージ
+    private var _bgTweet:FlxSprite;
 
     /**
 	 * 生成
@@ -240,11 +246,29 @@ class PlayState extends FlxState {
         _player.setCsvPlayer(_csvPlayer);
 
         // ボタン生成
-        _btnTweet = new FlxButton(8+16, FlxG.height-40-24, "      Tweet", _cbTweet);
+        _btnTweet = new FlxButton(FlxG.width-(40+80+24), FlxG.height-32+8, "", _cbTweet);
         _btnTweet.color = 0xFF55ACEE;
         _btnTweet.label.color = 0xFF77CEFF;
-        _iconTweet = new FlxSprite(8+16+3, FlxG.height-40-24+4).loadGraphic("assets/images/twitter.png");
-        _btnBackToTitle = new FlxButton(8+16, FlxG.height-40, "Back to title", _cbBackToTitle);
+        _btnTweet.width = 16 + 3*2;
+        _btnTweet.setGraphicSize(Std.int(_btnTweet.width), Std.int(_btnTweet.height));
+        _btnTweet.centerOffsets();
+
+        _iconTweet = new FlxSprite(FlxG.width-(40+80+23), FlxG.height-32+8+4).loadGraphic("assets/images/twitter.png");
+
+        _btnBackToTitle = new FlxButton(FlxG.width-(80+8+16), FlxG.height-32, "Back to title", _cbBackToTitle);
+        _btnBackToTitle.height *= 1.5;
+        _btnBackToTitle.setGraphicSize(Std.int(_btnBackToTitle.width), Std.int(_btnBackToTitle.height));
+        _btnBackToTitle.centerOffsets();
+        for(ofs in _btnBackToTitle.labelOffsets) {
+            ofs.y += _btnBackToTitle.height/4;
+        }
+
+        var fontpath = "assets/font/MT_TARE_P.ttf";
+        _txtTweet = new FlxText(_iconTweet.x+_iconTweet.width/2-60, _iconTweet.y-30, 120);
+        _txtTweet.setFormat(fontpath, 16, FlxColor.WHITE, "center", FlxText.BORDER_OUTLINE, FlxColor.BLACK);
+
+        _bgTweet = new FlxSprite(_txtTweet.x, _txtTweet.y).makeGraphic(Std.int(_txtTweet.width), 24, 0xFF55ACEE);
+        _bgTweet.alpha = 0.7;
 
         // 変数初期化
         _state = State.Start;
@@ -271,7 +295,8 @@ class PlayState extends FlxState {
         FlxG.debugger.toggleKeys = ["ALT"];
 
         // リザルトをすぐに表示する
-        //_startResult();
+        _startResult();
+        setButtons();
     }
 
     public function setButtons():Void {
@@ -279,21 +304,8 @@ class PlayState extends FlxState {
         this.add(_btnBackToTitle);
         this.add(_btnTweet);
         this.add(_iconTweet);
-    }
 
-    /**
-     * タイトル画面へ戻る
-     **/
-    private function _cbBackToTitle():Void {
-        FlxG.switchState(new MenuState());
-    }
-
-    /**
-     * ツイートボタンを押した
-     **/
-    private function _cbTweet():Void {
-        var urlString = "https://twitter.com/intent/tweet";
-
+        // ツイート文言生成
         var txtMode = Reg.getModeString();
         var txtLevel = Reg.getLevelName(Reg.level)+"ステージ";
         if(Reg.mode == GameMode.Endless) {
@@ -312,9 +324,29 @@ class PlayState extends FlxState {
             var csvTweet = new CsvLoader2("assets/params/tweet.csv");
             txtRank = csvTweet.searchItem("id", rank, "value");
         }
+        _strTweet = '[菜月ブースト3]: ${txtMode} ${txtLevel}で${score}ウエハースを獲得！ ${txtRank}';
+        _txtTweet.text = "ツイートする" ;//+ _strTweet;
+        _txtTweet.visible = false;
+        _bgTweet.visible = false;
+        this.add(_bgTweet);
+        this.add(_txtTweet);
+    }
+
+    /**
+     * タイトル画面へ戻る
+     **/
+    private function _cbBackToTitle():Void {
+        FlxG.switchState(new MenuState());
+    }
+
+    /**
+     * ツイートボタンを押した
+     **/
+    private function _cbTweet():Void {
+        var urlString = "https://twitter.com/intent/tweet";
 
         // 本文
-        var text = StringTools.urlEncode('[菜月ブースト3]: ${txtMode} ${txtLevel}で${score}ウエハースを獲得！ ${txtRank}' );
+        var text = StringTools.urlEncode(_strTweet);
         // ゲームのURL(誘導用)
         var url  = "http://bit.ly/1oNhxFv";
         // ハッシュタグ
@@ -367,6 +399,14 @@ class PlayState extends FlxState {
     override public function update():Void {
         super.update();
         _hud.updateAll();
+        if(_btnTweet.status != FlxButton.NORMAL) {
+            _txtTweet.visible = true;
+            _bgTweet.visible = true;
+        }
+        else {
+            _txtTweet.visible = false;
+            _bgTweet.visible = false;
+        }
 
         switch(_state) {
             case State.Start: _updateStart();
