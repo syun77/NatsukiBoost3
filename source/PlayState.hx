@@ -264,11 +264,13 @@ class PlayState extends FlxState {
         }
 
         var fontpath = "assets/font/MT_TARE_P.ttf";
-        _txtTweet = new FlxText(_iconTweet.x+_iconTweet.width/2-60, _iconTweet.y-30, 120);
+        _txtTweet = new FlxText(FlxG.width-200, _iconTweet.y-30, 100);
         _txtTweet.setFormat(fontpath, 16, FlxColor.WHITE, "center", FlxText.BORDER_OUTLINE, FlxColor.BLACK);
+        _txtTweet.scrollFactor.set(0, 0);
 
         _bgTweet = new FlxSprite(_txtTweet.x, _txtTweet.y).makeGraphic(Std.int(_txtTweet.width), 24, 0xFF55ACEE);
         _bgTweet.alpha = 0.7;
+        _bgTweet.scrollFactor.set(0, 0);
 
         // 変数初期化
         _state = State.Start;
