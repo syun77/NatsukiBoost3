@@ -1,4 +1,5 @@
 package ui;
+import util.Snd;
 import token.Player;
 import flixel.util.FlxGradient;
 import flixel.group.FlxTypedGroup;
@@ -361,7 +362,11 @@ class ResultHUD extends FlxGroup {
             _appearWafers();
         }
         _timer++;
+        // スコアカウントSE再生
+        Snd.playSe("money", true, 0.05);
         if(_timer > TIMER_SCORE) {
+
+            Snd.playSe("money2", true, 0.05);
             _timer = 0;
             var pow:Int = cast Math.pow(10, _digit);
             var tmp:Int = cast(Math.floor(_score / pow));
@@ -473,8 +478,11 @@ class ResultHUD extends FlxGroup {
         _txtRank.visible = true;
         var size = _txtRank.size;
         _txtRank.size *= 2;
-        FlxTween.tween(_txtRank, {size:size}, 1, {ease:FlxEase.expoOut});
+        FlxTween.tween(_txtRank, {size:size}, 1, {ease:FlxEase.expoOut, complete:_cbAppearRankEnd});
+        Snd.playSe("hit5");
 
+    }
+    private function _cbAppearRankEnd(tween:FlxTween):Void {
     }
 
     // 待機

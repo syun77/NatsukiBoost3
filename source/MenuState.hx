@@ -24,7 +24,7 @@ private enum State {
 class MenuState extends FlxState {
 
     private static inline var TIMER_TO_LOGO = 30; // 30秒間放置でロゴ画面へ戻る
-    private static inline var VERSION:String = "v1.01"; // バージョン番号
+    private static inline var VERSION:String = "v1.02"; // バージョン番号
 
     private var _timer:Int = 0;
     private var _state:State = State.Main;
