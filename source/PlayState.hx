@@ -295,8 +295,8 @@ class PlayState extends FlxState {
         FlxG.debugger.toggleKeys = ["ALT"];
 
         // リザルトをすぐに表示する
-        _startResult();
-        setButtons();
+//        _startResult();
+//        setButtons();
     }
 
     public function setButtons():Void {
