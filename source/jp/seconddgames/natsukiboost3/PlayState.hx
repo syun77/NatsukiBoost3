@@ -474,7 +474,12 @@ class PlayState extends FlxState {
     private function _setFolloPosition():Void {
 
         // カメラがフォローするオブジェクトの位置を調整
+#if mobile
+        // 左にタップ用のスペースを作る
+        var dx:Float = 64;
+#else
         var dx:Float = _speedCtrl.getFollowOffsetX();
+#end
         _follow.x = _player.x + FlxG.width/2 - dx;
     }
 
