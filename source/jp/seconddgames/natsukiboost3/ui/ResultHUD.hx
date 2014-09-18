@@ -1,4 +1,5 @@
 package jp.seconddgames.natsukiboost3.ui;
+import jp.seconddgames.natsukiboost3.util.Snd;
 import jp.seconddgames.natsukiboost3.jp_2dgames.CsvLoader2;
 import jp.seconddgames.natsukiboost3.token.Player;
 import jp.seconddgames.natsukiboost3.Reg;
@@ -353,6 +354,7 @@ class ResultHUD extends FlxGroup {
             _appearWafers();
         }
         _timer++;
+        Snd.playSe("money", true, 0.05);
         if(_timer > TIMER_SCORE) {
             _timer = 0;
             var pow:Int = cast Math.pow(10, _digit);
@@ -363,6 +365,8 @@ class ResultHUD extends FlxGroup {
 
             _digit++;
             if(_digit > SCORE_DIGIT || _score == _scoreDraw) {
+
+                Snd.playSe("money2");
                 // スコアを表示
                 _digit = SCORE_DIGIT;
                 if(_bEndless) {

@@ -70,6 +70,8 @@
         <sound path="ss.mp3" id="ss" />
         <sound path="pi.mp3" id="pi" />
         <sound path="read.mp3" id="read" />
+        <sound path="money.mp3" id="money" />
+        <sound path="money2.mp3" id="money2" />
     </assets>
 
     <assets path="assets/music" unless="flash">
@@ -103,6 +105,8 @@
         <sound path="ss.ogg" id="ss" />
         <sound path="pi.ogg" id="pi" />
         <sound path="read.ogg" id="read" />
+        <sound path="money.ogg" id="money" />
+        <sound path="money2.ogg" id="money2" />
     </assets>
 
 
